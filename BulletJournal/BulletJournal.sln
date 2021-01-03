@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2011
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletJournal", "BulletJournal\BulletJournal.csproj", "{147AD0A3-E3AA-4B95-9CC9-A1341B74FECE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletJournal.Core", "BulletJournal.Core\BulletJournal.Core.csproj", "{DC6812B0-D387-4A34-B90D-F5232D95AB5D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletJournal.API", "BulletJournal.API\BulletJournal.API.csproj", "{B4FF57AF-29EB-400A-B153-748F9AA9F04D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletJournal.Core", "BulletJournal.Core\BulletJournal.Core.csproj", "{1C3E055C-D80C-458A-92D1-8F8E92DED989}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletJournal.Models", "BulletJournal.Models\BulletJournal.Models.csproj", "{89A16895-3CF4-4F41-9520-AD7B155777FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +23,18 @@ Global
 		{147AD0A3-E3AA-4B95-9CC9-A1341B74FECE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{147AD0A3-E3AA-4B95-9CC9-A1341B74FECE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{147AD0A3-E3AA-4B95-9CC9-A1341B74FECE}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{DC6812B0-D387-4A34-B90D-F5232D95AB5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC6812B0-D387-4A34-B90D-F5232D95AB5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC6812B0-D387-4A34-B90D-F5232D95AB5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC6812B0-D387-4A34-B90D-F5232D95AB5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4FF57AF-29EB-400A-B153-748F9AA9F04D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4FF57AF-29EB-400A-B153-748F9AA9F04D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4FF57AF-29EB-400A-B153-748F9AA9F04D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4FF57AF-29EB-400A-B153-748F9AA9F04D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C3E055C-D80C-458A-92D1-8F8E92DED989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C3E055C-D80C-458A-92D1-8F8E92DED989}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C3E055C-D80C-458A-92D1-8F8E92DED989}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C3E055C-D80C-458A-92D1-8F8E92DED989}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89A16895-3CF4-4F41-9520-AD7B155777FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89A16895-3CF4-4F41-9520-AD7B155777FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89A16895-3CF4-4F41-9520-AD7B155777FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89A16895-3CF4-4F41-9520-AD7B155777FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

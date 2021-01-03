@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletJournal.Forms.Android", "BulletJournal.Forms\BulletJournal.Forms.Android\BulletJournal.Forms.Android.csproj", "{4ECD1891-5176-4765-8214-5FD4F404A9E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletJournal.Forms", "BulletJournal.Forms\BulletJournal.Forms\BulletJournal.Forms.csproj", "{A40B6311-ED3B-4A94-BC5E-04490AF98B05}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4ECD1891-5176-4765-8214-5FD4F404A9E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ECD1891-5176-4765-8214-5FD4F404A9E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ECD1891-5176-4765-8214-5FD4F404A9E9}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4ECD1891-5176-4765-8214-5FD4F404A9E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ECD1891-5176-4765-8214-5FD4F404A9E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ECD1891-5176-4765-8214-5FD4F404A9E9}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A40B6311-ED3B-4A94-BC5E-04490AF98B05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A40B6311-ED3B-4A94-BC5E-04490AF98B05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A40B6311-ED3B-4A94-BC5E-04490AF98B05}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A40B6311-ED3B-4A94-BC5E-04490AF98B05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A40B6311-ED3B-4A94-BC5E-04490AF98B05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A40B6311-ED3B-4A94-BC5E-04490AF98B05}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D6B0DEF-E136-480F-8F83-5650E393145E}
+	EndGlobalSection
+EndGlobal
