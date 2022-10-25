@@ -11,17 +11,18 @@ namespace BulletJournal.API.Controllers
     [ApiController]
     [Route("Journal")]
     public class BulletJournalController : ControllerBase
-    {
-        
+    {        
         public ActionResult Post(Journal journal)
         {
-
-
             var uri = new Uri("");
             return Created(uri, journal);
         }
 
-
-
+        [Route("{id}")]
+        public ActionResult Get(long id)
+        {
+            var journal = new Journal();
+            return Ok(journal);
+        }
     }
 }

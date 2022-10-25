@@ -6,10 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BulletJournal.Core.Data
+namespace BulletJournal.Core.Data.Repositories
 {
     public class JournalContext : BaseContext
     {
+        public JournalContext(DbContextOptions<BaseContext> options) : base(options)
+        {
+        }
+
         public DbSet<Journal> Journals { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

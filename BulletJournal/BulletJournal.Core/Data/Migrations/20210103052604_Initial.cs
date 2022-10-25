@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace BulletJournal.Core.Migrations
+namespace BulletJournal.Core.Data.Migrations
 {
     public partial class Initial : Migration
     {

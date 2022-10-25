@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletJournal", "BulletJournal\BulletJournal.csproj", "{147AD0A3-E3AA-4B95-9CC9-A1341B74FECE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletJournal.API", "BulletJournal.API\BulletJournal.API.csproj", "{B4FF57AF-29EB-400A-B153-748F9AA9F04D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulletJournal.API", "BulletJournal.API\BulletJournal.API.csproj", "{B4FF57AF-29EB-400A-B153-748F9AA9F04D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletJournal.Core", "BulletJournal.Core\BulletJournal.Core.csproj", "{1C3E055C-D80C-458A-92D1-8F8E92DED989}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulletJournal.Core", "BulletJournal.Core\BulletJournal.Core.csproj", "{1C3E055C-D80C-458A-92D1-8F8E92DED989}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletJournal.Models", "BulletJournal.Models\BulletJournal.Models.csproj", "{89A16895-3CF4-4F41-9520-AD7B155777FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulletJournal.Models", "BulletJournal.Models\BulletJournal.Models.csproj", "{89A16895-3CF4-4F41-9520-AD7B155777FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletJournal.Data", "BulletJournal.Data\BulletJournal.Data.csproj", "{DFA6869A-48F2-45EC-A9B3-7A3ADE374844}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{89A16895-3CF4-4F41-9520-AD7B155777FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89A16895-3CF4-4F41-9520-AD7B155777FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89A16895-3CF4-4F41-9520-AD7B155777FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFA6869A-48F2-45EC-A9B3-7A3ADE374844}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFA6869A-48F2-45EC-A9B3-7A3ADE374844}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFA6869A-48F2-45EC-A9B3-7A3ADE374844}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFA6869A-48F2-45EC-A9B3-7A3ADE374844}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

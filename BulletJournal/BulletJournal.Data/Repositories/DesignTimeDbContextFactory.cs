@@ -1,0 +1,22 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BulletJournal.Data.Repositories
+{
+    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<BulletJournalDbContext>
+    {
+        public BulletJournalDbContext CreateDbContext(string[] args)
+        {
+            var builder = new DbContextOptionsBuilder<BulletJournalDbContext>();
+
+            builder.UseSqlServer("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=BulletJournal;Data Source=LAPTOP-RRVRFLO5");
+
+            return new BulletJournalDbContext(builder.Options);
+        }
+    }
+}
