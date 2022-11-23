@@ -1,12 +1,7 @@
 ﻿using BulletJournal.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BulletJournal.Core.Data.Repositories
+namespace BulletJournal.Data.Repositories
 {
     public class JournalContext : BaseContext
     {

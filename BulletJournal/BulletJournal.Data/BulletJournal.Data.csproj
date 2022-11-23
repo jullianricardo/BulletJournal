@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BulletJournal.Core\BulletJournal.Core.csproj" />
     <ProjectReference Include="..\BulletJournal.Models\BulletJournal.Models.csproj" />
   </ItemGroup>
 

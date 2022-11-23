@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
-namespace BulletJournal.Core.Data.Infrastructure
+namespace BulletJournal.Data.Infrastructure
 {
     public class DbContextUnitOfWork : IUnitOfWork
     {
