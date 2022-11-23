@@ -9,7 +9,7 @@ namespace BulletJournal.Data.Repositories
         {
         }
 
-        public DbSet<Journal> Journals { get; set; }
+        public DbSet<Journal>? Journals { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
