@@ -7,7 +7,7 @@ namespace BulletJournal.Models.Collection
 {
     public class FutureLog : Collection
     {
-        public Dictionary<Month, Collection> Months { get; set; }
+        public Dictionary<Month, Collection> Months { get; set; } = new Dictionary<Month, Collection>();
 
         public int Year { get; set; }
     }

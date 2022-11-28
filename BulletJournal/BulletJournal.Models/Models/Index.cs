@@ -7,6 +7,6 @@ namespace BulletJournal.Models
 {
     public class Index : Entity
     {
-        public Dictionary<Collection.Collection, List<Page>> Topics { get; set; }
+        public Dictionary<Collection.Collection, List<Page>> Topics { get; set; } = new Dictionary<Collection.Collection, List<Page>>();
     }
 }
