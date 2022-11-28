@@ -1,13 +1,12 @@
-﻿using System;
+﻿using BulletJournal.Core.Domain;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BulletJournal.Models.Calendar
 {
-    public class Holiday
+    public class Holiday : Entity
     {
-        public int Id { get; set; }
-
         public DateTime Date { get; set; }
 
         public string Name { get; set; }

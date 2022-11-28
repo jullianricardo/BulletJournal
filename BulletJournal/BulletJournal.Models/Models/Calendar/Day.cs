@@ -1,13 +1,12 @@
-﻿using System;
+﻿using BulletJournal.Core.Domain;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace BulletJournal.Models.Calendar
 {
-    public class Day
+    public class Day : Entity
     {
-        public long Id { get; set; }
-
         public int Number { get; set; }
 
         public WeekDay WeekDay { get; set; }
