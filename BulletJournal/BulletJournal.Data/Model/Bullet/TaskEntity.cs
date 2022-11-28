@@ -1,10 +1,5 @@
 ﻿using BulletJournal.Core.Common;
 using BulletJournal.Models.Bullet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BulletJournal.Data.Model.Bullet
 {

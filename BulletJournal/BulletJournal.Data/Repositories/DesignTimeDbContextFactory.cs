@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace BulletJournal.Data.Repositories
 {
-    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<BaseContext>
+    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<BulletJournalContext>
     {
-        public BaseContext CreateDbContext(string[] args)
+        public BulletJournalContext CreateDbContext(string[] args)
         {
-            var builder = new DbContextOptionsBuilder<BaseContext>();
+            var builder = new DbContextOptionsBuilder<BulletJournalContext>();
 
-            builder.UseSqlServer("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=BulletJournal;Data Source=LAPTOP-RRVRFLO5");
+            builder.UseSqlServer("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=BulletJournal;Data Source=LAPTOP-RRVRFLO5;Trust Server Certificate=True");
 
-            return new JournalContext(builder.Options);
+            return new BulletJournalContext(builder.Options);
         }
     }
 }

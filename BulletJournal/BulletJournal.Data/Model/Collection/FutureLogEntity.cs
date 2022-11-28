@@ -1,33 +1,29 @@
 ﻿using BulletJournal.Core.Common;
+using BulletJournal.Core.Domain;
 using BulletJournal.Models.Calendar;
 using BulletJournal.Models.Collection;
-using System.Collections.Generic;
-using System.Linq;
-using System;
-using System.Security.Cryptography.X509Certificates;
-using BulletJournal.Core.Domain;
+using BulletJournal.Models.Domain;
+using System.Collections.ObjectModel;
 
 namespace BulletJournal.Data.Model.Collection
 {
     public class FutureLogEntity : CollectionEntity
     {
-        public IDictionary<Month, CollectionEntity> Months { get; set; } = new Dictionary<Month, CollectionEntity>();
 
         public int Year { get; set; }
 
+        #region Navigation Properties
+
+        public ObservableCollection<FutureLogMonthEntity> Months { get; set; } = new NullCollection<FutureLogMonthEntity>();
+
+        #endregion
 
         public override FutureLog ToModel(Models.Collection.Collection collection)
         {
             var futureLog = base.ToModel(collection) as FutureLog;
 
             futureLog.Year = Year;
-
-            var months = new Dictionary<Month, Models.Collection.Collection>();
-
-            foreach (var month in Months)
-                months[month.Key] = month.Value.ToModel(AbstractTypeFactory<Models.Collection.Collection>.TryCreateInstance());
-
-            futureLog.Months = months;
+            futureLog.Months = Months.Select(x => x.ToModel(AbstractTypeFactory<FutureLogMonth>.TryCreateInstance())).ToList();
 
             return futureLog;
         }
@@ -37,13 +33,47 @@ namespace BulletJournal.Data.Model.Collection
             var futureLogEntity = base.FromModel(collection, primaryKeyResolvingMap) as FutureLogEntity;
 
             Year = futureLogEntity.Year;
+            Months = new ObservableCollection<FutureLogMonthEntity>(futureLogEntity.Months.Select(x => AbstractTypeFactory<FutureLogMonthEntity>.TryCreateInstance().FromModel(x, primaryKeyResolvingMap)));
 
-            var months = new Dictionary<Month, CollectionEntity>();
+            return this;
+        }
+    }
 
-            foreach (var month in futureLogEntity.Months)
-                months[month.Key] = month.Value;
+    public class FutureLogMonthEntity : Entity
+    {
+        public Month Month { get; set; }
 
-            Months = months;
+
+        #region Navigation Properties
+        public CollectionEntity? Collection { get; set; }
+
+        public string? FutureLogId { get; set; }
+
+        public virtual FutureLog? FutureLog { get; set; }
+
+        #endregion
+
+
+        public virtual FutureLogMonth ToModel(FutureLogMonth futureLogMonth)
+        {
+            if (futureLogMonth == null)
+                throw new ArgumentNullException(nameof(futureLogMonth));
+
+            futureLogMonth.Id = Id;
+            futureLogMonth.Month = Month;
+
+            return futureLogMonth;
+        }
+
+        public virtual FutureLogMonthEntity FromModel(FutureLogMonthEntity futureLogMonthEntity, PrimaryKeyResolvingMap primaryKeyResolvingMap)
+        {
+            if (futureLogMonthEntity == null)
+                throw new ArgumentNullException(nameof(futureLogMonthEntity));
+
+            primaryKeyResolvingMap.AddPair(futureLogMonthEntity, this);
+
+            Id = futureLogMonthEntity.Id;
+            Month = futureLogMonthEntity.Month;
 
             return this;
         }

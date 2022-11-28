@@ -1,5 +1,5 @@
 ﻿using BulletJournal.Core.Common;
-using BulletJournal.Core.Domain;
+using BulletJournal.Models.Domain;
 using BulletJournal.Models.Calendar;
 
 namespace BulletJournal.Data.Model.Calendar
@@ -15,7 +15,8 @@ namespace BulletJournal.Data.Model.Calendar
 
         public virtual Holiday ToModel(Holiday holiday)
         {
-            if (holiday == null) { throw new ArgumentNullException(nameof(holiday)); }
+            if (holiday == null)
+            { throw new ArgumentNullException(nameof(holiday)); }
 
             holiday.Id = Id;
             holiday.Name = Name;
@@ -26,7 +27,8 @@ namespace BulletJournal.Data.Model.Calendar
 
         public virtual HolidayEntity FromModel(Holiday holiday, PrimaryKeyResolvingMap primaryKeyResolvingMap)
         {
-            if (holiday == null) { throw new ArgumentNullException(nameof(holiday)); }
+            if (holiday == null)
+            { throw new ArgumentNullException(nameof(holiday)); }
 
             primaryKeyResolvingMap.AddPair(holiday, this);
 

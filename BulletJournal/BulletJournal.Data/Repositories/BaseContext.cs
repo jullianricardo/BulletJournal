@@ -4,9 +4,9 @@ namespace BulletJournal.Data.Repositories
 {
     public class BaseContext : DbContext
     {
-        public BaseContext(DbContextOptions<BaseContext> options) : base(options)
-        {
-        }
+        //public BaseContext(DbContextOptions<BaseContext> options) : base(options)
+        //{
+        //}
 
         public BaseContext(DbContextOptions options) : base(options)
         {
@@ -14,7 +14,7 @@ namespace BulletJournal.Data.Repositories
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=BulletJournal;Data Source=LAPTOP-RRVRFLO5");
+            optionsBuilder.UseSqlServer("Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=BulletJournal;Data Source=LAPTOP-RRVRFLO5;Trust Server Certificate=True");
         }
     }
 }

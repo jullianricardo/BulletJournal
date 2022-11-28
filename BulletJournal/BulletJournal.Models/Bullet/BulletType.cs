@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BulletJournal.Core.Domain
+namespace BulletJournal.Models.Bullet
 {
-    public interface IEntity
+    public enum BulletType
     {
-        public string Id { get; set; }
+        None = 0,
+        Task,
+        Note,
+        Event
     }
 }

@@ -1,4 +1,4 @@
-﻿using BulletJournal.Core.Domain;
+﻿using BulletJournal.Models.Domain;
 using System;
 using System.Collections;
 using System.Collections.Generic;

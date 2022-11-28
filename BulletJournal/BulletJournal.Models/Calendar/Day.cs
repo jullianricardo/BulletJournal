@@ -1,7 +1,4 @@
-﻿using BulletJournal.Core.Domain;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using BulletJournal.Models.Domain;
 
 namespace BulletJournal.Models.Calendar
 {

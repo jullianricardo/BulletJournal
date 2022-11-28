@@ -6,5 +6,6 @@ namespace BulletJournal.Models.Bullet
 {
     public class Note : Bullet
     {
+        public override BulletType BulletType => BulletType.Note;
     }
 }

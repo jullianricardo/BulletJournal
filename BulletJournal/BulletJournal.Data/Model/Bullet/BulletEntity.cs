@@ -1,12 +1,9 @@
 ﻿using BulletJournal.Core.Common;
-using BulletJournal.Core.Domain;
 using BulletJournal.Data.Model.Collection;
 using BulletJournal.Models.Bullet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BulletJournal.Models.Domain;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BulletJournal.Data.Model.Bullet
 {
@@ -21,6 +18,8 @@ namespace BulletJournal.Data.Model.Bullet
 
         #region Navigation Properties
 
+        [StringLength(128)]
+        [ForeignKey("Parent")]
         public string? ParentId { get; set; }
         public virtual BulletEntity? Parent { get; set; }
 

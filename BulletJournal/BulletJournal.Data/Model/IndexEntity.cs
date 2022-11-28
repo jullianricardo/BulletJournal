@@ -1,19 +1,14 @@
-﻿using BulletJournal.Core.Domain;
-using BulletJournal.Data.Model.Collection;
-using BulletJournal.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BulletJournal.Core.Common;
+using BulletJournal.Core.Domain;
+using BulletJournal.Models.Domain;
+using System.Collections.ObjectModel;
 
 namespace BulletJournal.Data.Model
 {
     public class IndexEntity : Entity
     {
-
         #region Navigation Properties
+        public ObservableCollection<TopicEntity> Topics { get; set; } = new NullCollection<TopicEntity>();
 
         public string? JournalId { get; set; }
 
@@ -21,7 +16,26 @@ namespace BulletJournal.Data.Model
 
         #endregion
 
-        [NotMapped]
-        public Dictionary<CollectionEntity, List<PageEntity>> Topics { get; set; } = new Dictionary<CollectionEntity, List<PageEntity>>();
+        public virtual Models.Index ToModel(Models.Index index)
+        {
+            if (index == null)
+                throw new ArgumentNullException(nameof(index));
+
+            index.Id = Id;
+
+            return index;
+        }
+
+        public virtual IndexEntity FromModel(Models.Index index, PrimaryKeyResolvingMap primaryKeyResolvingMap)
+        {
+            if (index == null)
+                throw new ArgumentNullException(nameof(index));
+
+            primaryKeyResolvingMap.AddPair(index, this);
+
+            Id = index.Id;
+
+            return this;
+        }
     }
 }

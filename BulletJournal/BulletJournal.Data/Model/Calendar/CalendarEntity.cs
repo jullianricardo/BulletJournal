@@ -1,6 +1,7 @@
 ﻿using BulletJournal.Core.Common;
 using BulletJournal.Core.Domain;
 using BulletJournal.Models.Calendar;
+using BulletJournal.Models.Domain;
 using System.Collections.ObjectModel;
 
 namespace BulletJournal.Data.Model.Calendar

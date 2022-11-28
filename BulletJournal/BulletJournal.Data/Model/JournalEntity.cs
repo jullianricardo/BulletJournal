@@ -1,21 +1,23 @@
 ﻿using BulletJournal.Core.Common;
 using BulletJournal.Core.Domain;
 using BulletJournal.Models;
-using System;
-using System.Collections.Generic;
+using BulletJournal.Models.Domain;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace BulletJournal.Data.Model
 {
     public class JournalEntity : Entity
     {
+        [Required]
+        [StringLength(128)]
         public string? Name { get; set; }
 
+        [Required]
+        [StringLength(128)]
         public string? Description { get; set; }
 
+        [Required]
         public DateTime DateCreated { get; set; }
 
 
@@ -36,7 +38,7 @@ namespace BulletJournal.Data.Model
             journal.Name = Name;
             journal.Description = Description;
             journal.DateCreated = DateCreated;
-            //journal.Pages = Pages.Select(x => x.)
+            journal.Pages = Pages.Select(x => x.ToModel(AbstractTypeFactory<Page>.TryCreateInstance())).ToList();
 
             return journal;
         }
@@ -55,7 +57,8 @@ namespace BulletJournal.Data.Model
 
             if (journal.Pages != null)
             {
-                //Pages = new ObservableCollection<PageEntity>(journal.Pages.Select(x => new PageEntity { Id = x.Id, Number = x.Number }));
+                var pages = journal.Pages.Select(x => AbstractTypeFactory<PageEntity>.TryCreateInstance().FromModel(x, primaryKeyResolvingMap));
+                Pages = new ObservableCollection<PageEntity>(pages);
             }
 
             return this;

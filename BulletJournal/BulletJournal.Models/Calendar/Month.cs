@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BulletJournal.Models.Calendar
+﻿namespace BulletJournal.Models.Calendar
 {
     public enum Month
     {

@@ -1,12 +1,8 @@
 ﻿using BulletJournal.Core.Common;
 using BulletJournal.Core.Domain;
 using BulletJournal.Data.Model.Bullet;
-using System;
-using System.Collections.Generic;
+using BulletJournal.Models.Domain;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BulletJournal.Data.Model.Collection
 {
@@ -16,14 +12,22 @@ namespace BulletJournal.Data.Model.Collection
 
         public string? Description { get; set; }
 
+        #region Navigation Properties
+
+        public string? PageId { get; set; }
+
+        public virtual PageEntity? Page { get; set; }
+
         public virtual ObservableCollection<BulletEntity> Bullets { get; set; } = new NullCollection<BulletEntity>();
 
+        #endregion
 
         public virtual Models.Collection.Collection ToModel(Models.Collection.Collection collection)
         {
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
 
+            collection.Id = Id;
             collection.Name = Name;
             collection.Description = Description;
 
@@ -32,11 +36,9 @@ namespace BulletJournal.Data.Model.Collection
 
         public virtual CollectionEntity FromModel(Models.Collection.Collection collection, PrimaryKeyResolvingMap primaryKeyResolvingMap)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-
             primaryKeyResolvingMap.AddPair(collection, this);
 
+            Id = collection.Id;
             Name = collection.Name;
             Description = collection.Description;
 

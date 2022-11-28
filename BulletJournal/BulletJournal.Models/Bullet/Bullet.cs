@@ -1,12 +1,11 @@
-﻿using BulletJournal.Core.Domain;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using BulletJournal.Models.Domain;
 
 namespace BulletJournal.Models.Bullet
 {
     public abstract class Bullet : Entity
     {
+        public abstract BulletType BulletType { get; }
+
         public Bullet? Parent { get; set; }
 
         public string? Description { get; set; }
