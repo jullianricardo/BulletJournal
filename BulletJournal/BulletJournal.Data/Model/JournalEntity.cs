@@ -19,14 +19,18 @@ namespace BulletJournal.Data.Model
         public DateTime DateCreated { get; set; }
 
 
-        //public Index Index { get; set; }
+        #region Navigation Properties
+
+        public virtual IndexEntity? Index { get; set; }
 
         public virtual ObservableCollection<PageEntity> Pages { get; set; } = new ObservableCollection<PageEntity>();
 
+        #endregion
 
         public virtual Journal ToModel(Journal journal)
         {
-            if (journal == null) { throw new ArgumentNullException(nameof(journal)); }
+            if (journal == null)
+            { throw new ArgumentNullException(nameof(journal)); }
 
             journal.Id = Id;
             journal.Name = Name;
@@ -39,7 +43,8 @@ namespace BulletJournal.Data.Model
 
         public virtual JournalEntity FromModel(Journal journal, PrimaryKeyResolvingMap primaryKeyResolvingMap)
         {
-            if (journal == null) { throw new ArgumentNullException(nameof(journal)); }
+            if (journal == null)
+            { throw new ArgumentNullException(nameof(journal)); }
 
             primaryKeyResolvingMap.AddPair(journal, this);
 

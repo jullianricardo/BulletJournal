@@ -1,5 +1,6 @@
 ﻿using BulletJournal.Core.Common;
 using BulletJournal.Core.Domain;
+using BulletJournal.Data.Model.Collection;
 using BulletJournal.Models.Bullet;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,6 @@ namespace BulletJournal.Data.Model.Bullet
 {
     public class BulletEntity : Entity
     {
-        public virtual BulletEntity? Parent { get; set; }
-
         public string? Description { get; set; }
 
         public DateTime DateCreated { get; set; }
@@ -20,9 +19,22 @@ namespace BulletJournal.Data.Model.Bullet
         public Signifier Signifier { get; set; }
 
 
+        #region Navigation Properties
+
+        public string? ParentId { get; set; }
+        public virtual BulletEntity? Parent { get; set; }
+
+
+        public string? CollectionId { get; set; }
+        public virtual CollectionEntity? Collection { get; set; }
+
+        #endregion
+
+
         public virtual Models.Bullet.Bullet ToModel(Models.Bullet.Bullet? bullet)
         {
-            if (bullet == null) throw new ArgumentNullException(nameof(bullet));
+            if (bullet == null)
+                throw new ArgumentNullException(nameof(bullet));
 
             bullet.Description = Description;
             bullet.DateCreated = DateCreated;
@@ -33,7 +45,8 @@ namespace BulletJournal.Data.Model.Bullet
 
         public virtual BulletEntity FromModel(Models.Bullet.Bullet? bullet, PrimaryKeyResolvingMap primaryKeyResolvingMap)
         {
-            if (bullet == null) throw new ArgumentNullException(nameof(bullet));
+            if (bullet == null)
+                throw new ArgumentNullException(nameof(bullet));
 
             primaryKeyResolvingMap.AddPair(bullet, this);
 

@@ -7,7 +7,13 @@ namespace BulletJournal.Data.Model.Calendar
 {
     public class CalendarEntity : Entity
     {
-        public ObservableCollection<DayEntity> Days { get; set; } = new NullCollection<DayEntity>();
+
+
+        #region Navigation Propeties
+
+        public virtual ObservableCollection<DayEntity> Days { get; set; } = new NullCollection<DayEntity>();
+
+        #endregion
 
 
         public virtual Models.Calendar.Calendar ToModel(Models.Calendar.Calendar calendar)

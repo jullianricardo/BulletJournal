@@ -18,13 +18,18 @@ namespace BulletJournal.Data.Model.Calendar
 
         public bool IsHoliday { get; set; }
 
+        #region Navigation Properties
+
         public virtual HolidayEntity? Holiday { get; set; }
 
         public virtual CollectionEntity? Entries { get; set; }
 
+        #endregion
+
         public virtual Day ToModel(Day day)
         {
-            if (day == null) throw new ArgumentNullException(nameof(day));
+            if (day == null)
+                throw new ArgumentNullException(nameof(day));
 
             day.Id = Id;
             day.Number = Number;
@@ -36,7 +41,8 @@ namespace BulletJournal.Data.Model.Calendar
 
         public virtual DayEntity FromModel(Day day, PrimaryKeyResolvingMap primaryKeyResolvingMap)
         {
-            if (day == null) throw new ArgumentNullException(nameof(day));
+            if (day == null)
+                throw new ArgumentNullException(nameof(day));
 
             Id = day.Id;
             Number = day.Number;
