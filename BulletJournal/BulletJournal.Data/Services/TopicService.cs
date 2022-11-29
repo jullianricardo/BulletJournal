@@ -5,34 +5,40 @@ using BulletJournal.Data.Model;
 using BulletJournal.Data.Repositories;
 using BulletJournal.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BulletJournal.Data.Services
 {
-    public class JournalService : IJournalService
+    public class TopicService : ITopicService
     {
         private readonly IBulletJournalRepository _bulletJournalRepository;
 
-        public JournalService(IBulletJournalRepository bulletJournalRepository)
+        public TopicService(IBulletJournalRepository bulletJournalRepository)
         {
             _bulletJournalRepository = bulletJournalRepository;
         }
 
-        public async Task<Journal> GetJournalById(string id)
+        public async Task<Topic> GetTopicById(string id)
         {
-            var journalEntity = await _bulletJournalRepository.Journals
-                .Include(x => x.Index)
+            var topicEntity = await _bulletJournalRepository.Topics
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (journalEntity == null)
+            if (topicEntity == null)
                 return null;
 
-            var journal = journalEntity.ToModel(AbstractTypeFactory<Journal>.TryCreateInstance());
-            return journal;
+            var topic = topicEntity.ToModel(AbstractTypeFactory<Topic>.TryCreateInstance());
+            return topic;
+        }
+
+        public async Task<IEnumerable<Topic>> GetTopicsByIndexId(string indexId)
+        {
+            var topicEntities = await _bulletJournalRepository.Topics
+                .Where(x => x.IndexId == indexId).ToListAsync();
+
+            if (topicEntities == null)
+                return null;
+
+            var topics = topicEntities.Select(x => x.ToModel(AbstractTypeFactory<Topic>.TryCreateInstance()));
+            return topics;
         }
 
         public async Task SaveJournal(Journal journal)
@@ -72,5 +78,10 @@ namespace BulletJournal.Data.Services
                 await _bulletJournalRepository.UnitOfWork.CommitAsync();
             }
         }
+
+        public Task CreateTopic(Topic topic) => throw new NotImplementedException();
+        public Task CreateIndexTopics(string indexId, IEnumerable<Topic> topics) => throw new NotImplementedException();
+        public Task UpdateTopic(Topic topic) => throw new NotImplementedException();
+        public Task DeleteTopic(string topicId) => throw new NotImplementedException();
     }
 }

@@ -26,6 +26,9 @@ namespace BulletJournal.Data.Model
             topic.Id = Id;
             topic.Title = Title;
             topic.PageNumbers = PageNumbers.Split(';').ToList();
+            topic.CreatedAt = CreatedAt;
+            topic.UpdatedAt = UpdatedAt;
+            topic.IndexId = IndexId;
 
             return topic;
         }
@@ -39,11 +42,21 @@ namespace BulletJournal.Data.Model
 
             Id = topic.Id;
             Title = topic.Title;
+            CreatedAt = topic.CreatedAt;
+            UpdatedAt = topic.UpdatedAt;
+            IndexId = topic.IndexId;
 
             if (topic.PageNumbers != null)
                 PageNumbers = string.Join(';', topic.PageNumbers);
 
             return this;
+        }
+
+        public virtual void Patch(TopicEntity target)
+        {
+            target.Title = Title;
+            target.PageNumbers = PageNumbers;
+            target.IndexId = IndexId;
         }
     }
 }

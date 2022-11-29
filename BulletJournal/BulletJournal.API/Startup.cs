@@ -41,6 +41,7 @@ namespace BulletJournal.API
             #region Services
 
             services.AddTransient<IJournalService, JournalService>();
+            services.AddTransient<IIndexService, IndexService>();
 
             #endregion
         }
