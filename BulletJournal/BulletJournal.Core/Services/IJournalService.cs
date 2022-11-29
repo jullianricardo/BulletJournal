@@ -10,5 +10,11 @@ namespace BulletJournal.Core.Services
     public interface IJournalService
     {
         Task<Journal> GetJournalById(string id);
+
+        Task SaveJournal(Journal journal);
+
+        Task UpdateJournal(Journal journal);
+
+        Task DeleteJournal(string journalId);
     }
 }

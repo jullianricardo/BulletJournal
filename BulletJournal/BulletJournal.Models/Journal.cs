@@ -8,9 +8,6 @@ namespace BulletJournal.Models
 
         public string? Description { get; set; }
 
-        public DateTime DateCreated { get; set; }
-
-
         public Index? Index { get; set; }
 
         public List<Page>? Pages { get; set; }

@@ -1,3 +1,6 @@
+using BulletJournal.Core.Services;
+using BulletJournal.Data.Repositories;
+using BulletJournal.Data.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +29,20 @@ namespace BulletJournal.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<BulletJournalContext>();
+
+            #region Repository
+
+            services.AddTransient<IBulletJournalRepository, BulletJournalRepository>();
+
+            #endregion
+
+            #region Services
+
+            services.AddTransient<IJournalService, JournalService>();
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

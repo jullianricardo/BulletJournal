@@ -1,5 +1,6 @@
 ﻿using BulletJournal.Core.Common;
 using BulletJournal.Core.Domain;
+using BulletJournal.Core.Extensions;
 using BulletJournal.Models;
 using BulletJournal.Models.Domain;
 using System.Collections.ObjectModel;
@@ -17,10 +18,6 @@ namespace BulletJournal.Data.Model
         [StringLength(128)]
         public string? Description { get; set; }
 
-        [Required]
-        public DateTime DateCreated { get; set; }
-
-
         #region Navigation Properties
 
         public virtual IndexEntity? Index { get; set; }
@@ -31,13 +28,12 @@ namespace BulletJournal.Data.Model
 
         public virtual Journal ToModel(Journal journal)
         {
-            if (journal == null)
-            { throw new ArgumentNullException(nameof(journal)); }
-
             journal.Id = Id;
+            journal.CreatedAt = CreatedAt;
+            journal.UpdatedAt = UpdatedAt;
+
             journal.Name = Name;
             journal.Description = Description;
-            journal.DateCreated = DateCreated;
             journal.Pages = Pages.Select(x => x.ToModel(AbstractTypeFactory<Page>.TryCreateInstance())).ToList();
 
             return journal;
@@ -45,15 +41,14 @@ namespace BulletJournal.Data.Model
 
         public virtual JournalEntity FromModel(Journal journal, PrimaryKeyResolvingMap primaryKeyResolvingMap)
         {
-            if (journal == null)
-            { throw new ArgumentNullException(nameof(journal)); }
-
             primaryKeyResolvingMap.AddPair(journal, this);
 
             Id = journal.Id;
+            CreatedAt = journal.CreatedAt;
+            UpdatedAt = journal.UpdatedAt;
+
             Name = journal.Name;
             Description = journal.Description;
-            DateCreated = journal.DateCreated;
 
             if (journal.Pages != null)
             {
@@ -62,6 +57,18 @@ namespace BulletJournal.Data.Model
             }
 
             return this;
+        }
+
+        public virtual void Patch(JournalEntity target)
+        {
+            target.Name = Name;
+            target.Description = Description;
+
+            if (!Pages.IsNullCollection())
+            {
+                var comparer = AnonymousComparer.Create((PageEntity entity) => entity.Id);
+                Pages.Patch(target.Pages, comparer, (sourceEntity, targetEntity) => targetEntity.Id = sourceEntity.Id);
+            }
         }
     }
 }

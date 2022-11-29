@@ -4,6 +4,10 @@
     {
         public string? Id { get; set; }
 
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
+
         public bool IsTransient()
         {
             return Id == null;
@@ -11,7 +15,7 @@
 
         #region Overrides 
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(this, obj))
                 return true;
