@@ -25,6 +25,10 @@ namespace BulletJournal.Data.Services
         public async Task<Journal> GetJournalById(string id)
         {
             var journalEntity = await _bulletJournalRepository.Journals.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (journalEntity == null)
+                return null;
+
             var journal = journalEntity.ToModel(AbstractTypeFactory<Journal>.TryCreateInstance());
             return journal;
         }
@@ -33,6 +37,8 @@ namespace BulletJournal.Data.Services
         {
             var primaryKeyResolvingMap = new PrimaryKeyResolvingMap();
             var journalEntity = AbstractTypeFactory<JournalEntity>.TryCreateInstance().FromModel(journal, primaryKeyResolvingMap);
+            journalEntity.CreatedAt = DateTime.Now;
+
             _bulletJournalRepository.Add(journalEntity);
             await _bulletJournalRepository.UnitOfWork.CommitAsync();
             primaryKeyResolvingMap.ResolvePrimaryKeys();
@@ -42,13 +48,27 @@ namespace BulletJournal.Data.Services
         {
             var primaryKeyResolvingMap = new PrimaryKeyResolvingMap();
 
-            var existingJournalEntity = await _bulletJournalRepository.Journals.FirstOrDefaultAsync(x => x.Id == journal.Id);
-            var journalEntity = existingJournalEntity.FromModel(journal, primaryKeyResolvingMap);
-            _bulletJournalRepository.Update(journalEntity);
-            await _bulletJournalRepository.UnitOfWork.CommitAsync();
-            primaryKeyResolvingMap.ResolvePrimaryKeys();
+            var sourceEntity = AbstractTypeFactory<JournalEntity>.TryCreateInstance().FromModel(journal, primaryKeyResolvingMap);
+            var targetEntity = await _bulletJournalRepository.Journals.FirstOrDefaultAsync(x => x.Id == journal.Id);
+            if (targetEntity != null)
+            {
+                targetEntity.UpdatedAt = DateTime.Now;
+                sourceEntity.Patch(targetEntity);
+
+                _bulletJournalRepository.Update(targetEntity);
+                await _bulletJournalRepository.UnitOfWork.CommitAsync();
+                primaryKeyResolvingMap.ResolvePrimaryKeys();
+            }
         }
 
-        public Task DeleteJournal(string journalId) => throw new NotImplementedException();
+        public async Task DeleteJournal(string journalId)
+        {
+            var targetEntity = await _bulletJournalRepository.Journals.FirstOrDefaultAsync(x => x.Id == journalId);
+            if (targetEntity != null)
+            {
+                _bulletJournalRepository.Remove(targetEntity);
+                await _bulletJournalRepository.UnitOfWork.CommitAsync();
+            }
+        }
     }
 }

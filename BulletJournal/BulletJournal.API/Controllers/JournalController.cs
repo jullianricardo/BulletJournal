@@ -35,7 +35,18 @@ namespace BulletJournal.API.Controllers
         public async Task<ActionResult> Get(string id)
         {
             var journal = await _journalService.GetJournalById(id);
+            if (journal == null)
+                return NotFound();
+
             return Ok(journal);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult> Delete(string id)
+        {
+            await _journalService.DeleteJournal(id);
+            return Ok();
         }
     }
 }

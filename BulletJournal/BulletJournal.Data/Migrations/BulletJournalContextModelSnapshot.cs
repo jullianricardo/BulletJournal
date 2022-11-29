@@ -34,8 +34,7 @@ namespace BulletJournal.Data.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasComputedColumnSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -52,8 +51,7 @@ namespace BulletJournal.Data.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
-                        .HasColumnType("datetime2")
-                        .HasComputedColumnSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -131,8 +129,7 @@ namespace BulletJournal.Data.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasComputedColumnSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -146,8 +143,7 @@ namespace BulletJournal.Data.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
-                        .HasColumnType("datetime2")
-                        .HasComputedColumnSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
