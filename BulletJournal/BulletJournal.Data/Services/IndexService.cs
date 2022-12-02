@@ -1,5 +1,6 @@
 ﻿using BulletJournal.Core.Common;
 using BulletJournal.Core.Domain;
+using BulletJournal.Core.Repositories;
 using BulletJournal.Core.Services;
 using BulletJournal.Data.Model;
 using BulletJournal.Data.Repositories;
@@ -15,75 +16,36 @@ namespace BulletJournal.Data.Services
 {
     public class IndexService : IIndexService
     {
-        private readonly IBulletJournalRepository _bulletJournalRepository;
+        private readonly IIndexRepository _indexRepository;
 
-        public IndexService(IBulletJournalRepository bulletJournalRepository)
+        public IndexService(IIndexRepository indexRepository)
         {
-            _bulletJournalRepository = bulletJournalRepository;
+            _indexRepository = indexRepository;
         }
 
         public async Task<Models.Index> GetIndexById(string id)
         {
-            var indexEntity = await _bulletJournalRepository.Indexes
-                //.Include(x => x.Topics)
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            if (indexEntity == null)
-                return null;
-
-            var index = indexEntity.ToModel(AbstractTypeFactory<Models.Index>.TryCreateInstance());
-            return index;
+            return await _indexRepository.GetIndexById(id);
         }
 
         public async Task<Models.Index> GetIndexByJournalId(string journalId)
         {
-            var indexEntity = await _bulletJournalRepository.Indexes
-                //.Include(x => x.Topics)
-                .FirstOrDefaultAsync(x => x.JournalId == journalId);
-
-            if (indexEntity == null)
-                return null;
-
-            var index = indexEntity.ToModel(AbstractTypeFactory<Models.Index>.TryCreateInstance());
-            return index;
+            return await _indexRepository.GetIndexByJournalId(journalId);
         }
 
         public async Task CreateIndex(Models.Index index)
         {
-            var primaryKeyResolvingMap = new PrimaryKeyResolvingMap();
-            var indexEntity = AbstractTypeFactory<IndexEntity>.TryCreateInstance().FromModel(index, primaryKeyResolvingMap);
-            indexEntity.CreatedAt = DateTime.Now;
-
-            _bulletJournalRepository.Add(indexEntity);
-            await _bulletJournalRepository.UnitOfWork.CommitAsync();
-            primaryKeyResolvingMap.ResolvePrimaryKeys();
+            await _indexRepository.CreateIndex(index);
         }
 
         public async Task UpdateIndex(Models.Index index)
         {
-            var primaryKeyResolvingMap = new PrimaryKeyResolvingMap();
-
-            var sourceEntity = AbstractTypeFactory<IndexEntity>.TryCreateInstance().FromModel(index, primaryKeyResolvingMap);
-            var targetEntity = await _bulletJournalRepository.Indexes.FirstOrDefaultAsync(x => x.Id == index.Id);
-            if (targetEntity != null)
-            {
-                targetEntity.UpdatedAt = DateTime.Now;
-                sourceEntity.Patch(targetEntity);
-
-                _bulletJournalRepository.Update(targetEntity);
-                await _bulletJournalRepository.UnitOfWork.CommitAsync();
-                primaryKeyResolvingMap.ResolvePrimaryKeys();
-            }
+            await _indexRepository.UpdateIndex(index);
         }
 
         public async Task DeleteIndex(string indexId)
         {
-            var targetEntity = await _bulletJournalRepository.Indexes.FirstOrDefaultAsync(x => x.Id == indexId);
-            if (targetEntity != null)
-            {
-                _bulletJournalRepository.Remove(targetEntity);
-                await _bulletJournalRepository.UnitOfWork.CommitAsync();
-            }
+            await _indexRepository.DeleteIndex(indexId);
         }
     }
 }

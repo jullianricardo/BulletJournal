@@ -17,7 +17,7 @@ namespace BulletJournal.API.Controllers
             _journalService = journalService;
         }
 
-
+        [HttpPost]
         public async Task<ActionResult> Post(Journal journal)
         {
             await _journalService.SaveJournal(journal);
@@ -31,6 +31,7 @@ namespace BulletJournal.API.Controllers
             return Ok(journal);
         }
 
+        [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult> Get(string id)
         {

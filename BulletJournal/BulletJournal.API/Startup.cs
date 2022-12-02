@@ -1,5 +1,8 @@
+using BulletJournal.Core.Repositories;
 using BulletJournal.Core.Services;
+using BulletJournal.Data.Infrastructure;
 using BulletJournal.Data.Repositories;
+using BulletJournal.Data.Repositories.Base;
 using BulletJournal.Data.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +32,7 @@ namespace BulletJournal.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSwaggerGen();
 
             services.AddDbContext<BulletJournalContext>();
 
@@ -36,12 +40,17 @@ namespace BulletJournal.API
 
             services.AddTransient<IBulletJournalRepository, BulletJournalRepository>();
 
+            services.AddTransient<IJournalRepository, JournalRepository>();
+            services.AddTransient<IIndexRepository, IndexRepository>();
+            services.AddTransient<ITopicRepository, TopicRepository>();
+
             #endregion
 
             #region Services
 
             services.AddTransient<IJournalService, JournalService>();
             services.AddTransient<IIndexService, IndexService>();
+            services.AddTransient<ITopicService, TopicService>();
 
             #endregion
         }
@@ -52,6 +61,8 @@ namespace BulletJournal.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();

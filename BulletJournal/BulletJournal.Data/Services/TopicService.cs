@@ -1,87 +1,46 @@
-﻿using BulletJournal.Core.Common;
-using BulletJournal.Core.Domain;
+﻿using BulletJournal.Core.Repositories;
 using BulletJournal.Core.Services;
-using BulletJournal.Data.Model;
-using BulletJournal.Data.Repositories;
 using BulletJournal.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace BulletJournal.Data.Services
 {
     public class TopicService : ITopicService
     {
-        private readonly IBulletJournalRepository _bulletJournalRepository;
+        private readonly ITopicRepository _topicRepository;
 
-        public TopicService(IBulletJournalRepository bulletJournalRepository)
+        public TopicService(ITopicRepository topicRepository)
         {
-            _bulletJournalRepository = bulletJournalRepository;
+            _topicRepository = topicRepository;
         }
 
         public async Task<Topic> GetTopicById(string id)
         {
-            var topicEntity = await _bulletJournalRepository.Topics
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            if (topicEntity == null)
-                return null;
-
-            var topic = topicEntity.ToModel(AbstractTypeFactory<Topic>.TryCreateInstance());
-            return topic;
+            return await _topicRepository.GetTopicById(id);
         }
 
         public async Task<IEnumerable<Topic>> GetTopicsByIndexId(string indexId)
         {
-            var topicEntities = await _bulletJournalRepository.Topics
-                .Where(x => x.IndexId == indexId).ToListAsync();
-
-            if (topicEntities == null)
-                return null;
-
-            var topics = topicEntities.Select(x => x.ToModel(AbstractTypeFactory<Topic>.TryCreateInstance()));
-            return topics;
+            return await _topicRepository.GetTopicsByIndexId(indexId);
         }
 
-        public async Task SaveJournal(Journal journal)
+        public async Task CreateTopic(Topic topic)
         {
-            var primaryKeyResolvingMap = new PrimaryKeyResolvingMap();
-            var journalEntity = AbstractTypeFactory<JournalEntity>.TryCreateInstance().FromModel(journal, primaryKeyResolvingMap);
-            journalEntity.CreatedAt = DateTime.Now;
-
-            _bulletJournalRepository.Add(journalEntity);
-            await _bulletJournalRepository.UnitOfWork.CommitAsync();
-            primaryKeyResolvingMap.ResolvePrimaryKeys();
+            await _topicRepository.CreateTopic(topic);
         }
 
-        public async Task UpdateJournal(Journal journal)
+        public async Task CreateIndexTopics(string indexId, IEnumerable<Topic> topics)
         {
-            var primaryKeyResolvingMap = new PrimaryKeyResolvingMap();
-
-            var sourceEntity = AbstractTypeFactory<JournalEntity>.TryCreateInstance().FromModel(journal, primaryKeyResolvingMap);
-            var targetEntity = await _bulletJournalRepository.Journals.FirstOrDefaultAsync(x => x.Id == journal.Id);
-            if (targetEntity != null)
-            {
-                targetEntity.UpdatedAt = DateTime.Now;
-                sourceEntity.Patch(targetEntity);
-
-                _bulletJournalRepository.Update(targetEntity);
-                await _bulletJournalRepository.UnitOfWork.CommitAsync();
-                primaryKeyResolvingMap.ResolvePrimaryKeys();
-            }
+            await _topicRepository.CreateIndexTopics(indexId, topics);
         }
 
-        public async Task DeleteJournal(string journalId)
+        public async Task UpdateTopic(Topic topic)
         {
-            var targetEntity = await _bulletJournalRepository.Journals.FirstOrDefaultAsync(x => x.Id == journalId);
-            if (targetEntity != null)
-            {
-                _bulletJournalRepository.Remove(targetEntity);
-                await _bulletJournalRepository.UnitOfWork.CommitAsync();
-            }
+            await _topicRepository.UpdateTopic(topic);
         }
 
-        public Task CreateTopic(Topic topic) => throw new NotImplementedException();
-        public Task CreateIndexTopics(string indexId, IEnumerable<Topic> topics) => throw new NotImplementedException();
-        public Task UpdateTopic(Topic topic) => throw new NotImplementedException();
-        public Task DeleteTopic(string topicId) => throw new NotImplementedException();
+        public async Task DeleteTopic(string topicId)
+        {
+            await _topicRepository.DeleteTopic(topicId);
+        }
     }
 }

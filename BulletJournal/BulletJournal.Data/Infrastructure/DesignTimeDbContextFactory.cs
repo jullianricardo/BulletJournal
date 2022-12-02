@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BulletJournal.Data.Repositories
+namespace BulletJournal.Data.Infrastructure
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<BulletJournalContext>
     {

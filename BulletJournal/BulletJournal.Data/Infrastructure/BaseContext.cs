@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace BulletJournal.Data.Repositories
+namespace BulletJournal.Data.Infrastructure
 {
     public class BaseContext : DbContext
     {
-        //public BaseContext(DbContextOptions<BaseContext> options) : base(options)
-        //{
-        //}
+        public BaseContext(DbContextOptions<BaseContext> options) : base(options)
+        {
+        }
 
         public BaseContext(DbContextOptions options) : base(options)
         {

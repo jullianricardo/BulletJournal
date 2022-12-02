@@ -14,10 +14,12 @@ namespace BulletJournal.API.Controllers
     public class IndexController : ControllerBase
     {
         private readonly IIndexService _indexService;
+        private readonly ITopicService _topicService;
 
-        public IndexController(IIndexService indexService)
+        public IndexController(IIndexService indexService, ITopicService topicService)
         {
             _indexService = indexService;
+            _topicService = topicService;
         }
 
         [HttpPost]
@@ -59,7 +61,8 @@ namespace BulletJournal.API.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateTopics(string indexId, IEnumerable<Topic> topics)
         {
-
+            await _topicService.CreateIndexTopics(indexId, topics);
+            return Ok();
         }
     }
 }

@@ -1,14 +1,20 @@
 ﻿using BulletJournal.Data.Model;
 using BulletJournal.Data.Model.Bullet;
 using BulletJournal.Data.Model.Collection;
-using BulletJournal.Models;
-using BulletJournal.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace BulletJournal.Data.Repositories
+namespace BulletJournal.Data.Infrastructure
 {
     public class BulletJournalContext : BaseContext
     {
+
+        public DbSet<JournalEntity> Journals { get; set; }
+        public DbSet<IndexEntity> Indexes { get; set; }
+        public DbSet<PageEntity> Pages { get; set; }
+        public DbSet<TopicEntity> Topics { get; set; }
+        public DbSet<CollectionEntity> Collections { get; set; }
+        public DbSet<BulletEntity> Bullets { get; set; }
+
         public BulletJournalContext(DbContextOptions<BaseContext> options) : base(options)
         {
         }
