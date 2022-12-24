@@ -12,15 +12,15 @@ namespace BulletJournal.Data.Model
     {
         [Required]
         [StringLength(128)]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         [Required]
         [StringLength(128)]
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         #region Navigation Properties
 
-        public virtual IndexEntity? Index { get; set; }
+        public virtual IndexEntity Index { get; set; }
 
         public virtual ObservableCollection<PageEntity> Pages { get; set; } = new ObservableCollection<PageEntity>();
 

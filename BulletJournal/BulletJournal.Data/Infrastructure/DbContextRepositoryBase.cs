@@ -7,7 +7,7 @@ namespace BulletJournal.Data.Infrastructure
 {
     public abstract class DbContextRepositoryBase<TContext> : IRepository where TContext : DbContext
     {
-        protected DbContextRepositoryBase(TContext dbContext, IUnitOfWork? unitOfWork = null)
+        protected DbContextRepositoryBase(TContext dbContext, IUnitOfWork unitOfWork = null)
         {
             DbContext = dbContext;
 
@@ -20,12 +20,12 @@ namespace BulletJournal.Data.Infrastructure
             dbContext.Database.SetCommandTimeout(connectionTimeout);
         }
 
-        public TContext? DbContext { get; private set; }
+        public TContext DbContext { get; private set; }
 
 
         #region IRepository Members
 
-        public IUnitOfWork? UnitOfWork { get; private set; }
+        public IUnitOfWork UnitOfWork { get; private set; }
 
         public void Attach<T>(T item) where T : class
         {

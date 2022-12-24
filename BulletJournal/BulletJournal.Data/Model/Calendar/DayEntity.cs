@@ -15,9 +15,9 @@ namespace BulletJournal.Data.Model.Calendar
 
         #region Navigation Properties
 
-        public virtual HolidayEntity? Holiday { get; set; }
+        public virtual HolidayEntity Holiday { get; set; }
 
-        public virtual CollectionEntity? Entries { get; set; }
+        public virtual CollectionEntity Entries { get; set; }
 
         #endregion
 

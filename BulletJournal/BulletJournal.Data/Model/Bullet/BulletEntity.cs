@@ -9,7 +9,7 @@ namespace BulletJournal.Data.Model.Bullet
 {
     public class BulletEntity : Entity
     {
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         public DateTime DateCreated { get; set; }
 
@@ -20,17 +20,17 @@ namespace BulletJournal.Data.Model.Bullet
 
         [StringLength(128)]
         [ForeignKey("Parent")]
-        public string? ParentId { get; set; }
-        public virtual BulletEntity? Parent { get; set; }
+        public string ParentId { get; set; }
+        public virtual BulletEntity Parent { get; set; }
 
 
-        public string? CollectionId { get; set; }
-        public virtual CollectionEntity? Collection { get; set; }
+        public string CollectionId { get; set; }
+        public virtual CollectionEntity Collection { get; set; }
 
         #endregion
 
 
-        public virtual Models.Bullet.Bullet ToModel(Models.Bullet.Bullet? bullet)
+        public virtual Models.Bullet.Bullet ToModel(Models.Bullet.Bullet bullet)
         {
             if (bullet == null)
                 throw new ArgumentNullException(nameof(bullet));
@@ -42,7 +42,7 @@ namespace BulletJournal.Data.Model.Bullet
             return bullet;
         }
 
-        public virtual BulletEntity FromModel(Models.Bullet.Bullet? bullet, PrimaryKeyResolvingMap primaryKeyResolvingMap)
+        public virtual BulletEntity FromModel(Models.Bullet.Bullet bullet, PrimaryKeyResolvingMap primaryKeyResolvingMap)
         {
             if (bullet == null)
                 throw new ArgumentNullException(nameof(bullet));

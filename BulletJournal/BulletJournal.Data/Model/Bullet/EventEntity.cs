@@ -9,7 +9,7 @@ namespace BulletJournal.Data.Model.Bullet
 
         public TimeSpan Duration { get; set; }
 
-        public override Models.Bullet.Bullet ToModel(Models.Bullet.Bullet? bullet)
+        public override Models.Bullet.Bullet ToModel(Models.Bullet.Bullet bullet)
         {
             var newEvent = base.ToModel(bullet) as Event;
             newEvent.Date = Date;
@@ -18,7 +18,7 @@ namespace BulletJournal.Data.Model.Bullet
             return newEvent;
         }
 
-        public override BulletEntity FromModel(Models.Bullet.Bullet? bullet, PrimaryKeyResolvingMap primaryKeyResolvingMap)
+        public override BulletEntity FromModel(Models.Bullet.Bullet bullet, PrimaryKeyResolvingMap primaryKeyResolvingMap)
         {
             var eventEntity = base.FromModel(bullet, primaryKeyResolvingMap) as EventEntity;
             Date = eventEntity.Date;

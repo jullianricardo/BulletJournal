@@ -6,15 +6,15 @@ namespace BulletJournal.Data.Model
 {
     public class TopicEntity : Entity
     {
-        public string? Title { get; set; }
+        public string Title { get; set; }
 
         #region Navigation Properties
 
-        public string? IndexId { get; set; }
+        public string IndexId { get; set; }
 
-        public virtual IndexEntity? Index { get; set; }
+        public virtual IndexEntity Index { get; set; }
 
-        public virtual string? PageNumbers { get; set; }
+        public virtual string PageNumbers { get; set; }
 
         #endregion
 

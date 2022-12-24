@@ -45,11 +45,11 @@ namespace BulletJournal.Data.Model.Collection
 
 
         #region Navigation Properties
-        public CollectionEntity? Collection { get; set; }
+        public CollectionEntity Collection { get; set; }
 
-        public string? FutureLogId { get; set; }
+        public string FutureLogId { get; set; }
 
-        public virtual FutureLog? FutureLog { get; set; }
+        public virtual FutureLog FutureLog { get; set; }
 
         #endregion
 

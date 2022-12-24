@@ -11,9 +11,9 @@ namespace BulletJournal.Data.Model
         #region Navigation Properties
         public ObservableCollection<TopicEntity> Topics { get; set; } = new NullCollection<TopicEntity>();
 
-        public string? JournalId { get; set; }
+        public string JournalId { get; set; }
 
-        public JournalEntity? Journal { get; set; }
+        public JournalEntity Journal { get; set; }
 
         #endregion
 

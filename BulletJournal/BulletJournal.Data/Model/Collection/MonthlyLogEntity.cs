@@ -9,7 +9,7 @@ namespace BulletJournal.Data.Model.Collection
     {
         public Month Month { get; set; }
 
-        public virtual Calendar.CalendarEntity? Calendar { get; set; }
+        public virtual Calendar.CalendarEntity Calendar { get; set; }
 
         public override MonthlyLog ToModel(Models.Collection.Collection collection)
         {

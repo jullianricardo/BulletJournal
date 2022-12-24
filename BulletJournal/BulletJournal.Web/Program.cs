@@ -1,3 +1,5 @@
+using BulletJournal.Data.Infrastructure;
+using BulletJournal.Data.Model.Identity;
 using BulletJournal.Web.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -6,12 +8,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+
+builder.Services.AddDbContext<BulletJournalContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddDbContext<IdentityContext>(options =>
+    options.UseSqlServer(connectionString));
+
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddDefaultIdentity<User>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+})
+.AddEntityFrameworkStores<IdentityContext>();
+
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();

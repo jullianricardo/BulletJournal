@@ -9,7 +9,7 @@ namespace BulletJournal.Data.Model.Bullet
 
         public bool IsActive { get; set; }
 
-        public override Models.Bullet.Task ToModel(Models.Bullet.Bullet? bullet)
+        public override Models.Bullet.Task ToModel(Models.Bullet.Bullet bullet)
         {
             var task = base.ToModel(bullet) as Models.Bullet.Task;
 
@@ -19,7 +19,7 @@ namespace BulletJournal.Data.Model.Bullet
             return task;
         }
 
-        public override TaskEntity FromModel(Models.Bullet.Bullet? bullet, PrimaryKeyResolvingMap primaryKeyResolvingMap)
+        public override TaskEntity FromModel(Models.Bullet.Bullet bullet, PrimaryKeyResolvingMap primaryKeyResolvingMap)
         {
             var taskEntity = base.FromModel(bullet, primaryKeyResolvingMap) as TaskEntity;
 

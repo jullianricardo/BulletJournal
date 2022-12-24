@@ -14,9 +14,9 @@ namespace BulletJournal.Data.Model
 
         #region NavigationProperties
 
-        public string? JournalId { get; set; }
+        public string JournalId { get; set; }
 
-        public virtual JournalEntity? Journal { get; set; }
+        public virtual JournalEntity Journal { get; set; }
 
         public virtual ObservableCollection<CollectionEntity> Collections { get; set; } = new NullCollection<CollectionEntity>();
 
