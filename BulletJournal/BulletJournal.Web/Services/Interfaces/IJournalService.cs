@@ -5,18 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BulletJournal.Core.Services
+namespace BulletJournal.Web.Services.Interfaces
 {
     public interface IJournalService
     {
-        Task<Journal> GetJournalById(string id);
+        Task<IList<Journal>> GetJournalsByOwner(string ownerId);
 
         Task<Journal> GetOwnerDefaultJournal(string ownerId);
 
-        Task SaveJournal(Journal journal);
+        Task<Journal> GetJournalById(string id);
 
-        Task UpdateJournal(Journal journal);
-
-        Task DeleteJournal(string journalId);
+        Task CreateJournal(Journal journal);
     }
 }

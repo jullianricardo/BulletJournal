@@ -64,5 +64,22 @@ namespace BulletJournal.Data.Repositories
                 await SaveChangesAsync();
             }
         }
+
+        public async Task<Journal> GetOwnerDefaultJournal(string ownerId)
+        {
+            try
+            {
+                var journalEntity = await _journals.SingleOrDefaultAsync(x => x.OwnerId == ownerId && x.IsDefault);
+                if (journalEntity == null)
+                    return null;
+
+                var journal = journalEntity.ToModel(AbstractTypeFactory<Journal>.TryCreateInstance());
+                return journal;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

@@ -12,5 +12,7 @@ namespace BulletJournal.Core.Repositories
         Task UpdateJournal(Journal journal);
 
         Task DeleteJournal(string journalId);
+
+        Task<Journal> GetOwnerDefaultJournal(string ownerId);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BulletJournal.Core.Services;
 using BulletJournal.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace BulletJournal.API.Controllers
 {
     [ApiController]
     [Route("Journal")]
+    [Authorize]
     public class JournalController : ControllerBase
     {
         private readonly IJournalService _journalService;
@@ -48,6 +50,15 @@ namespace BulletJournal.API.Controllers
         {
             await _journalService.DeleteJournal(id);
             return Ok();
+        }
+
+
+        [HttpGet]
+        [Route("/journals/{ownerId}/default")]
+        public async Task<IActionResult> GetOwnerDefaultJournal(string ownerId)
+        {
+            var journal = await _journalService.GetOwnerDefaultJournal(ownerId);
+            return Ok(journal);
         }
     }
 }

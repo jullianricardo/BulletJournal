@@ -43,5 +43,11 @@ namespace BulletJournal.Data.Services
         {
             await _journalRepository.DeleteJournal(journalId);
         }
+
+        public async Task<Journal> GetOwnerDefaultJournal(string ownerId)
+        {
+            var journal = await _journalRepository.GetOwnerDefaultJournal(ownerId);
+            return journal;
+        }
     }
 }

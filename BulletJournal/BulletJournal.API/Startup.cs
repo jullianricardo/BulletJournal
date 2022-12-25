@@ -4,17 +4,21 @@ using BulletJournal.Data.Infrastructure;
 using BulletJournal.Data.Repositories;
 using BulletJournal.Data.Repositories.Base;
 using BulletJournal.Data.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace BulletJournal.API
@@ -36,7 +40,29 @@ namespace BulletJournal.API
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            services.AddDbContext<BulletJournalContext>();
+            services.AddDbContext<BulletJournalContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetValue<string>("SecretKey"))),
+                    ValidateLifetime = true,
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
 
             #region Repository
 
@@ -70,6 +96,8 @@ namespace BulletJournal.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

@@ -19,6 +19,13 @@ namespace BulletJournal.Data.Model
         [StringLength(128)]
         public string Description { get; set; }
 
+        [Required]
+        [Range(1900, 2100)]
+        public int Year { get; set; }
+
+        public bool IsDefault { get; set; }
+
+
         #region Navigation Properties
 
         public string OwnerId { get; set; }
@@ -38,6 +45,8 @@ namespace BulletJournal.Data.Model
 
             journal.Name = Name;
             journal.Description = Description;
+            journal.Year = Year;
+            journal.IsDefault = IsDefault;
 
             journal.Index = Index?.ToModel(AbstractTypeFactory<Models.Index>.TryCreateInstance());
             journal.Pages = Pages.Select(x => x.ToModel(AbstractTypeFactory<Page>.TryCreateInstance())).ToList();
@@ -56,6 +65,8 @@ namespace BulletJournal.Data.Model
 
             Name = journal.Name;
             Description = journal.Description;
+            Year = journal.Year;
+            IsDefault = journal.IsDefault;
 
             if (journal.Index != null)
                 Index = AbstractTypeFactory<IndexEntity>.TryCreateInstance().FromModel(journal.Index, primaryKeyResolvingMap);
@@ -73,6 +84,8 @@ namespace BulletJournal.Data.Model
         {
             target.Name = Name;
             target.Description = Description;
+            target.Year = Year;
+            target.IsDefault = IsDefault;
 
             if (Index != null)
                 Index.Patch(target.Index);
