@@ -11,10 +11,6 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<BulletJournalContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDbContext<IdentityContext>(options =>
-    options.UseSqlServer(connectionString));
-
-
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<User>(options =>
@@ -25,18 +21,7 @@ builder.Services.AddDefaultIdentity<User>(options =>
 
     //options.SignIn.RequireConfirmedAccount = true;
 })
-.AddEntityFrameworkStores<IdentityContext>();
-
-//builder.Services.AddIdentity<User, IdentityRole>(options =>
-//{
-//    options.Password.RequiredLength = 8;
-//    options.Password.RequireLowercase = true;
-//    options.Password.RequireUppercase = true;
-
-//    //options.SignIn.RequireConfirmedAccount = true;
-//})
-//.AddEntityFrameworkStores<IdentityContext>()
-//.AddDefaultTokenProviders();
+.AddEntityFrameworkStores<BulletJournalContext>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

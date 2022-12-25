@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace BulletJournal.Data.Migrations.Identity
+namespace BulletJournal.Data.Migrations
 {
     /// <inheritdoc />
     public partial class AddIdentity : Migration
