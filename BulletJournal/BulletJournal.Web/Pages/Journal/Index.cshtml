@@ -1,0 +1,36 @@
+﻿@page
+@using BulletJournal.Web.ViewModels;
+@model BulletJournal.Web.Pages.Journal.IndexModel
+
+@section Styles{
+
+}
+
+<div>
+    <h3>Journal Index</h3>
+</div>
+
+<div class="spread-container">
+   
+    @{
+        var spreadViewModel = new SpreadViewModel
+        {
+            LeftPage = new BulletJournal.Models.Page
+            {
+                Title = "Test Left Page"
+            },
+            RightPage = new BulletJournal.Models.Page
+            {
+                Title = "Test Right Page"
+            }
+        };
+    }
+
+    <partial name="Journal/_Spread" model="spreadViewModel" />
+
+</div>
+
+
+@section Scripts {
+    <script src="~/js/journal/index.js"></script>
+}

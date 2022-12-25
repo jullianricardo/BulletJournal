@@ -1,0 +1,23 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@section Styles {
+
+    <link href="~/css/journal/page.css" rel="stylesheet" />
+
+    @await RenderSectionAsync("Styles", required: false)
+}
+
+<h1>JOURNAL LAYOUT</h1>
+
+<div>
+    @RenderBody()
+</div>
+
+@section Scripts {
+
+    <script src="~/js/journal/journal.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+}

@@ -1,6 +1,5 @@
 using BulletJournal.Data.Infrastructure;
 using BulletJournal.Data.Model.Identity;
-using BulletJournal.Web.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,10 +19,30 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<User>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = true;
+    options.Password.RequiredLength = 8;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+
+    //options.SignIn.RequireConfirmedAccount = true;
 })
 .AddEntityFrameworkStores<IdentityContext>();
 
+//builder.Services.AddIdentity<User, IdentityRole>(options =>
+//{
+//    options.Password.RequiredLength = 8;
+//    options.Password.RequireLowercase = true;
+//    options.Password.RequireUppercase = true;
+
+//    //options.SignIn.RequireConfirmedAccount = true;
+//})
+//.AddEntityFrameworkStores<IdentityContext>()
+//.AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+});
 
 builder.Services.AddRazorPages();
 

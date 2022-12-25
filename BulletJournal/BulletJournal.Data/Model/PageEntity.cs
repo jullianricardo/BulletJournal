@@ -10,6 +10,7 @@ namespace BulletJournal.Data.Model
     public class PageEntity : Entity
     {
         public int Number { get; set; }
+        public string Title { get; set; }
 
 
         #region NavigationProperties
@@ -30,6 +31,7 @@ namespace BulletJournal.Data.Model
 
             page.Id = Id;
             page.Number = Number;
+            page.Title = Title;
 
             return page;
         }
@@ -43,6 +45,7 @@ namespace BulletJournal.Data.Model
 
             Id = page.Id;
             Number = page.Number;
+            Title = page.Title;
 
             return this;
         }

@@ -1,0 +1,10 @@
+﻿@using BulletJournal.Web.ViewModels;
+@model PageViewModel
+
+<section class="page">
+    @if (!string.IsNullOrWhiteSpace(Model.Page.Title))
+    {
+        <h3 class="page-title">@Model.Page.Title</h3>
+    }
+
+</section>

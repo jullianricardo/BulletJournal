@@ -15,13 +15,5 @@ namespace BulletJournal.Data.Infrastructure
         {
 
         }
-        public IdentityContext(DbContextOptions options) : base(options)
-        {
-        }
-
-        public IdentityContext()
-        {
-
-        }
     }
 }
