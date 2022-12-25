@@ -15,16 +15,13 @@ namespace BulletJournal.Data.Infrastructure
         public DbSet<CollectionEntity> Collections { get; set; }
         public DbSet<BulletEntity> Bullets { get; set; }
 
-        public BulletJournalContext(DbContextOptions<BaseContext> options) : base(options)
-        {
-        }
-
-        public BulletJournalContext(DbContextOptions options) : base(options)
+        public BulletJournalContext(DbContextOptions<BulletJournalContext> options) : base(options)
         {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<JournalEntity>(entity =>
             {

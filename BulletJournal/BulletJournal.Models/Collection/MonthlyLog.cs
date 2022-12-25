@@ -9,6 +9,6 @@ namespace BulletJournal.Models.Collection
     {
         public Month Month { get; set; }
 
-        public Calendar.Calendar? Calendar { get; set; }
+        public Calendar.Calendar Calendar { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 {
     public abstract class Entity : IEntity
     {
-        public string? Id { get; set; }
+        public string Id { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
@@ -15,7 +15,7 @@
 
         #region Overrides 
 
-        public override bool Equals(object? obj)
+        public override bool Equals(object obj)
         {
             if (ReferenceEquals(this, obj))
                 return true;

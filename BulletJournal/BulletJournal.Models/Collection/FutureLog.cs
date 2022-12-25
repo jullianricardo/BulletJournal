@@ -14,6 +14,6 @@ namespace BulletJournal.Models.Collection
     {
         public Month Month { get; set; }
 
-        public Collection? Collection { get; set; }
+        public Collection Collection { get; set; }
     }
 }

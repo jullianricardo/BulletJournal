@@ -1,6 +1,7 @@
 ﻿using BulletJournal.Core.Common;
 using BulletJournal.Core.Domain;
 using BulletJournal.Core.Extensions;
+using BulletJournal.Data.Model.Identity;
 using BulletJournal.Models;
 using BulletJournal.Models.Domain;
 using System.Collections.ObjectModel;
@@ -20,6 +21,8 @@ namespace BulletJournal.Data.Model
 
         #region Navigation Properties
 
+        public string OwnerId { get; set; }
+
         public virtual IndexEntity Index { get; set; }
 
         public virtual ObservableCollection<PageEntity> Pages { get; set; } = new ObservableCollection<PageEntity>();
@@ -29,6 +32,7 @@ namespace BulletJournal.Data.Model
         public virtual Journal ToModel(Journal journal)
         {
             journal.Id = Id;
+            journal.OwnerId = OwnerId;
             journal.CreatedAt = CreatedAt;
             journal.UpdatedAt = UpdatedAt;
 
@@ -46,6 +50,7 @@ namespace BulletJournal.Data.Model
             primaryKeyResolvingMap.AddPair(journal, this);
 
             Id = journal.Id;
+            OwnerId = journal.OwnerId;
             CreatedAt = journal.CreatedAt;
             UpdatedAt = journal.UpdatedAt;
 
