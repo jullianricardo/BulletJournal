@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BulletJournal.Models.Bullet
+namespace BulletJournal.Models.Settings
 {
-    public enum BulletType
+    public abstract class Settings
     {
-        Task,
-        Note,
-        Event
+        public abstract Settings GetDefaultSettings();
     }
 }

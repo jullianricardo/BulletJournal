@@ -35,7 +35,10 @@ namespace BulletJournal.Data.Repositories
         public async Task SaveJournal(Journal journal)
         {
             var journalEntity = AbstractTypeFactory<JournalEntity>.TryCreateInstance().FromModel(journal, new Core.Common.PrimaryKeyResolvingMap());
-            journalEntity.CreatedAt = DateTime.Now;
+
+            if (journalEntity.CreatedAt == DateTime.MinValue)
+                journalEntity.CreatedAt = DateTime.UtcNow;
+
             _journals.Add(journalEntity);
             await SaveChangesAsync();
 
@@ -48,7 +51,8 @@ namespace BulletJournal.Data.Repositories
             if (existingEntity != null)
             {
                 journalEntity.Patch(existingEntity);
-                existingEntity.UpdatedAt = DateTime.Now;
+                journalEntity.UpdatedAt = DateTime.UtcNow;
+
                 _journals.Update(existingEntity);
 
                 await SaveChangesAsync();

@@ -4,6 +4,7 @@ using BulletJournal.Data.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulletJournal.Data.Migrations
 {
     [DbContext(typeof(BulletJournalContext))]
-    partial class BulletJournalContextModelSnapshot : ModelSnapshot
+    [Migration("20221227033704_AddedTypes")]
+    partial class AddedTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,6 +32,9 @@ namespace BulletJournal.Data.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
+                    b.Property<string>("CollectionId")
+                        .HasColumnType("nvarchar(128)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -37,9 +43,6 @@ namespace BulletJournal.Data.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LogId")
-                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ParentId")
                         .HasMaxLength(128)
@@ -56,7 +59,7 @@ namespace BulletJournal.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LogId");
+                    b.HasIndex("CollectionId");
 
                     b.HasIndex("ParentId");
 
@@ -219,37 +222,6 @@ namespace BulletJournal.Data.Migrations
                     b.HasIndex("FutureLogId");
 
                     b.ToTable("FutureLogMonth", (string)null);
-                });
-
-            modelBuilder.Entity("BulletJournal.Data.Model.Collection.LogEntity", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("CollectionId")
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CollectionId")
-                        .IsUnique()
-                        .HasFilter("[CollectionId] IS NOT NULL");
-
-                    b.ToTable("Log", (string)null);
                 });
 
             modelBuilder.Entity("BulletJournal.Data.Model.Identity.User", b =>
@@ -643,16 +615,16 @@ namespace BulletJournal.Data.Migrations
 
             modelBuilder.Entity("BulletJournal.Data.Model.Bullet.BulletEntity", b =>
                 {
-                    b.HasOne("BulletJournal.Data.Model.Collection.LogEntity", "Log")
-                        .WithMany("Bullets")
-                        .HasForeignKey("LogId");
+                    b.HasOne("BulletJournal.Data.Model.Collection.CollectionEntity", "Collection")
+                        .WithMany()
+                        .HasForeignKey("CollectionId");
 
                     b.HasOne("BulletJournal.Data.Model.Bullet.BulletEntity", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.Navigation("Log");
+                    b.Navigation("Collection");
 
                     b.Navigation("Parent");
                 });
@@ -698,15 +670,6 @@ namespace BulletJournal.Data.Migrations
                     b.Navigation("Collection");
 
                     b.Navigation("FutureLog");
-                });
-
-            modelBuilder.Entity("BulletJournal.Data.Model.Collection.LogEntity", b =>
-                {
-                    b.HasOne("BulletJournal.Data.Model.Collection.CollectionEntity", "Collection")
-                        .WithOne("Log")
-                        .HasForeignKey("BulletJournal.Data.Model.Collection.LogEntity", "CollectionId");
-
-                    b.Navigation("Collection");
                 });
 
             modelBuilder.Entity("BulletJournal.Data.Model.IndexEntity", b =>
@@ -799,16 +762,6 @@ namespace BulletJournal.Data.Migrations
             modelBuilder.Entity("BulletJournal.Data.Model.Calendar.CalendarEntity", b =>
                 {
                     b.Navigation("Days");
-                });
-
-            modelBuilder.Entity("BulletJournal.Data.Model.Collection.CollectionEntity", b =>
-                {
-                    b.Navigation("Log");
-                });
-
-            modelBuilder.Entity("BulletJournal.Data.Model.Collection.LogEntity", b =>
-                {
-                    b.Navigation("Bullets");
                 });
 
             modelBuilder.Entity("BulletJournal.Data.Model.IndexEntity", b =>

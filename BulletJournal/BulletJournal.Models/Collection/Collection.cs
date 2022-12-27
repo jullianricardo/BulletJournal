@@ -2,12 +2,16 @@
 
 namespace BulletJournal.Models.Collection
 {
-    public class Collection : Entity
+    public abstract class Collection : Entity
     {
+        public abstract CollectionType Type { get; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
 
-        public List<Bullet.Bullet> Bullets { get; set; } = new List<Bullet.Bullet>();
+        public Log Log { get; set; }
+
+        public abstract Topic ToTopic();
     }
 }

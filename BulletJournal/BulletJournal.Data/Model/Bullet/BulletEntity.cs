@@ -7,8 +7,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BulletJournal.Data.Model.Bullet
 {
-    public class BulletEntity : Entity
+    public abstract class BulletEntity : Entity
     {
+        public abstract BulletType Type { get; set; }
+
         public string Description { get; set; }
 
         public DateTime DateCreated { get; set; }
@@ -24,8 +26,8 @@ namespace BulletJournal.Data.Model.Bullet
         public virtual BulletEntity Parent { get; set; }
 
 
-        public string CollectionId { get; set; }
-        public virtual CollectionEntity Collection { get; set; }
+        public string LogId { get; set; }
+        public virtual LogEntity Log { get; set; }
 
         #endregion
 

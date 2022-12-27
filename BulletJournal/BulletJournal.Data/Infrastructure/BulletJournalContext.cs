@@ -1,6 +1,9 @@
 ﻿using BulletJournal.Data.Model;
 using BulletJournal.Data.Model.Bullet;
+using BulletJournal.Data.Model.Calendar;
 using BulletJournal.Data.Model.Collection;
+using BulletJournal.Models.Bullet;
+using BulletJournal.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace BulletJournal.Data.Infrastructure
@@ -41,9 +44,19 @@ namespace BulletJournal.Data.Infrastructure
                 entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
             });
 
+            modelBuilder.Entity<DailyLogEntity>();
+            modelBuilder.Entity<MonthlyLogEntity>();
+            modelBuilder.Entity<FutureLogEntity>();
+
             modelBuilder.Entity<CollectionEntity>(entity =>
             {
                 entity.ToTable("Collection").HasKey(x => x.Id);
+                entity.HasDiscriminator(x => x.Type)
+                    .HasValue<DailyLogEntity>(Models.Collection.CollectionType.DailyLog)
+                    .HasValue<MonthlyLogEntity>(Models.Collection.CollectionType.MonthlyLog)
+                    .HasValue<FutureLogEntity>(Models.Collection.CollectionType.FutureLog)
+                    .IsComplete(false);
+
                 entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
             });
 
@@ -53,12 +66,36 @@ namespace BulletJournal.Data.Infrastructure
                 entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
             });
 
+            modelBuilder.Entity<LogEntity>().ToTable("Log")
+               .Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
+
             modelBuilder.Entity<BulletEntity>(entity =>
             {
                 entity.ToTable("Bullet").HasKey(x => x.Id);
+                entity.HasDiscriminator(x => x.Type)
+                    .HasValue<TaskEntity>(BulletType.Task)
+                    .HasValue<NoteEntity>(BulletType.Note)
+                    .HasValue<EventEntity>(BulletType.Event);
+
                 entity.HasOne(m => m.Parent).WithMany().HasForeignKey(m => m.ParentId).OnDelete(DeleteBehavior.Restrict);
                 entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
             });
+
+            modelBuilder.Entity<TaskEntity>();
+            modelBuilder.Entity<NoteEntity>();
+            modelBuilder.Entity<EventEntity>();
+
+            modelBuilder.Entity<CalendarEntity>().ToTable("Calendar")
+                .Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<HolidayEntity>().ToTable("Holiday")
+                .Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<FutureLogMonthEntity>().ToTable("FutureLogMonth")
+                .Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<DayEntity>().ToTable("Day")
+                .Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
         }
     }
 }

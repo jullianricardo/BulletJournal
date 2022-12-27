@@ -9,5 +9,11 @@ namespace BulletJournal.Models
     {
         public string JournalId { get; set; }
         public List<Topic> Topics { get; set; } = new List<Topic>();
+
+        public void AddCollection(Collection.Collection collection)
+        {
+            var topic = collection.ToTopic();
+            Topics.Add(topic);
+        }
     }
 }

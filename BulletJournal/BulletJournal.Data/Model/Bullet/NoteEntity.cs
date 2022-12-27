@@ -5,6 +5,12 @@ namespace BulletJournal.Data.Model.Bullet
 {
     public class NoteEntity : BulletEntity
     {
+        public override BulletType Type
+        {
+            get { return BulletType.Note; }
+            set { }
+        }
+
         public override Note ToModel(Models.Bullet.Bullet bullet)
         {
             var note = base.ToModel(bullet) as Note;

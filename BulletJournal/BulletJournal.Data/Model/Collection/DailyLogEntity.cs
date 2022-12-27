@@ -1,10 +1,17 @@
 ﻿using BulletJournal.Core.Common;
+using BulletJournal.Models.Bullet;
 using BulletJournal.Models.Collection;
 
 namespace BulletJournal.Data.Model.Collection
 {
     public class DailyLogEntity : CollectionEntity
     {
+        public override CollectionType Type
+        {
+            get { return CollectionType.DailyLog; }
+            set { }
+        }
+
         public DateTime CurrentDay { get; set; }
 
         public override Models.Collection.Collection ToModel(Models.Collection.Collection collection)

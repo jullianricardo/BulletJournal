@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BulletJournal.Web.Services.Interfaces
+namespace BulletJournal.Web.Services.Builders.Interfaces
 {
     public interface IJournalBuilder
     {

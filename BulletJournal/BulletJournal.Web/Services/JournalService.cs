@@ -1,4 +1,5 @@
 ﻿using BulletJournal.Models;
+using BulletJournal.Web.Services.Builders.Interfaces;
 using BulletJournal.Web.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -22,8 +23,8 @@ namespace BulletJournal.Web.Services
         public async Task CreateJournal(Journal journal)
         {
             var url = JOURNAL_BASE_URL;
-            var builtJournal = _journalBuilder.BuildJournal(journal, new Models.Options.JournalBuilderOptions());
-            await PostToEndpoint(url, builtJournal);
+            var newJournal = _journalBuilder.BuildJournal(journal, new Models.Options.JournalBuilderOptions());
+            await PostToEndpoint(url, newJournal);
         }
 
         public async Task<IList<Journal>> GetJournalsByOwner(string ownerId)

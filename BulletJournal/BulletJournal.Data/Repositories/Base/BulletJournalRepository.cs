@@ -9,7 +9,12 @@ namespace BulletJournal.Data.Repositories.Base
             DbContext = dbContext;
         }
 
-        public BulletJournalContext DbContext { get; }
+        public BulletJournalContext DbContext { get; private set; }
+
+        public virtual void SetDbContext(BulletJournalContext context)
+        {
+            DbContext = context;
+        }
 
         public virtual void SaveChanges()
         {

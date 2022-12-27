@@ -1,13 +1,16 @@
 ﻿using BulletJournal.Core.Common;
 using BulletJournal.Core.Domain;
 using BulletJournal.Data.Model.Bullet;
+using BulletJournal.Models.Collection;
 using BulletJournal.Models.Domain;
 using System.Collections.ObjectModel;
 
 namespace BulletJournal.Data.Model.Collection
 {
-    public class CollectionEntity : Entity
+    public abstract class CollectionEntity : Entity
     {
+        public abstract CollectionType Type { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -18,7 +21,7 @@ namespace BulletJournal.Data.Model.Collection
 
         public virtual PageEntity Page { get; set; }
 
-        public virtual ObservableCollection<BulletEntity> Bullets { get; set; } = new NullCollection<BulletEntity>();
+        public LogEntity Log { get; set; }
 
         #endregion
 

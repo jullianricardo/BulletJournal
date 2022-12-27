@@ -2,6 +2,8 @@ using BulletJournal.Data.Infrastructure;
 using BulletJournal.Data.Model.Identity;
 using BulletJournal.Web;
 using BulletJournal.Web.Services;
+using BulletJournal.Web.Services.Builders;
+using BulletJournal.Web.Services.Builders.Interfaces;
 using BulletJournal.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +50,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddRazorPages();
 
 builder.Services.AddSingleton<IJournalService, JournalService>();
+builder.Services.AddSingleton<ISettingsService, SettingsService>();
 builder.Services.AddSingleton<IJournalBuilder, JournalBuilder>();
 
 var app = builder.Build();

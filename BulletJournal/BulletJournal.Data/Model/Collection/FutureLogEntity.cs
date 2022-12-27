@@ -9,6 +9,11 @@ namespace BulletJournal.Data.Model.Collection
 {
     public class FutureLogEntity : CollectionEntity
     {
+        public override CollectionType Type
+        {
+            get { return CollectionType.FutureLog; }
+            set { }
+        }
 
         public int Year { get; set; }
 
@@ -23,7 +28,7 @@ namespace BulletJournal.Data.Model.Collection
             var futureLog = base.ToModel(collection) as FutureLog;
 
             futureLog.Year = Year;
-            futureLog.Months = Months.Select(x => x.ToModel(AbstractTypeFactory<FutureLogMonth>.TryCreateInstance())).ToList();
+            futureLog.Months = Months.ToDictionary(x => x.Month, x => x.ToModel(AbstractTypeFactory<FutureLogMonth>.TryCreateInstance()));
 
             return futureLog;
         }
@@ -49,7 +54,7 @@ namespace BulletJournal.Data.Model.Collection
 
         public string FutureLogId { get; set; }
 
-        public virtual FutureLog FutureLog { get; set; }
+        public virtual FutureLogEntity FutureLog { get; set; }
 
         #endregion
 

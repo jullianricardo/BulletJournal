@@ -1,0 +1,14 @@
+﻿using BulletJournal.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BulletJournal.Web.Services.Managers.Interfaces
+{
+    public interface IJournalManager
+    {
+        Journal Journal { get; set; }
+    }
+}

@@ -1,4 +1,5 @@
-﻿using BulletJournal.Models.Domain;
+﻿using BulletJournal.Models.Collection;
+using BulletJournal.Models.Domain;
 using System.ComponentModel.DataAnnotations;
 
 namespace BulletJournal.Models
@@ -21,6 +22,15 @@ namespace BulletJournal.Models
         public Index Index { get; set; }
 
         public List<Page> Pages { get; set; }
+
+
+        public void AddCollection(Collection.Collection collection)
+        {
+            var page = new Page
+            {
+                Collections = new List<Collection.Collection> { collection }
+            };
+        }
 
     }
 }

@@ -7,6 +7,12 @@ namespace BulletJournal.Data.Model.Collection
 {
     public class MonthlyLogEntity : CollectionEntity
     {
+        public override CollectionType Type
+        {
+            get { return CollectionType.MonthlyLog; }
+            set { }
+        }
+
         public Month Month { get; set; }
 
         public virtual Calendar.CalendarEntity Calendar { get; set; }
