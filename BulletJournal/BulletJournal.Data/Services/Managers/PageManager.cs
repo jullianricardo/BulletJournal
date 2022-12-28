@@ -48,8 +48,10 @@ namespace BulletJournal.Data.Services.Managers
                 }
             }
 
-            foreach (var collection in fullListOfCollections)
+            int fullListOfCollectionsCount = fullListOfCollections.Count;
+            for (int i = 0; i < fullListOfCollections.Count; i++)
             {
+                var collection = fullListOfCollections[i];
                 if (userSettings.AllowMultipleCollectionsPerPage)
                 {
                     int collectionSize = collection.RetrieveCollectionSize();
@@ -70,9 +72,9 @@ namespace BulletJournal.Data.Services.Managers
                     }
                 }
 
-                currentPage.Collections.Add(collection);
+                currentPage.Collections.Add((i + 1), collection);
 
-                if (collection == fullListOfCollections.Last())
+                if ((i + 1) == fullListOfCollectionsCount)
                     pages.Add(currentPage);
             }
 

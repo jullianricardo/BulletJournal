@@ -1,10 +1,18 @@
 using BulletJournal.API.Converters;
 using BulletJournal.Core.Repositories;
 using BulletJournal.Core.Services;
+using BulletJournal.Core.Services.Builders;
+using BulletJournal.Core.Services.Factories;
+using BulletJournal.Core.Services.Managers;
+using BulletJournal.Data.EntityConverters;
+using BulletJournal.Data.EntityConverters.Interfaces;
 using BulletJournal.Data.Infrastructure;
 using BulletJournal.Data.Repositories;
 using BulletJournal.Data.Repositories.Base;
 using BulletJournal.Data.Services;
+using BulletJournal.Data.Services.Builders;
+using BulletJournal.Data.Services.Factories;
+using BulletJournal.Data.Services.Managers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -75,9 +83,31 @@ namespace BulletJournal.API
 
             #region Services
 
+            services.AddSingleton<ISettingsService, SettingsService>();
+
             services.AddTransient<IJournalService, JournalService>();
             services.AddTransient<IIndexService, IndexService>();
             services.AddTransient<ITopicService, TopicService>();
+
+            services.AddTransient<IJournalBuilder, JournalBuilder>();
+            services.AddTransient<ISpreadBuilder, SpreadBuilder>();
+            services.AddTransient<IFutureLogBuilder, FutureLogBuilder>();
+            services.AddTransient<IDailyLogBuilder, DailyLogBuilder>();
+            services.AddTransient<IMonthlyLogBuilder, MonthlyLogBuilder>();
+
+            services.AddTransient<IJournalManager, JournalManager>();
+            services.AddTransient<IPageManager, PageManager>();
+
+            services.AddSingleton<ICollectionFactory, CollectionFactory>();
+
+            #endregion
+
+            #region EntityConverters
+
+            services.AddSingleton<IJournalEntityConverter, JournalEntityConverter>();
+            services.AddSingleton<IPageEntityConverter, PageEntityConverter>();
+            services.AddSingleton<IIndexEntityConverter, IndexEntityConverter>();
+            services.AddSingleton<ITopicEntityConverter, TopicEntityConverter>();
 
             #endregion
         }

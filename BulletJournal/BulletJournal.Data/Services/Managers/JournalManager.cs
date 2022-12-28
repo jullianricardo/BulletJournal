@@ -1,16 +1,19 @@
-﻿using BulletJournal.Models;
-using BulletJournal.Models.Collection;
+﻿using BulletJournal.Core.Services.Builders;
 using BulletJournal.Core.Services.Managers;
+using BulletJournal.Models;
+using BulletJournal.Models.Collection;
 
 namespace BulletJournal.Data.Services.Managers
 {
     public class JournalManager : IJournalManager
     {
         private readonly IPageManager _pageManager;
+        private readonly ISpreadBuilder _spreadBuilder;
 
-        public JournalManager(IPageManager pageManager)
+        public JournalManager(IPageManager pageManager, ISpreadBuilder spreadBuilder)
         {
             _pageManager = pageManager;
+            _spreadBuilder = spreadBuilder;
         }
 
         public Journal Journal { get; private set; }
@@ -30,56 +33,15 @@ namespace BulletJournal.Data.Services.Managers
             }
 
             var pages = _pageManager.BuildPages(new List<Collection> { collection }, lastPageNumber);
+            var sortedPageList = new SortedList<int, Page>(pages.ToDictionary(x => x.Number));
 
-            int currentSpreadNumber = lastSpreadNumber + 1;
-            var spreads = BuildSpreads(pages, lastSpread.Value);
+            var spreads = _spreadBuilder.BuildSpreadsFromPages(sortedPageList, lastSpread.Value, lastSpreadNumber);
 
             foreach (var spread in spreads)
             {
-                Journal.Spreads.Add(currentSpreadNumber, spread);
-                currentSpreadNumber++;
+                Journal.Spreads[spread.Key] = spread.Value;
             }
         }
-
-        public List<Spread> BuildSpreads(List<Page> pages, Spread lastSpread = null)
-        {
-            var spreads = new List<Spread>();
-
-            if (lastSpread != null && lastSpread.Status == SpreadStatus.Incomplete)
-                spreads.Add(lastSpread);
-
-            Spread currentSpread = lastSpread ?? new Spread();
-
-            var pageCount = pages.Count;
-            for (int i = 0; i < pageCount; i++)
-            {
-                var page = pages[i];
-
-                switch (currentSpread.Status)
-                {
-                    case SpreadStatus.Empty:
-                        currentSpread.LeftPage = page;
-                        break;
-
-                    case SpreadStatus.Incomplete:
-                        currentSpread.RightPage = page;
-                        break;
-
-                    default:
-                        break;
-                }
-
-                bool isLastPage = (i + 1) == pageCount;
-                if (currentSpread.Status == SpreadStatus.Full || (currentSpread.Status == SpreadStatus.Incomplete && isLastPage))
-                {
-                    spreads.Add(currentSpread);
-                    currentSpread = new Spread();
-                }
-            }
-
-            return spreads;
-        }
-
         public void SetJournal(Journal journal)
         {
             Journal = journal;

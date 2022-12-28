@@ -15,35 +15,7 @@ namespace BulletJournal.Data.Model
 
         public JournalEntity Journal { get; set; }
 
-        #endregion
-
-        public virtual Models.Index ToModel(Models.Index index)
-        {
-            if (index == null)
-                throw new ArgumentNullException(nameof(index));
-
-            index.Id = Id;
-            index.JournalId = JournalId;
-            index.CreatedAt = CreatedAt;
-            index.UpdatedAt = UpdatedAt;
-
-            return index;
-        }
-
-        public virtual IndexEntity FromModel(Models.Index index, PrimaryKeyResolvingMap primaryKeyResolvingMap)
-        {
-            if (index == null)
-                throw new ArgumentNullException(nameof(index));
-
-            primaryKeyResolvingMap.AddPair(index, this);
-
-            Id = index.Id;
-            JournalId = index.JournalId;
-            CreatedAt = index.CreatedAt;
-            UpdatedAt = index.UpdatedAt;
-
-            return this;
-        }
+        #endregion      
 
         public virtual void Patch(IndexEntity target)
         {

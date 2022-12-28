@@ -10,12 +10,14 @@ namespace BulletJournal.Data.Services.Builders
         private readonly IJournalManager _journalManager;
         private readonly IFutureLogBuilder _futureLogBuilder;
         private readonly IDailyLogBuilder _dailyLogBuilder;
+        private readonly IMonthlyLogBuilder _monthlyLogBuilder;
 
-        public JournalBuilder(IJournalManager journalManager, IFutureLogBuilder futureLogBuilder, IDailyLogBuilder dailyLogBuilder)
+        public JournalBuilder(IJournalManager journalManager, IFutureLogBuilder futureLogBuilder, IDailyLogBuilder dailyLogBuilder, IMonthlyLogBuilder monthlyLogBuilder)
         {
             _journalManager = journalManager;
             _futureLogBuilder = futureLogBuilder;
             _dailyLogBuilder = dailyLogBuilder;
+            _monthlyLogBuilder = monthlyLogBuilder;
         }
 
         public Journal BuildJournal(Journal journal, JournalBuilderOptions builderOptions)
@@ -29,7 +31,7 @@ namespace BulletJournal.Data.Services.Builders
 
             var index = new Models.Index
             {
-                CreatedAt = now
+                //CreatedAt = now
             };
 
             journal.Index = index;
@@ -37,15 +39,22 @@ namespace BulletJournal.Data.Services.Builders
             if (builderOptions.BuildFutureLog)
             {
                 var futureLog = _futureLogBuilder.BuildDefaultFutureLog();
-                futureLog.CreatedAt = now;
+                //futureLog.CreatedAt = now;
                 _journalManager.AddCollection(futureLog);
             }
 
             if (builderOptions.BuildDailyLog)
             {
                 var dailyLog = _dailyLogBuilder.BuildDefaultDailyLog();
-                dailyLog.CreatedAt = now;
+                //dailyLog.CreatedAt = now;
                 _journalManager.AddCollection(dailyLog);
+            }
+
+            if (builderOptions.BuildMonthlyLog)
+            {
+                var monthlyLog = _monthlyLogBuilder.BuildDefaultMonthlyLog();
+                //monthlyLog.CreatedAt = now;
+                _journalManager.AddCollection(monthlyLog);
             }
 
             return _journalManager.Journal;

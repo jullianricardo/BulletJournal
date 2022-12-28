@@ -6,14 +6,14 @@ namespace BulletJournal.Models
     {
         public Page()
         {
-            Collections = new List<Collection.Collection>();
+            Collections = new SortedList<int, Collection.Collection>();
         }
 
         public string Title { get; set; }
 
         public int Number { get; set; }
 
-        public List<Collection.Collection> Collections { get; set; }
+        public SortedList<int, Collection.Collection> Collections { get; set; }
 
 
         public int CurrentSize
@@ -23,7 +23,7 @@ namespace BulletJournal.Models
                 if (Collections == null || Collections.Count == 0)
                     return 0;
 
-                int size = Collections.Sum(x => x.RetrieveCollectionSize());
+                int size = Collections.Values.Sum(x => x.RetrieveCollectionSize());
                 return size;
             }
         }

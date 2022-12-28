@@ -1,6 +1,8 @@
 using BulletJournal.Core.Services.Builders;
 using BulletJournal.Core.Services.Factories;
 using BulletJournal.Core.Services.Managers;
+using BulletJournal.Data.EntityConverters.Interfaces;
+using BulletJournal.Data.EntityConverters;
 using BulletJournal.Data.Infrastructure;
 using BulletJournal.Data.Model.Identity;
 using BulletJournal.Data.Services.Builders;
@@ -10,6 +12,8 @@ using BulletJournal.Web;
 using BulletJournal.Web.Services;
 using BulletJournal.Web.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using BulletJournal.Core.Services;
+using BulletJournal.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,17 +56,24 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddRazorPages();
 
-builder.Services.AddSingleton<IJournalService, JournalService>();
+builder.Services.AddSingleton<BulletJournal.Web.Services.Interfaces.IJournalService, BulletJournal.Web.Services.JournalService>();
 builder.Services.AddSingleton<ISettingsService, SettingsService>();
 
 builder.Services.AddSingleton<IJournalBuilder, JournalBuilder>();
+builder.Services.AddSingleton<ISpreadBuilder, SpreadBuilder>();
 builder.Services.AddSingleton<IFutureLogBuilder, FutureLogBuilder>();
 builder.Services.AddSingleton<IDailyLogBuilder, DailyLogBuilder>();
+builder.Services.AddSingleton<IMonthlyLogBuilder, MonthlyLogBuilder>();
 
-builder.Services.AddSingleton<IJournalManager, JournalManager>();
-builder.Services.AddSingleton<IPageManager, PageManager>();
+builder.Services.AddTransient<IJournalManager, JournalManager>();
+builder.Services.AddTransient<IPageManager, PageManager>();
 
 builder.Services.AddSingleton<ICollectionFactory, CollectionFactory>();
+
+builder.Services.AddSingleton<IJournalEntityConverter, JournalEntityConverter>();
+builder.Services.AddSingleton<IPageEntityConverter, PageEntityConverter>();
+builder.Services.AddSingleton<IIndexEntityConverter, IndexEntityConverter>();
+builder.Services.AddSingleton<ITopicEntityConverter, TopicEntityConverter>();
 
 var app = builder.Build();
 

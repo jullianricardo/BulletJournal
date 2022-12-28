@@ -1,25 +1,22 @@
-﻿using BulletJournal.Core.Domain;
-using BulletJournal.Core.Repositories;
+﻿using BulletJournal.Core.Repositories;
+using BulletJournal.Data.EntityConverters.Interfaces;
 using BulletJournal.Data.Infrastructure;
 using BulletJournal.Data.Model;
 using BulletJournal.Data.Repositories.Base;
 using BulletJournal.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BulletJournal.Data.Repositories
 {
     public class JournalRepository : BulletJournalRepository, IJournalRepository
     {
         private readonly DbSet<JournalEntity> _journals;
+        private readonly IJournalEntityConverter _journalEntityConverter;
 
-        public JournalRepository(BulletJournalContext dbContext) : base(dbContext)
+        public JournalRepository(BulletJournalContext dbContext, IJournalEntityConverter journalEntityConverter) : base(dbContext)
         {
             _journals = dbContext.Journals;
+            _journalEntityConverter = journalEntityConverter;
         }
 
         public async Task<Journal> GetJournalById(string id)
@@ -28,17 +25,13 @@ namespace BulletJournal.Data.Repositories
             if (journalEntity == null)
                 return null;
 
-            var journal = journalEntity.ToModel(AbstractTypeFactory<Journal>.TryCreateInstance());
+            var journal = _journalEntityConverter.ConvertFromDatabaseEntity(journalEntity);
             return journal;
         }
 
         public async Task SaveJournal(Journal journal)
         {
-            var journalEntity = AbstractTypeFactory<JournalEntity>.TryCreateInstance().FromModel(journal, new Core.Common.PrimaryKeyResolvingMap());
-
-            if (journalEntity.CreatedAt == DateTime.MinValue)
-                journalEntity.CreatedAt = DateTime.UtcNow;
-
+            var journalEntity = _journalEntityConverter.ConvertFromModelEntity(journal);
             _journals.Add(journalEntity);
             await SaveChangesAsync();
 
@@ -46,13 +39,12 @@ namespace BulletJournal.Data.Repositories
 
         public async Task UpdateJournal(Journal journal)
         {
-            var journalEntity = AbstractTypeFactory<JournalEntity>.TryCreateInstance().FromModel(journal, new Core.Common.PrimaryKeyResolvingMap());
+            var journalEntity = _journalEntityConverter.ConvertFromModelEntity(journal);
+
             var existingEntity = await _journals.FindAsync(journal.Id);
             if (existingEntity != null)
             {
                 journalEntity.Patch(existingEntity);
-                journalEntity.UpdatedAt = DateTime.UtcNow;
-
                 _journals.Update(existingEntity);
 
                 await SaveChangesAsync();
@@ -77,10 +69,10 @@ namespace BulletJournal.Data.Repositories
                 if (journalEntity == null)
                     return null;
 
-                var journal = journalEntity.ToModel(AbstractTypeFactory<Journal>.TryCreateInstance());
+                var journal = _journalEntityConverter.ConvertFromDatabaseEntity(journalEntity);
                 return journal;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

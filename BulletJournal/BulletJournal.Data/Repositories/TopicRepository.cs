@@ -1,5 +1,6 @@
 ﻿using BulletJournal.Core.Domain;
 using BulletJournal.Core.Repositories;
+using BulletJournal.Data.EntityConverters.Interfaces;
 using BulletJournal.Data.Infrastructure;
 using BulletJournal.Data.Model;
 using BulletJournal.Data.Repositories.Base;
@@ -12,11 +13,13 @@ namespace BulletJournal.Data.Repositories
     {
         private readonly DbSet<TopicEntity> _topics;
         private readonly DbSet<IndexEntity> _indexes;
+        private readonly ITopicEntityConverter _topicEntityConverter;
 
-        public TopicRepository(BulletJournalContext dbContext) : base(dbContext)
+        public TopicRepository(BulletJournalContext dbContext, ITopicEntityConverter topicEntityConverter) : base(dbContext)
         {
             _topics = dbContext.Topics;
             _indexes = dbContext.Indexes;
+            _topicEntityConverter = topicEntityConverter;
         }
 
         public async Task<Topic> GetTopicById(string id)
@@ -25,14 +28,14 @@ namespace BulletJournal.Data.Repositories
             if (topicEntity == null)
                 return null;
 
-            var topic = topicEntity.ToModel(AbstractTypeFactory<Topic>.TryCreateInstance());
+            var topic = _topicEntityConverter.ConvertFromDatabaseEntity(topicEntity);
             return topic;
         }
 
         public async Task<IEnumerable<Topic>> GetTopicsByIndexId(string indexId)
         {
             var topics = await _topics.Where(x => x.IndexId == indexId)
-                .Select(x => x.ToModel(AbstractTypeFactory<Topic>.TryCreateInstance()))
+                .Select(x => _topicEntityConverter.ConvertFromDatabaseEntity(x, true))
                 .ToListAsync();
 
             return topics;
@@ -41,8 +44,7 @@ namespace BulletJournal.Data.Repositories
 
         public async Task CreateTopic(Topic topic)
         {
-            var topicEntity = AbstractTypeFactory<TopicEntity>.TryCreateInstance().FromModel(topic, new Core.Common.PrimaryKeyResolvingMap());
-            topicEntity.CreatedAt = DateTime.Now;
+            var topicEntity = _topicEntityConverter.ConvertFromModelEntity(topic);
             _topics.Add(topicEntity);
             await SaveChangesAsync();
         }
@@ -52,9 +54,8 @@ namespace BulletJournal.Data.Repositories
 
             foreach (var topic in topics)
             {
-                var topicEntity = AbstractTypeFactory<TopicEntity>.TryCreateInstance().FromModel(topic, new Core.Common.PrimaryKeyResolvingMap());
+                var topicEntity = _topicEntityConverter.ConvertFromModelEntity(topic);
                 topicEntity.IndexId = indexId;
-                topicEntity.CreatedAt = DateTime.Now;
                 _topics.Add(topicEntity);
             }
 
@@ -63,12 +64,11 @@ namespace BulletJournal.Data.Repositories
 
         public async Task UpdateTopic(Topic topic)
         {
-            var topicEntity = AbstractTypeFactory<TopicEntity>.TryCreateInstance().FromModel(topic, new Core.Common.PrimaryKeyResolvingMap());
+            var topicEntity = _topicEntityConverter.ConvertFromModelEntity(topic);
             var existingEntity = await _topics.FindAsync(topic.Id);
             if (existingEntity != null)
             {
                 topicEntity.Patch(existingEntity);
-                existingEntity.UpdatedAt = DateTime.Now;
                 _topics.Update(existingEntity);
 
                 await SaveChangesAsync();

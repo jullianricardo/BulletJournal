@@ -1,5 +1,6 @@
 ﻿using BulletJournal.Core.Domain;
 using BulletJournal.Core.Repositories;
+using BulletJournal.Data.EntityConverters.Interfaces;
 using BulletJournal.Data.Infrastructure;
 using BulletJournal.Data.Model;
 using BulletJournal.Data.Repositories.Base;
@@ -16,10 +17,12 @@ namespace BulletJournal.Data.Repositories
     public class IndexRepository : BulletJournalRepository, IIndexRepository
     {
         private readonly DbSet<IndexEntity> _indexes;
+        private readonly IIndexEntityConverter _indexEntityConverter;
 
-        public IndexRepository(BulletJournalContext dbContext) : base(dbContext)
+        public IndexRepository(BulletJournalContext dbContext, IIndexEntityConverter indexEntityConverter) : base(dbContext)
         {
             _indexes = dbContext.Indexes;
+            _indexEntityConverter = indexEntityConverter;
         }
 
         public async Task<Models.Index> GetIndexById(string id)
@@ -28,7 +31,7 @@ namespace BulletJournal.Data.Repositories
             if (indexEntity == null)
                 return null;
 
-            var index = indexEntity.ToModel(AbstractTypeFactory<Models.Index>.TryCreateInstance());
+            var index = _indexEntityConverter.ConvertFromDatabaseEntity(indexEntity);
             return index;
         }
 
@@ -38,14 +41,13 @@ namespace BulletJournal.Data.Repositories
             if (indexEntity == null)
                 return null;
 
-            var index = indexEntity.ToModel(AbstractTypeFactory<Models.Index>.TryCreateInstance());
+            var index = _indexEntityConverter.ConvertFromDatabaseEntity(indexEntity);
             return index;
         }
 
         public async Task CreateIndex(Models.Index index)
         {
-            var indexEntity = AbstractTypeFactory<IndexEntity>.TryCreateInstance().FromModel(index, new Core.Common.PrimaryKeyResolvingMap());
-            indexEntity.CreatedAt = DateTime.Now;
+            var indexEntity = _indexEntityConverter.ConvertFromModelEntity(index);
             _indexes.Add(indexEntity);
             await SaveChangesAsync();
 
@@ -53,12 +55,11 @@ namespace BulletJournal.Data.Repositories
 
         public async Task UpdateIndex(Models.Index index)
         {
-            var indexEntity = AbstractTypeFactory<IndexEntity>.TryCreateInstance().FromModel(index, new Core.Common.PrimaryKeyResolvingMap());
+            var indexEntity = _indexEntityConverter.ConvertFromModelEntity(index);
             var existingEntity = await _indexes.FindAsync(index.Id);
             if (existingEntity != null)
             {
                 indexEntity.Patch(existingEntity);
-                existingEntity.UpdatedAt = DateTime.Now;
                 _indexes.Update(existingEntity);
 
                 await SaveChangesAsync();
