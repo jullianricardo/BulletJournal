@@ -1,9 +1,8 @@
-﻿using BulletJournal.Core.Services;
-using BulletJournal.Models;
+﻿using BulletJournal.Models;
 using BulletJournal.Models.Collection;
-using BulletJournal.Web.Services.Managers.Interfaces;
+using BulletJournal.Core.Services.Managers;
 
-namespace BulletJournal.Web.Services.Managers
+namespace BulletJournal.Data.Services.Managers
 {
     public class JournalManager : IJournalManager
     {
@@ -42,7 +41,7 @@ namespace BulletJournal.Web.Services.Managers
             }
         }
 
-        private static List<Spread> BuildSpreads(List<Page> pages, Spread lastSpread = null)
+        public List<Spread> BuildSpreads(List<Page> pages, Spread lastSpread = null)
         {
             var spreads = new List<Spread>();
 

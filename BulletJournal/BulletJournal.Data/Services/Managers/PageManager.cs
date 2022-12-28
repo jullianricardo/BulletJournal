@@ -1,10 +1,10 @@
 ﻿using BulletJournal.Models;
 using BulletJournal.Models.Collection;
-using BulletJournal.Web.Services.Factories.Interfaces;
-using BulletJournal.Web.Services.Interfaces;
-using BulletJournal.Web.Services.Managers.Interfaces;
+using BulletJournal.Core.Services;
+using BulletJournal.Core.Services.Managers;
+using BulletJournal.Core.Services.Factories;
 
-namespace BulletJournal.Web.Services.Managers
+namespace BulletJournal.Data.Services.Managers
 {
     public class PageManager : IPageManager
     {

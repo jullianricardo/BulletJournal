@@ -1,8 +1,8 @@
-﻿using BulletJournal.Models.Bullet;
+﻿using BulletJournal.Core.Services.Builders;
+using BulletJournal.Models.Bullet;
 using BulletJournal.Models.Collection;
-using BulletJournal.Web.Services.Builders.Interfaces;
 
-namespace BulletJournal.Web.Services.Builders
+namespace BulletJournal.Data.Services.Builders
 {
     public class FutureLogBuilder : IFutureLogBuilder
     {
@@ -17,7 +17,7 @@ namespace BulletJournal.Web.Services.Builders
 
             for (int i = 1; i <= 12; i++)
             {
-                var month = (BulletJournal.Models.Calendar.Month)i;
+                var month = (Models.Calendar.Month)i;
 
                 var futureLogMonth = new FutureLogMonth
                 {

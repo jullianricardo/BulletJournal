@@ -1,23 +1,21 @@
-﻿using BulletJournal.Models;
-using BulletJournal.Web.Models.Options;
-using BulletJournal.Web.Services.Builders.Interfaces;
-using BulletJournal.Web.Services.Interfaces;
-using BulletJournal.Web.Services.Managers.Interfaces;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using BulletJournal.Core.Services.Builders;
+using BulletJournal.Core.Services.Managers;
+using BulletJournal.Models;
+using BulletJournal.Models.Options;
 
-namespace BulletJournal.Web.Services.Builders
+namespace BulletJournal.Data.Services.Builders
 {
     public class JournalBuilder : IJournalBuilder
     {
-        private readonly ISettingsService _settingsService;
-        private readonly IFutureLogBuilder _futureLogBuilder;
         private readonly IJournalManager _journalManager;
+        private readonly IFutureLogBuilder _futureLogBuilder;
+        private readonly IDailyLogBuilder _dailyLogBuilder;
 
-        public JournalBuilder(ISettingsService settingsService, IFutureLogBuilder futureLogBuilder, IJournalManager journalManager)
+        public JournalBuilder(IJournalManager journalManager, IFutureLogBuilder futureLogBuilder, IDailyLogBuilder dailyLogBuilder)
         {
-            _settingsService = settingsService;
-            _futureLogBuilder = futureLogBuilder;
             _journalManager = journalManager;
+            _futureLogBuilder = futureLogBuilder;
+            _dailyLogBuilder = dailyLogBuilder;
         }
 
         public Journal BuildJournal(Journal journal, JournalBuilderOptions builderOptions)
@@ -29,7 +27,7 @@ namespace BulletJournal.Web.Services.Builders
 
             var now = DateTime.UtcNow;
 
-            var index = new BulletJournal.Models.Index
+            var index = new Models.Index
             {
                 CreatedAt = now
             };
@@ -41,6 +39,13 @@ namespace BulletJournal.Web.Services.Builders
                 var futureLog = _futureLogBuilder.BuildDefaultFutureLog();
                 futureLog.CreatedAt = now;
                 _journalManager.AddCollection(futureLog);
+            }
+
+            if (builderOptions.BuildDailyLog)
+            {
+                var dailyLog = _dailyLogBuilder.BuildDefaultDailyLog();
+                dailyLog.CreatedAt = now;
+                _journalManager.AddCollection(dailyLog);
             }
 
             return _journalManager.Journal;

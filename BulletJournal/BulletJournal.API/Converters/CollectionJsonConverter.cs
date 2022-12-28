@@ -35,58 +35,18 @@ namespace BulletJournal.API.Converters
             int type = jo["type"].Value<int>();
             var collectionType = (CollectionType)type;
 
-            //switch (collectionType)
-            //{
-            //    case CollectionType.FutureLog:
-            //        return JsonConvert.DeserializeObject<FutureLog>(jo.ToString(), SpecifiedSubclassConversion);
-
-            //    case CollectionType.MonthlyLog:
-            //        return JsonConvert.DeserializeObject<MonthlyLog>(jo.ToString(), SpecifiedSubclassConversion);
-
-            //    case CollectionType.DailyLog:
-            //        return JsonConvert.DeserializeObject<DailyLog>(jo.ToString(), SpecifiedSubclassConversion);
-
-            //    case CollectionType.List:
-            //        return JsonConvert.DeserializeObject<ListCollection>(jo.ToString(), SpecifiedSubclassConversion);
-
-            //    case CollectionType.UserDefined:
-            //        return JsonConvert.DeserializeObject<UserDefinedLog>(jo.ToString(), SpecifiedSubclassConversion);
-
-            //    default:
-            //        throw new Exception();
-            //}
-
-            Collection collection;
-
-            switch (collectionType)
+            Collection collection = collectionType switch
             {
-                case CollectionType.FutureLog:
-                    collection = new FutureLog();
-                    break;
-
-                case CollectionType.MonthlyLog:
-                    collection = new MonthlyLog();
-                    break;
-
-                case CollectionType.DailyLog:
-                    collection = new DailyLog();
-                    break;
-
-                case CollectionType.List:
-                    collection = new ListCollection();
-                    break;
-
-                case CollectionType.UserDefined:
-                    collection = new UserDefinedLog();
-                    break;
-
-                default:
-                    throw new Exception();
-            }
+                CollectionType.FutureLog => new FutureLog(),
+                CollectionType.MonthlyLog => new MonthlyLog(),
+                CollectionType.DailyLog => new DailyLog(),
+                CollectionType.List => new ListCollection(),
+                CollectionType.UserDefined => new UserDefinedLog(),
+                _ => throw new Exception(),
+            };
 
             serializer.Populate(jo.CreateReader(), collection);
             return collection;
-
         }
 
         public override bool CanWrite

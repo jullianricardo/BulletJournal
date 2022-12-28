@@ -1,11 +1,7 @@
-﻿using BulletJournal.Models;
-using BulletJournal.Web.Services.Builders.Interfaces;
+﻿using BulletJournal.Core.Services.Builders;
+using BulletJournal.Models;
+using BulletJournal.Models.Options;
 using BulletJournal.Web.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BulletJournal.Web.Services
 {
@@ -23,7 +19,7 @@ namespace BulletJournal.Web.Services
         public async Task CreateJournal(Journal journal)
         {
             var url = JOURNAL_BASE_URL;
-            var newJournal = _journalBuilder.BuildJournal(journal, new Models.Options.JournalBuilderOptions());
+            var newJournal = _journalBuilder.BuildJournal(journal, new JournalBuilderOptions());
             await PostToEndpoint(url, newJournal);
         }
 

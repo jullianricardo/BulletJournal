@@ -1,12 +1,7 @@
 ﻿using BulletJournal.Models.Collection;
-using BulletJournal.Web.Services.Factories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BulletJournal.Core.Services.Factories;
 
-namespace BulletJournal.Web.Services.Factories
+namespace BulletJournal.Data.Services.Factories
 {
     public class CollectionFactory : ICollectionFactory
     {

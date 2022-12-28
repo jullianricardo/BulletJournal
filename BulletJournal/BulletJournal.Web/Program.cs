@@ -1,15 +1,14 @@
+using BulletJournal.Core.Services.Builders;
+using BulletJournal.Core.Services.Factories;
+using BulletJournal.Core.Services.Managers;
 using BulletJournal.Data.Infrastructure;
 using BulletJournal.Data.Model.Identity;
+using BulletJournal.Data.Services.Builders;
+using BulletJournal.Data.Services.Factories;
+using BulletJournal.Data.Services.Managers;
 using BulletJournal.Web;
 using BulletJournal.Web.Services;
-using BulletJournal.Web.Services.Builders;
-using BulletJournal.Web.Services.Builders.Interfaces;
-using BulletJournal.Web.Services.Factories;
-using BulletJournal.Web.Services.Factories.Interfaces;
 using BulletJournal.Web.Services.Interfaces;
-using BulletJournal.Web.Services.Managers;
-using BulletJournal.Web.Services.Managers.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,6 +57,7 @@ builder.Services.AddSingleton<ISettingsService, SettingsService>();
 
 builder.Services.AddSingleton<IJournalBuilder, JournalBuilder>();
 builder.Services.AddSingleton<IFutureLogBuilder, FutureLogBuilder>();
+builder.Services.AddSingleton<IDailyLogBuilder, DailyLogBuilder>();
 
 builder.Services.AddSingleton<IJournalManager, JournalManager>();
 builder.Services.AddSingleton<IPageManager, PageManager>();
