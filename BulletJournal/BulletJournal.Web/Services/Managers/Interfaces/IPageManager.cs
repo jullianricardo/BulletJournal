@@ -8,12 +8,8 @@ using System.Threading.Tasks;
 
 namespace BulletJournal.Web.Services.Managers.Interfaces
 {
-    public interface IJournalManager
+    public interface IPageManager
     {
-        Journal Journal { get; }
-
-        void SetJournal(Journal journal);
-
-        void AddCollection(Collection collection);
+        List<Page> BuildPages(IEnumerable<Collection> collections, int lastPageNumber);
     }
 }

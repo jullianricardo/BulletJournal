@@ -6,6 +6,11 @@ namespace BulletJournal.Models
 {
     public class Journal : Entity
     {
+        public Journal()
+        {
+            Spreads = new SortedList<int, Spread>();
+        }
+
         public bool IsDefault { get; set; }
 
         public string OwnerId { get; set; }
@@ -21,16 +26,6 @@ namespace BulletJournal.Models
 
         public Index Index { get; set; }
 
-        public List<Page> Pages { get; set; }
-
-
-        public void AddCollection(Collection.Collection collection)
-        {
-            var page = new Page
-            {
-                Collections = new List<Collection.Collection> { collection }
-            };
-        }
-
+        public SortedList<int, Spread> Spreads { get; set; }
     }
 }

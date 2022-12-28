@@ -49,7 +49,7 @@ namespace BulletJournal.Data.Model
             journal.IsDefault = IsDefault;
 
             journal.Index = Index?.ToModel(AbstractTypeFactory<Models.Index>.TryCreateInstance());
-            journal.Pages = Pages.Select(x => x.ToModel(AbstractTypeFactory<Page>.TryCreateInstance())).ToList();
+            //journal.Spreads = Pages.Select(x => x.ToModel(AbstractTypeFactory<Spread>.TryCreateInstance())).ToList();
 
             return journal;
         }
@@ -71,11 +71,11 @@ namespace BulletJournal.Data.Model
             if (journal.Index != null)
                 Index = AbstractTypeFactory<IndexEntity>.TryCreateInstance().FromModel(journal.Index, primaryKeyResolvingMap);
 
-            if (journal.Pages != null)
-            {
-                var pages = journal.Pages.Select(x => AbstractTypeFactory<PageEntity>.TryCreateInstance().FromModel(x, primaryKeyResolvingMap));
-                Pages = new ObservableCollection<PageEntity>(pages);
-            }
+            //if (journal.Pages != null)
+            //{
+            //    var pages = journal.Pages.Select(x => AbstractTypeFactory<PageEntity>.TryCreateInstance().FromModel(x, primaryKeyResolvingMap));
+            //    Pages = new ObservableCollection<PageEntity>(pages);
+            //}
 
             return this;
         }

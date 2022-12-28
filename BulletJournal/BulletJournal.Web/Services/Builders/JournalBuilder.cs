@@ -2,6 +2,7 @@
 using BulletJournal.Web.Models.Options;
 using BulletJournal.Web.Services.Builders.Interfaces;
 using BulletJournal.Web.Services.Interfaces;
+using BulletJournal.Web.Services.Managers.Interfaces;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BulletJournal.Web.Services.Builders
@@ -10,17 +11,21 @@ namespace BulletJournal.Web.Services.Builders
     {
         private readonly ISettingsService _settingsService;
         private readonly IFutureLogBuilder _futureLogBuilder;
+        private readonly IJournalManager _journalManager;
 
-        public JournalBuilder(ISettingsService settingsService, IFutureLogBuilder futureLogBuilder)
+        public JournalBuilder(ISettingsService settingsService, IFutureLogBuilder futureLogBuilder, IJournalManager journalManager)
         {
             _settingsService = settingsService;
             _futureLogBuilder = futureLogBuilder;
+            _journalManager = journalManager;
         }
 
         public Journal BuildJournal(Journal journal, JournalBuilderOptions builderOptions)
         {
             if (journal == null)
                 throw new ArgumentNullException("No journal to build");
+
+            _journalManager.SetJournal(journal);
 
             var now = DateTime.UtcNow;
 
@@ -34,7 +39,8 @@ namespace BulletJournal.Web.Services.Builders
             if (builderOptions.BuildFutureLog)
             {
                 var futureLog = _futureLogBuilder.BuildDefaultFutureLog();
-                journal.Index.AddCollection(futureLog);
+                futureLog.CreatedAt = now;
+                _journalManager.AddCollection(futureLog);
             }
 
             return journal;
