@@ -2,37 +2,17 @@
 using BulletJournal.Models;
 using BulletJournal.Models.Collection;
 using BulletJournal.Web.Services.Managers.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BulletJournal.Web.Services.Managers
 {
     public class JournalManager : IJournalManager
     {
-        private readonly ISettingsService _settingsService;
         private readonly IPageManager _pageManager;
-        private Journal _journal;
 
-        public JournalManager(ISettingsService settingsService, IPageManager pageManager)
+        public JournalManager(IPageManager pageManager)
         {
-            _settingsService = settingsService;
             _pageManager = pageManager;
         }
-
-        //public Journal Journal
-        //{
-        //    get
-        //    {
-        //        return _journal;
-        //    }
-        //    private set
-        //    {
-        //        _journal = value;
-        //    }
-        //}
 
         public Journal Journal { get; private set; }
 
@@ -50,7 +30,7 @@ namespace BulletJournal.Web.Services.Managers
                 lastSpreadNumber = lastSpread.Key;
             }
 
-            var pages = _pageManager.BuildPages(new[] { collection }, lastPageNumber);
+            var pages = _pageManager.BuildPages(new List<Collection> { collection }, lastPageNumber);
 
             int currentSpreadNumber = lastSpreadNumber + 1;
             var spreads = BuildSpreads(pages, lastSpread.Value);
@@ -62,7 +42,7 @@ namespace BulletJournal.Web.Services.Managers
             }
         }
 
-        private List<Spread> BuildSpreads(List<Page> pages, Spread lastSpread = null)
+        private static List<Spread> BuildSpreads(List<Page> pages, Spread lastSpread = null)
         {
             var spreads = new List<Spread>();
 

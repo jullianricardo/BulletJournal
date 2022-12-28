@@ -12,8 +12,8 @@ namespace BulletJournal.Models
 
         public void AddCollection(Collection.Collection collection)
         {
-            var topic = collection.ToTopic();
-            Topics.Add(topic);
+            //var topic = collection.ToTopic();
+            //Topics.Add(topic);
         }
     }
 }

@@ -19,5 +19,10 @@ namespace BulletJournal.Models.Collection
         {
             Bullets = new List<Bullet.Bullet>();
         }
+
+        public int GetLogSize()
+        {
+            return Bullets.Count;
+        }
     }
 }

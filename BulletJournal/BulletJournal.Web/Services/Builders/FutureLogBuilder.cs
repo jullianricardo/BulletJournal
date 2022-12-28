@@ -1,4 +1,5 @@
-﻿using BulletJournal.Models.Collection;
+﻿using BulletJournal.Models.Bullet;
+using BulletJournal.Models.Collection;
 using BulletJournal.Web.Services.Builders.Interfaces;
 
 namespace BulletJournal.Web.Services.Builders
@@ -23,6 +24,11 @@ namespace BulletJournal.Web.Services.Builders
                     Month = month,
                     Log = new Log()
                 };
+
+                for (int j = 0; j < 30; j++)
+                {
+                    futureLogMonth.Log.Bullets.Add(new Note { Description = $"Test Bullet n. {j + 1}" });
+                }
 
                 futureLog.Months[month] = futureLogMonth;
             }

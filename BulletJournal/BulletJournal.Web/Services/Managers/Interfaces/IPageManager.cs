@@ -10,6 +10,6 @@ namespace BulletJournal.Web.Services.Managers.Interfaces
 {
     public interface IPageManager
     {
-        List<Page> BuildPages(IEnumerable<Collection> collections, int lastPageNumber);
+        List<Page> BuildPages(List<Collection> collections, int lastPageNumber);
     }
 }

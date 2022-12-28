@@ -43,7 +43,7 @@ namespace BulletJournal.Web.Services.Builders
                 _journalManager.AddCollection(futureLog);
             }
 
-            return journal;
+            return _journalManager.Journal;
         }
     }
 }
