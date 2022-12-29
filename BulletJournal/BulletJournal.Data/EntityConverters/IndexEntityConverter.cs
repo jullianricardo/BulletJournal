@@ -36,7 +36,6 @@ namespace BulletJournal.Data.EntityConverters
         }
         public IndexEntity ConvertFromModelEntity(Models.Index modelEntity, bool deepConversion = true)
         {
-
             var databaseEntity = new IndexEntity
             {
                 Id = modelEntity.Id,
@@ -55,7 +54,6 @@ namespace BulletJournal.Data.EntityConverters
             }
 
             return databaseEntity;
-
         }
     }
 }

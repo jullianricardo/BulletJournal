@@ -1,9 +1,10 @@
 ﻿using BulletJournal.Models.Domain;
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace BulletJournal.Models.Collection
 {
-    
+
     public abstract class Collection : Entity
     {
         public Collection()
@@ -16,6 +17,9 @@ namespace BulletJournal.Models.Collection
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        [DefaultValue(1)]
+        public int Order { get; set; }
 
         public virtual SortedList<int, Log> Logs { get; set; }
 

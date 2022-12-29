@@ -14,20 +14,20 @@ namespace BulletJournal.Data.Model.Collection
 
         public DateTime CurrentDay { get; set; }
 
-        public override Models.Collection.Collection ToModel(Models.Collection.Collection collection)
-        {
-            var dailyLog = base.ToModel(collection) as DailyLog;
-            dailyLog.CurrentDay = CurrentDay;
+        //public override Models.Collection.Collection ToModel(Models.Collection.Collection collection)
+        //{
+        //    var dailyLog = base.ToModel(collection) as DailyLog;
+        //    dailyLog.CurrentDay = CurrentDay;
 
-            return dailyLog;
-        }
+        //    return dailyLog;
+        //}
 
-        public override DailyLogEntity FromModel(Models.Collection.Collection collection, PrimaryKeyResolvingMap primaryKeyResolvingMap)
-        {
-            var dailyLogEntity = base.FromModel(collection, primaryKeyResolvingMap) as DailyLogEntity;
-            CurrentDay = dailyLogEntity.CurrentDay;
+        //public override DailyLogEntity FromModel(Models.Collection.Collection collection, PrimaryKeyResolvingMap primaryKeyResolvingMap)
+        //{
+        //    var dailyLogEntity = base.FromModel(collection, primaryKeyResolvingMap) as DailyLogEntity;
+        //    CurrentDay = dailyLogEntity.CurrentDay;
 
-            return this;
-        }
+        //    return this;
+        //}
     }
 }

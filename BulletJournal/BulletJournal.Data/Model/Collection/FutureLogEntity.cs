@@ -22,26 +22,6 @@ namespace BulletJournal.Data.Model.Collection
         public ObservableCollection<FutureLogMonthEntity> Months { get; set; } = new NullCollection<FutureLogMonthEntity>();
 
         #endregion
-
-        public override FutureLog ToModel(Models.Collection.Collection collection)
-        {
-            var futureLog = base.ToModel(collection) as FutureLog;
-
-            futureLog.Year = Year;
-            futureLog.Months = Months.ToDictionary(x => x.Month, x => x.ToModel(AbstractTypeFactory<FutureLogMonth>.TryCreateInstance()));
-
-            return futureLog;
-        }
-
-        public override FutureLogEntity FromModel(Models.Collection.Collection collection, PrimaryKeyResolvingMap primaryKeyResolvingMap)
-        {
-            var futureLogEntity = base.FromModel(collection, primaryKeyResolvingMap) as FutureLogEntity;
-
-            Year = futureLogEntity.Year;
-            Months = new ObservableCollection<FutureLogMonthEntity>(futureLogEntity.Months.Select(x => AbstractTypeFactory<FutureLogMonthEntity>.TryCreateInstance().FromModel(x, primaryKeyResolvingMap)));
-
-            return this;
-        }
     }
 
     public class FutureLogMonthEntity : Entity
@@ -50,7 +30,7 @@ namespace BulletJournal.Data.Model.Collection
 
 
         #region Navigation Properties
-        public CollectionEntity Collection { get; set; }
+        public LogEntity Log { get; set; }
 
         public string FutureLogId { get; set; }
 

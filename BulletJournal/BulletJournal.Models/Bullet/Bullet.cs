@@ -1,4 +1,5 @@
 ﻿using BulletJournal.Models.Domain;
+using System.ComponentModel;
 
 namespace BulletJournal.Models.Bullet
 {
@@ -13,5 +14,8 @@ namespace BulletJournal.Models.Bullet
         public DateTime DateCreated { get; set; }
 
         public Signifier Signifier { get; set; }
+
+        [DefaultValue(1)]
+        public int Order { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using BulletJournal.Data.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulletJournal.Data.Migrations
 {
     [DbContext(typeof(BulletJournalContext))]
-    partial class BulletJournalContextModelSnapshot : ModelSnapshot
+    [Migration("20221229040857_RefactoredEntities")]
+    partial class RefactoredEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,9 +43,6 @@ namespace BulletJournal.Data.Migrations
 
                     b.Property<string>("LogId")
                         .HasColumnType("nvarchar(128)");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
 
                     b.Property<string>("ParentId")
                         .HasMaxLength(128)
@@ -173,9 +173,6 @@ namespace BulletJournal.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
-
                     b.Property<string>("PageId")
                         .HasColumnType("nvarchar(128)");
 
@@ -245,9 +242,6 @@ namespace BulletJournal.Data.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");

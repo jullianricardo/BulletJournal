@@ -36,7 +36,7 @@ namespace BulletJournal.Data.EntityConverters
             {
                 if (databaseEntity.Pages != null)
                 {
-                    var pages = databaseEntity.Pages.Select(x => _pageEntityConverter.ConvertFromDatabaseEntity(x, false));
+                    var pages = databaseEntity.Pages.Select(x => _pageEntityConverter.ConvertFromDatabaseEntity(x));
                     var sortedPageList = new SortedList<int, Page>(pages.ToDictionary(x => x.Number));
 
                     var spreads = _spreadBuilder.BuildSpreadsFromPages(sortedPageList);
@@ -71,7 +71,7 @@ namespace BulletJournal.Data.EntityConverters
                 if (modelEntity.Spreads != null)
                 {
                     var pages = _spreadBuilder.GetPagesFromSpreads(modelEntity.Spreads);
-                    var pageEntities = pages.Select(x => _pageEntityConverter.ConvertFromModelEntity(x.Value, false));
+                    var pageEntities = pages.Select(x => _pageEntityConverter.ConvertFromModelEntity(x.Value));
                     databaseEntity.Pages = new System.Collections.ObjectModel.ObservableCollection<PageEntity>(pageEntities);
                 }
             }

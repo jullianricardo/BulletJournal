@@ -6,6 +6,8 @@ using BulletJournal.Core.Services.Factories;
 using BulletJournal.Core.Services.Managers;
 using BulletJournal.Data.EntityConverters;
 using BulletJournal.Data.EntityConverters.Interfaces;
+using BulletJournal.Data.EntityFactories;
+using BulletJournal.Data.EntityFactories.Interfaces;
 using BulletJournal.Data.Infrastructure;
 using BulletJournal.Data.Repositories;
 using BulletJournal.Data.Repositories.Base;
@@ -45,7 +47,10 @@ namespace BulletJournal.API
             });
 
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(options =>
+            {
+                //options.AddSecurityDefinition("Test", )
+            });
 
             services.AddDbContext<BulletJournalContext>(options =>
             {
@@ -99,6 +104,7 @@ namespace BulletJournal.API
             services.AddTransient<IPageManager, PageManager>();
 
             services.AddSingleton<ICollectionFactory, CollectionFactory>();
+            services.AddSingleton<ICollectionEntityFactory, CollectionEntityFactory>();
 
             #endregion
 
@@ -108,6 +114,17 @@ namespace BulletJournal.API
             services.AddSingleton<IPageEntityConverter, PageEntityConverter>();
             services.AddSingleton<IIndexEntityConverter, IndexEntityConverter>();
             services.AddSingleton<ITopicEntityConverter, TopicEntityConverter>();
+            services.AddSingleton<ILogEntityConverter, LogEntityConverter>();
+
+            services.AddSingleton<ICollectionEntityConverter, CollectionEntityConverter>();
+            services.AddSingleton<IFutureLogEntityConverter, FutureLogEntityConverter>();
+            services.AddSingleton<IDailyLogEntityConverter, DailyLogEntityConverter>();
+            services.AddSingleton<IMonthlyLogEntityConverter, MonthlyLogEntityConverter>();
+
+            services.AddSingleton<IBulletEntityConverter, BulletEntityConverter>();
+            services.AddSingleton<ITaskEntityConverter, TaskEntityConverter>();
+            services.AddSingleton<INoteEntityConverter, NoteEntityConverter>();
+            services.AddSingleton<IEventEntityConverter, EventEntityConverter>();
 
             #endregion
         }

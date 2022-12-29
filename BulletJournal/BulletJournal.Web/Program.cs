@@ -74,6 +74,17 @@ builder.Services.AddSingleton<IJournalEntityConverter, JournalEntityConverter>()
 builder.Services.AddSingleton<IPageEntityConverter, PageEntityConverter>();
 builder.Services.AddSingleton<IIndexEntityConverter, IndexEntityConverter>();
 builder.Services.AddSingleton<ITopicEntityConverter, TopicEntityConverter>();
+builder.Services.AddSingleton<ILogEntityConverter, LogEntityConverter>();
+
+builder.Services.AddSingleton<ICollectionEntityConverter, CollectionEntityConverter>();
+builder.Services.AddSingleton<IFutureLogEntityConverter, FutureLogEntityConverter>();
+builder.Services.AddSingleton<IDailyLogEntityConverter, DailyLogEntityConverter>();
+builder.Services.AddSingleton<IMonthlyLogEntityConverter, MonthlyLogEntityConverter>();
+
+builder.Services.AddSingleton<IBulletEntityConverter, BulletEntityConverter>();
+builder.Services.AddSingleton<ITaskEntityConverter, TaskEntityConverter>();
+builder.Services.AddSingleton<INoteEntityConverter, NoteEntityConverter>();
+builder.Services.AddSingleton<IEventEntityConverter, EventEntityConverter>();
 
 var app = builder.Build();
 

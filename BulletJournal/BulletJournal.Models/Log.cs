@@ -1,23 +1,22 @@
 ﻿using BulletJournal.Models.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 
-namespace BulletJournal.Models.Collection
+namespace BulletJournal.Models
 {
     public class Log : Entity
     {
+        [DefaultValue(1)]
+        public int Order { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
 
-        public List<Bullet.Bullet> Bullets { get; set; } = new List<Bullet.Bullet>();
+        public SortedList<int, Bullet.Bullet> Bullets { get; set; } = new SortedList<int, Bullet.Bullet>();
 
         public Log()
         {
-            Bullets = new List<Bullet.Bullet>();
+            Bullets = new SortedList<int, Bullet.Bullet>();
         }
 
         public int GetLogSize()

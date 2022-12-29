@@ -31,9 +31,17 @@ namespace BulletJournal.Data.Repositories
 
         public async Task SaveJournal(Journal journal)
         {
-            var journalEntity = _journalEntityConverter.ConvertFromModelEntity(journal);
-            _journals.Add(journalEntity);
-            await SaveChangesAsync();
+            try
+            {
+                var journalEntity = _journalEntityConverter.ConvertFromModelEntity(journal);
+                _journals.Add(journalEntity);
+                await SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
 
         }
 
@@ -65,14 +73,18 @@ namespace BulletJournal.Data.Repositories
         {
             try
             {
-                var journalEntity = await _journals.SingleOrDefaultAsync(x => x.OwnerId == ownerId && x.IsDefault);
+                var journalEntity = await _journals
+                    .Include(x => x.Index)
+                    .Include(x => x.Pages).ThenInclude(x => x.Collections)
+                    .SingleOrDefaultAsync(x => x.OwnerId == ownerId && x.IsDefault);
+
                 if (journalEntity == null)
                     return null;
 
                 var journal = _journalEntityConverter.ConvertFromDatabaseEntity(journalEntity);
                 return journal;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }

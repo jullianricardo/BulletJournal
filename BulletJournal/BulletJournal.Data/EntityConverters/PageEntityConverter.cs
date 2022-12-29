@@ -1,19 +1,21 @@
 ﻿using BulletJournal.Data.EntityConverters.Interfaces;
 using BulletJournal.Data.Model;
 using BulletJournal.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BulletJournal.Models.Collection;
 
 namespace BulletJournal.Data.EntityConverters
 {
     public class PageEntityConverter : IPageEntityConverter
     {
+        private readonly ICollectionEntityConverter _collectionEntityConverter;
+
+        public PageEntityConverter(ICollectionEntityConverter collectionEntityConverter)
+        {
+            _collectionEntityConverter = collectionEntityConverter;
+        }
+
         public Page ConvertFromDatabaseEntity(PageEntity databaseEntity, bool deepConversion = true)
         {
-
             var modelEntity = new Page
             {
                 Id = databaseEntity.Id,
@@ -25,11 +27,11 @@ namespace BulletJournal.Data.EntityConverters
 
             if (deepConversion)
             {
-
-                //if (databaseEntity.Collections != null)
-                //{
-                //    var collections = databaseEntity.Collections.
-                //} 
+                if (databaseEntity.Collections != null)
+                {
+                    var collections = databaseEntity.Collections.Select(x => _collectionEntityConverter.ConvertFromDatabaseEntity(x));
+                    modelEntity.Collections = new SortedList<int, Collection>(collections.Select((x, i) => new { Item = x, Index = (i + 1) }).ToDictionary(x => x.Index, x => x.Item));
+                }
             }
 
             return modelEntity;
@@ -37,7 +39,6 @@ namespace BulletJournal.Data.EntityConverters
 
         public PageEntity ConvertFromModelEntity(Page modelEntity, bool deepConversion = true)
         {
-
             var databaseEntity = new PageEntity
             {
                 Id = modelEntity.Id,
@@ -51,9 +52,8 @@ namespace BulletJournal.Data.EntityConverters
             {
                 if (modelEntity.Collections != null)
                 {
-                    //var pages = _spreadBuilder.GetPagesFromSpreads(modelEntity.Spreads);
-                    //var pageEntities = pages.Select(x => _pageEntityConverter.ConvertFromModelEntity(x.Value));
-                    //databaseEntity.Pages = new System.Collections.ObjectModel.ObservableCollection<PageEntity>(pageEntities);
+                    var collectionEntities = modelEntity.Collections.Select(x => _collectionEntityConverter.ConvertFromModelEntity(x.Value));
+                    databaseEntity.Collections = new System.Collections.ObjectModel.ObservableCollection<Model.Collection.CollectionEntity>(collectionEntities);
                 }
             }
 
