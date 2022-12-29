@@ -75,7 +75,10 @@ namespace BulletJournal.Data.Repositories
             {
                 var journalEntity = await _journals
                     .Include(x => x.Index)
-                    .Include(x => x.Pages).ThenInclude(x => x.Collections)
+                    .Include(x => x.Pages)
+                    .ThenInclude(x => x.Collections)
+                    .ThenInclude(x => x.Logs)
+                    .ThenInclude(x => x.Bullets)
                     .SingleOrDefaultAsync(x => x.OwnerId == ownerId && x.IsDefault);
 
                 if (journalEntity == null)

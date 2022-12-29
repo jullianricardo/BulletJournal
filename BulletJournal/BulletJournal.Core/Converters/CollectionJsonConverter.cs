@@ -3,12 +3,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BulletJournal.API.Converters
+namespace BulletJournal.Core.Converters
 {
     public class CollectionSpecifiedConcreteClassConverter : DefaultContractResolver
     {
@@ -31,7 +27,7 @@ namespace BulletJournal.API.Converters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            JObject jo = JObject.Load(reader);
+            var jo = JObject.Load(reader);
             int type = jo["type"].Value<int>();
             var collectionType = (CollectionType)type;
 

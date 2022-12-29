@@ -1,24 +1,23 @@
+using BulletJournal.Core.Converters;
+using BulletJournal.Core.Services;
 using BulletJournal.Core.Services.Builders;
 using BulletJournal.Core.Services.Factories;
 using BulletJournal.Core.Services.Managers;
-using BulletJournal.Data.EntityConverters.Interfaces;
 using BulletJournal.Data.EntityConverters;
+using BulletJournal.Data.EntityConverters.Interfaces;
 using BulletJournal.Data.Infrastructure;
 using BulletJournal.Data.Model.Identity;
+using BulletJournal.Data.Services;
 using BulletJournal.Data.Services.Builders;
 using BulletJournal.Data.Services.Factories;
 using BulletJournal.Data.Services.Managers;
 using BulletJournal.Web;
-using BulletJournal.Web.Services;
-using BulletJournal.Web.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using BulletJournal.Core.Services;
-using BulletJournal.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<BulletJournalContext>(options =>
     options.UseSqlServer(connectionString));
@@ -54,7 +53,11 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromHours(8);
 });
 
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages().AddNewtonsoftJson(jsonOptions =>
+{
+    jsonOptions.SerializerSettings.Converters.Add(new BulletJsonConverter());
+    jsonOptions.SerializerSettings.Converters.Add(new CollectionJsonConverter());
+});
 
 builder.Services.AddSingleton<BulletJournal.Web.Services.Interfaces.IJournalService, BulletJournal.Web.Services.JournalService>();
 builder.Services.AddSingleton<ISettingsService, SettingsService>();

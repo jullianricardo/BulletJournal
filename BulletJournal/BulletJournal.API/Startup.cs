@@ -1,4 +1,4 @@
-using BulletJournal.API.Converters;
+using BulletJournal.Core.Converters;
 using BulletJournal.Core.Repositories;
 using BulletJournal.Core.Services;
 using BulletJournal.Core.Services.Builders;
