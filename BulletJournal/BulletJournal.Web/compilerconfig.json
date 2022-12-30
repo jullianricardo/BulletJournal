@@ -1,0 +1,34 @@
+﻿[
+  {
+    "outputFile": "wwwroot/css/styles.css",
+    "inputFile": "wwwroot/scss/bundle.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/site.css",
+    "inputFile": "wwwroot/scss/site.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/pages/shared/styles.css",
+    "inputFile": "wwwroot/scss/pages/shared/bundle.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/pages/shared/layout.css",
+    "inputFile": "wwwroot/scss/pages/shared/layout.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/pages/journal/styles.css",
+    "inputFile": "wwwroot/scss/pages/journal/bundle.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/components/journal/styles.css",
+    "inputFile": "wwwroot/scss/components/journal/bundle.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/components/bullet/styles.css",
+    "inputFile": "wwwroot/scss/components/bullet/bundle.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/components/collection/styles.css",
+    "inputFile": "wwwroot/scss/components/collection/bundle.scss"
+  }
+]

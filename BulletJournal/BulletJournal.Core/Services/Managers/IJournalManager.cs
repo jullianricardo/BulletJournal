@@ -11,5 +11,8 @@ namespace BulletJournal.Core.Services.Managers
         void SetJournal(Journal journal);
 
         void AddCollection(Collection collection);
+
+
+        Spread GetCurrentSpread();
     }
 }

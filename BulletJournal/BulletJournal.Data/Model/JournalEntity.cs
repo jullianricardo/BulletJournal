@@ -3,6 +3,7 @@ using BulletJournal.Core.Extensions;
 using BulletJournal.Models.Domain;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BulletJournal.Data.Model
 {
@@ -23,7 +24,11 @@ namespace BulletJournal.Data.Model
         public bool IsDefault { get; set; }
 
 
+
         #region Navigation Properties
+
+        [ForeignKey("Page")]
+        public string CurrentPage { get; set; }
 
         public string OwnerId { get; set; }
 

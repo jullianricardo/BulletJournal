@@ -1,2 +1,23 @@
 ﻿@using BulletJournal.Web.ViewModels.Collection;
 @model DailyLogViewModel
+
+<section class="collection @(Model.DailyLog.Type.ToString().ToLower()) card">
+    <div class="card-header p-2">
+        <h5 class="daily-log-day m-0">@Model.DailyLog.CurrentDay.ToShortDateString()</h5>
+    </div>
+    <div class="card-body p-1">
+        <div class="collection-logs">
+
+            @if (Model.DailyLog.Logs != null && Model.DailyLog.Logs.Count > 0)
+            {
+
+                @foreach (var log in Model.DailyLog.Logs)
+                {
+                    <vc:log log="log.Value"></vc:log>
+                }
+
+            }
+
+        </div>
+    </div>
+</section>

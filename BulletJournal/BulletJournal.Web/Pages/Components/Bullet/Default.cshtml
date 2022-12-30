@@ -1,0 +1,30 @@
+﻿@using BulletJournal.Models.Bullet;
+@using BulletJournal.Web.ViewModels.Bullet;
+@model BulletViewModel
+
+@if (Model.Bullet != null)
+{
+    switch (Model.Bullet)
+    {
+        case BulletJournal.Models.Bullet.Task task:
+            await Html.RenderPartialAsync("_Task", new TaskViewModel { Task = task });
+            break;
+
+        case Note note:
+            await Html.RenderPartialAsync("_Note", new NoteViewModel { Note = note });
+            break;
+
+        case Event eventBullet:
+            await Html.RenderPartialAsync("_Event", new EventViewModel { Event = eventBullet });
+            break;
+
+        default:
+            <h5 class="text-danger">Não foi possível identificar o tipo de Bullet para renderização</h5>
+            break;
+    }
+
+}
+else
+{
+    <h5 class="text-danger">Bullet inválida</h5>
+}

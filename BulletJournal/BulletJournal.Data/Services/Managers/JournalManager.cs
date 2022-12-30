@@ -46,5 +46,20 @@ namespace BulletJournal.Data.Services.Managers
         {
             Journal = journal;
         }
+
+        public Spread GetCurrentSpread()
+        {
+            if (Journal.Spreads == null || !Journal.Spreads.Any())
+                return null;
+
+            if (!string.IsNullOrWhiteSpace(Journal.CurrentPage))
+            {
+                var spread = Journal.Spreads.FirstOrDefault(x => x.Value.LeftPage?.Id == Journal.CurrentPage || x.Value.RightPage?.Id == Journal.CurrentPage);
+                return spread.Value;
+            }
+
+            var lastSpread = Journal.Spreads.LastOrDefault();
+            return lastSpread.Value;
+        }
     }
 }

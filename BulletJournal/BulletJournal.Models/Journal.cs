@@ -15,6 +15,9 @@ namespace BulletJournal.Models
 
         public string OwnerId { get; set; }
 
+
+        public string CurrentPage { get; set; }
+
         [Required]
         public string Name { get; set; }
 

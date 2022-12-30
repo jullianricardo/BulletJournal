@@ -4,14 +4,15 @@
 
 @section Styles {
 
-    <link href="~/css/journal/journal.css" rel="stylesheet" />
-    <link href="~/css/journal/page.css" rel="stylesheet" />
+    <link href="~/css/components/journal/styles.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/components/collection/styles.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/components/bullet/styles.css" rel="stylesheet" asp-append-version="true" />
 
     @await RenderSectionAsync("Styles", required: false)
 }
 
 
-<div class="journal-container">
+<div class="journal-container d-flex flex-column flex-fill">
     @RenderBody()
 </div>
 

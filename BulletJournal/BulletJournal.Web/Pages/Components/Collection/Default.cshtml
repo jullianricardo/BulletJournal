@@ -8,20 +8,25 @@
 {
     switch (Model.Collection)
     {
-        case FutureLog futureLog:            
-            await Html.RenderPartialAsync("_FutureLog", new FutureLogViewModel { FutureLog = futureLog });
+        case FutureLog futureLog:
+            await Html.RenderPartialAsync("_FutureLog.cshtml", new FutureLogViewModel { FutureLog = futureLog });
             break;
 
         case DailyLog dailyLog:
-            await Html.RenderPartialAsync("_DailyLog", new DailyLogViewModel { DailyLog = dailyLog });
+            await Html.RenderPartialAsync("_DailyLog.cshtml", new DailyLogViewModel { DailyLog = dailyLog });
             break;
 
         case MonthlyLog monthlyLog:
-            await Html.RenderPartialAsync("_MonthlyLog", new MonthlyLogViewModel { MonthlyLog = monthlyLog });
+            await Html.RenderPartialAsync("_MonthlyLog.cshtml", new MonthlyLogViewModel { MonthlyLog = monthlyLog });
             break;
 
         default:
+            <h5 class="text-danger">Não foi possível identificar o tipo de Collection para renderização</h5>
             break;
     }
 
+}
+else
+{
+    <h5 class="text-danger">Collection inválida</h5>
 }

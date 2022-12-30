@@ -1,0 +1,37 @@
+
+section.page {
+    min-height: 500px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0px 3px 3px rgba(0,0,0,.2),0px 0px 6px rgba(0,0,0,.2);
+    display: flex;
+    flex-direction: column;
+
+    h3.page-title {
+        padding: 0 10px;
+        margin: 10px 0px;
+    }
+
+    div.page-body {
+        flex: 1;
+        background: white;
+        padding-left: 30px;
+        overflow: hidden;
+
+        &.linear {
+            background-size: 20px 25px;
+            background-image: linear-gradient(to bottom, #DFE8EC 0%, white 8%);
+        }
+
+        &.linear-grid {
+            background-size: 20px 20px;
+            background-image: linear-gradient(to right, #DFE8EC 1px, transparent 0), linear-gradient(to bottom, #DFE8EC 1px, transparent 0);
+        }
+
+        &.dotted-grid {
+            background-image: radial-gradient(#8Fa8aC 1px, transparent 0);
+            background-size: 30px 30px;
+            background-position: -20px -10px;
+        }
+    }
+}

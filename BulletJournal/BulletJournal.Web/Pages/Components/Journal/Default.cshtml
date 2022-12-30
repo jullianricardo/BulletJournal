@@ -3,31 +3,29 @@
 
 @if (Model.Journal != null)
 {
-    <main class="journal">
-        <div class="journal-information jumbotron bg-dark text-light">
+    <main class="journal d-flex flex-column flex-fill">
+        <div class="journal-information jumbotron mb-3 bg-dark text-light border border-secondary rounded shadow-sm">
             <h3 class="journal-name">@Model.Journal.Name</h3>
             <p class="journal-description">@Model.Journal.Description</p>
             <hr />
             <h4 class="journal-year">@Model.Journal.Year</h4>
         </div>
 
-        <div class="spread-container">
+        <div class="spread-container d-flex flex-column flex-fill">
 
-            @{
+            @if (Model.CurrentSpread != null)
+            {
                 var spreadViewModel = new SpreadViewModel
                 {
-                    LeftPage = new BulletJournal.Models.Page
-                    {
-                        Title = "Test Left Page"
-                    },
-                    RightPage = new BulletJournal.Models.Page
-                    {
-                        Title = "Test Right Page"
-                    }
+                    Spread = Model.CurrentSpread
                 };
-            }
 
-            <partial name="Journal/_Spread" model="spreadViewModel" />
+                <partial name="Journal/_Spread" model="spreadViewModel" />
+            }
+            else
+            {
+                <h4 class="text-warning">O seu diário está vazio</h4>
+            }
 
         </div>
     </main>
