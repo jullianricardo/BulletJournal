@@ -16,6 +16,9 @@ namespace BulletJournal.Web.ViewComponents
 
         public IViewComponentResult Invoke(Journal journal)
         {
+            if (journal == null)
+                return View(new JournalViewModel());
+
             _journalManager.SetJournal(journal);
             var currentSpread = _journalManager.GetCurrentSpread();
 

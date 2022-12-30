@@ -19,7 +19,7 @@ namespace BulletJournal.Web.Services
         public async Task CreateJournal(Journal journal)
         {
             var url = JOURNAL_BASE_URL;
-            var newJournal = _journalBuilder.BuildJournal(journal, new JournalBuilderOptions());
+            var newJournal = _journalBuilder.BuildJournal(journal, new JournalBuilderOptions { BuildFutureLog = false, BuildMonthlyLog = false });
             await PostToEndpoint(url, newJournal);
         }
 

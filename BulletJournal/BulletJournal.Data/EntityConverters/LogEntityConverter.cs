@@ -1,7 +1,9 @@
 ﻿using BulletJournal.Data.EntityConverters.Interfaces;
+using BulletJournal.Data.Model.Bullet;
 using BulletJournal.Data.Model.Collection;
 using BulletJournal.Models;
 using BulletJournal.Models.Bullet;
+using System.Collections.ObjectModel;
 
 namespace BulletJournal.Data.EntityConverters
 {
@@ -54,8 +56,8 @@ namespace BulletJournal.Data.EntityConverters
             {
                 if (modelEntity.Bullets != null)
                 {
-                    //var topics = modelEntity.Topics.Select(x => _topicEntityConverter.ConvertFromModelEntity(x));
-                    //databaseEntity.Topics = new ObservableCollection<TopicEntity>(topics);
+                    var bullets = modelEntity.Bullets.Select(x => _bulletEntityConverter.ConvertFromModelEntity(x.Value));
+                    databaseEntity.Bullets = new ObservableCollection<BulletEntity>(bullets);
                 }
             }
 

@@ -1,26 +1,29 @@
 ﻿@using BulletJournal.Web.ViewModels;
 @model PageViewModel
 
-<section class="page flex-fill">
-    @if (!string.IsNullOrWhiteSpace(Model.Page.Title))
-    {
-        <h3 class="page-title">@Model.Page.Title</h3>
-    }
+@if (Model.Page != null)
+{
+    <section class="page flex-fill">
+        @if (!string.IsNullOrWhiteSpace(Model.Page.Title))
+        {
+            <h3 class="page-title">@Model.Page.Title</h3>
+        }
 
-    <div class="page-body p-2 dotted-grid">
-        <div class="collections-container container-fluid p-0">
-            
-            @if (Model.Page.Collections != null && Model.Page.Collections.Count > 0)
-            {
+        <div class="page-body p-2 dotted-grid">
+            <div class="collections-container container-fluid p-0">
 
-                @foreach (var collection in Model.Page.Collections)
+                @if (Model.Page.Collections != null && Model.Page.Collections.Count > 0)
                 {
-                    <vc:collection collection="collection.Value"></vc:collection>
+
+                    @foreach (var collection in Model.Page.Collections)
+                    {
+                        <vc:collection collection="collection.Value"></vc:collection>
+                    }
+
                 }
 
-            }
-
+            </div>
         </div>
-    </div>
-    <h6 class="@(Model.PagePosition == Models.PagePosition.Left ? "left-page text-left ml-3" : "right-page text-right mr-3") page-number">@Model.Page.Number</h6>
-</section>
+        <h6 class="@(Model.PagePosition == Models.PagePosition.Left ? "left-page text-left ml-3" : "right-page text-right mr-3") page-number">@Model.Page.Number</h6>
+    </section>
+}

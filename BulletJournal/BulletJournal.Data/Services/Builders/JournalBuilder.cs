@@ -1,6 +1,7 @@
 ﻿using BulletJournal.Core.Services.Builders;
 using BulletJournal.Core.Services.Managers;
 using BulletJournal.Models;
+using BulletJournal.Models.Calendar;
 using BulletJournal.Models.Options;
 
 namespace BulletJournal.Data.Services.Builders
@@ -28,32 +29,29 @@ namespace BulletJournal.Data.Services.Builders
             _journalManager.SetJournal(journal);
 
             var now = DateTime.UtcNow;
-
-            var index = new Models.Index
-            {
-                //CreatedAt = now
-            };
-
-            journal.Index = index;
+            journal.Index = new Models.Index();
+            journal.IsDefault = true;
 
             if (builderOptions.BuildFutureLog)
             {
                 var futureLog = _futureLogBuilder.BuildDefaultFutureLog();
-                //futureLog.CreatedAt = now;
                 _journalManager.AddCollection(futureLog);
             }
 
             if (builderOptions.BuildDailyLog)
             {
-                var dailyLog = _dailyLogBuilder.BuildDefaultDailyLog();
-                //dailyLog.CreatedAt = now;
-                _journalManager.AddCollection(dailyLog);
+                //var dailyLog = _dailyLogBuilder.BuildDefaultDailyLog();
+
+                var dailyLogs = _dailyLogBuilder.BuildDailyLogsForMonth((Month)now.Month, now.Year);
+                foreach (var dailyLog in dailyLogs)
+                {
+                    _journalManager.AddCollection(dailyLog.Value);
+                }
             }
 
             if (builderOptions.BuildMonthlyLog)
             {
                 var monthlyLog = _monthlyLogBuilder.BuildDefaultMonthlyLog();
-                //monthlyLog.CreatedAt = now;
                 _journalManager.AddCollection(monthlyLog);
             }
 
