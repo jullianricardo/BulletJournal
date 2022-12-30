@@ -13,6 +13,7 @@ using BulletJournal.Data.Services.Factories;
 using BulletJournal.Data.Services.Managers;
 using BulletJournal.Web;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +58,15 @@ builder.Services.AddRazorPages().AddNewtonsoftJson(jsonOptions =>
 {
     jsonOptions.SerializerSettings.Converters.Add(new BulletJsonConverter());
     jsonOptions.SerializerSettings.Converters.Add(new CollectionJsonConverter());
+
+    JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+    {
+        Converters = new List<JsonConverter>
+        {
+            new BulletJsonConverter(),
+            new CollectionJsonConverter()
+        }
+    };
 });
 
 builder.Services.AddSingleton<BulletJournal.Web.Services.Interfaces.IJournalService, BulletJournal.Web.Services.JournalService>();

@@ -4,14 +4,14 @@
 
 @section Styles {
 
+    <link href="~/css/journal/journal.css" rel="stylesheet" />
     <link href="~/css/journal/page.css" rel="stylesheet" />
 
     @await RenderSectionAsync("Styles", required: false)
 }
 
-<h1>JOURNAL LAYOUT</h1>
 
-<div>
+<div class="journal-container">
     @RenderBody()
 </div>
 

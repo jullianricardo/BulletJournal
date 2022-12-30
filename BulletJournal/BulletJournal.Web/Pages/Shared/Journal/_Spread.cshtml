@@ -1,12 +1,12 @@
 ﻿@using BulletJournal.Web.ViewModels;
 @model SpreadViewModel
 
-<article class="spread">
-    <div class="pages-container">
-        <div class="page-container left-page">
+<article class="spread container-fluid">
+    <div class="pages-container row no-gutters">
+        <div class="page-container left-page col-6">
             <vc:page page="@Model.LeftPage" page-position="Left"></vc:page>
         </div>
-        <div class="page-container right-page">
+        <div class="page-container right-page col-6">
             <vc:page page="@Model.RightPage" page-position="Right"></vc:page>
         </div>
     </div>

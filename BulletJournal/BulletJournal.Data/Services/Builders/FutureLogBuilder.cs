@@ -22,12 +22,16 @@ namespace BulletJournal.Data.Services.Builders
                 var futureLogMonth = new FutureLogMonth
                 {
                     Month = month,
-                    Log = new Models.Log()
+                    Log = new Models.Log
+                    {
+                        Order = i,
+                    }
+
                 };
 
-                for (int j = 0; j < 30; j++)
+                for (int j = 1; j <= 30; j++)
                 {
-                    futureLogMonth.Log.Bullets.Add((j + 1), new Note { Description = $"Test Bullet n. {j + 1}" });
+                    futureLogMonth.Log.Bullets.Add(j, new Note { Order = j, Description = $"Test Bullet n. {j}" });
                 }
 
                 futureLog.Months[month] = futureLogMonth;

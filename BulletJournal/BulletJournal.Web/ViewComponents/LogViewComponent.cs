@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BulletJournal.Web.ViewComponents
 {
-    public class JournalViewComponent : ViewComponent
+    public class LogViewComponent : ViewComponent
     {
-        public IViewComponentResult Invoke(Journal journal)
+        public IViewComponentResult Invoke(Log log)
         {
-            var viewModel = new JournalViewModel
+            var viewModel = new LogViewModel
             {
-                Journal = journal
+                Log = log
             };
 
             return View(viewModel);

@@ -4,10 +4,12 @@
 @if (Model.Journal != null)
 {
     <main class="journal">
-
-        <h2 class="journal-name">@Model.Journal.Name</h2>
-        <h4 class="journal-description">@Model.Journal.Description</h4>
-        <h3 class="journal-year">@Model.Journal.Year</h3>
+        <div class="journal-information jumbotron bg-dark text-light">
+            <h3 class="journal-name">@Model.Journal.Name</h3>
+            <p class="journal-description">@Model.Journal.Description</p>
+            <hr />
+            <h4 class="journal-year">@Model.Journal.Year</h4>
+        </div>
 
         <div class="spread-container">
 
@@ -28,7 +30,6 @@
             <partial name="Journal/_Spread" model="spreadViewModel" />
 
         </div>
-
     </main>
 }
 else

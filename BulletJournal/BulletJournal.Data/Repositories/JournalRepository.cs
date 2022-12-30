@@ -19,6 +19,21 @@ namespace BulletJournal.Data.Repositories
             _journalEntityConverter = journalEntityConverter;
         }
 
+        public IQueryable<JournalEntity> CompleteJournal
+        {
+            get
+            {
+                var completeJournal = _journals
+                        .Include(x => x.Index)
+                        .Include(x => x.Pages)
+                        .ThenInclude(x => x.Collections)
+                        .ThenInclude(x => x.Logs)
+                        .ThenInclude(x => x.Bullets);
+
+                return completeJournal;
+            }
+        }
+
         public async Task<Journal> GetJournalById(string id)
         {
             var journalEntity = await _journals.FindAsync(id);
@@ -73,13 +88,7 @@ namespace BulletJournal.Data.Repositories
         {
             try
             {
-                var journalEntity = await _journals
-                    .Include(x => x.Index)
-                    .Include(x => x.Pages)
-                    .ThenInclude(x => x.Collections)
-                    .ThenInclude(x => x.Logs)
-                    .ThenInclude(x => x.Bullets)
-                    .SingleOrDefaultAsync(x => x.OwnerId == ownerId && x.IsDefault);
+                var journalEntity = await CompleteJournal.FirstOrDefaultAsync(x => x.OwnerId == ownerId && x.IsDefault);
 
                 if (journalEntity == null)
                     return null;

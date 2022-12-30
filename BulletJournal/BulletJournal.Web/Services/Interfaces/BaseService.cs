@@ -33,23 +33,26 @@ namespace BulletJournal.Web.Services.Interfaces
         {
             await RefreshToken();
 
-            HttpResponseMessage response;
+            var response = await HttpClient.PostAsJsonAsync(url, input);
+            var responseContent = await response.Content.ReadAsStringAsync();
+            response.EnsureSuccessStatusCode();
 
-            try
-            {
+            return response;
 
-                response = await HttpClient.PostAsJsonAsync(url, input);
-                var responseContent = await response.Content.ReadAsStringAsync();
-                response.EnsureSuccessStatusCode();
-
-                return response;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
         }
 
+        protected virtual async Task<TOutput> PostToEndpoint<TOutput>(string url)
+        {
+            await RefreshToken();
+
+            var response = await HttpClient.PostAsync(url, null);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            var output = JsonConvert.DeserializeObject<TOutput>(responseContent);
+            return output;
+        }
 
 
 

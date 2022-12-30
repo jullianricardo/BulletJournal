@@ -1,0 +1,27 @@
+﻿@using BulletJournal.Models.Collection;
+@using BulletJournal.Web.ViewModels;
+@using BulletJournal.Web.ViewModels.Collection;
+
+@model CollectionViewModel
+
+@if (Model.Collection != null)
+{
+    switch (Model.Collection)
+    {
+        case FutureLog futureLog:            
+            await Html.RenderPartialAsync("_FutureLog", new FutureLogViewModel { FutureLog = futureLog });
+            break;
+
+        case DailyLog dailyLog:
+            await Html.RenderPartialAsync("_DailyLog", new DailyLogViewModel { DailyLog = dailyLog });
+            break;
+
+        case MonthlyLog monthlyLog:
+            await Html.RenderPartialAsync("_MonthlyLog", new MonthlyLogViewModel { MonthlyLog = monthlyLog });
+            break;
+
+        default:
+            break;
+    }
+
+}
