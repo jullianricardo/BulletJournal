@@ -21,8 +21,6 @@ namespace BulletJournal.Data.Services.Builders
             var log = new Models.Log
             {
                 Order = 1,
-                Name = "Log Padrão",
-                Description = "Log Padrão",
             };
 
             for (int j = 0; j < 10; j++)
@@ -42,10 +40,10 @@ namespace BulletJournal.Data.Services.Builders
 
             foreach (var date in dates)
             {
-                if (date < DateTime.Today)
-                {
-                    continue;
-                }
+                //if (date < DateTime.Today.AddDays(-2))
+                //{
+                //    continue;
+                //}
 
                 var dailyLog = new DailyLog
                 {
@@ -57,14 +55,12 @@ namespace BulletJournal.Data.Services.Builders
 
                 var log = new Models.Log
                 {
-                    Order = 1,
-                    Name = "Log Padrão",
-                    Description = "Log Padrão",
+                    Order = 1
                 };
 
-                for (int j = 0; j < 10; j++)
+                for (int j = 1; j <= 10; j++)
                 {
-                    log.Bullets.Add((j + 1), new Note { Description = $"Test Bullet n. {j + 1}" });
+                    log.Bullets.Add(j, new Note { Order = j, Description = $"Test Bullet n. {j}" });
                 }
 
                 dailyLog.Logs = new SortedList<int, Models.Log>

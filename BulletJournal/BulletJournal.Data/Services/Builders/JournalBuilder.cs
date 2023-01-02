@@ -40,8 +40,6 @@ namespace BulletJournal.Data.Services.Builders
 
             if (builderOptions.BuildDailyLog)
             {
-                //var dailyLog = _dailyLogBuilder.BuildDefaultDailyLog();
-
                 var dailyLogs = _dailyLogBuilder.BuildDailyLogsForMonth((Month)now.Month, now.Year);
                 foreach (var dailyLog in dailyLogs)
                 {

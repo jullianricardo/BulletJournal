@@ -1,9 +1,4 @@
 ﻿using BulletJournal.Models.Settings.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BulletJournal.Models.Settings
 {
@@ -19,7 +14,7 @@ namespace BulletJournal.Models.Settings
         {
             return new UserSettings()
             {
-                DefaultPageSize = 100,
+                DefaultPageSize = 10,
                 SplitCollectionsBetweenMultiplePages = true,
                 AllowMultipleCollectionsPerPage = true
             };

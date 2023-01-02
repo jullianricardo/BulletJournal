@@ -31,7 +31,7 @@ namespace BulletJournal.Data.EntityConverters
                 if (databaseEntity.CollectionPages != null)
                 {
                     var collections = databaseEntity.CollectionPages.Select(x => _collectionEntityConverter.ConvertFromDatabaseEntity(x.Collection));
-                    modelEntity.Collections = new SortedList<int, Collection>(collections.Select((x, i) => new { Item = x, Index = (i + 1) }).ToDictionary(x => x.Index, x => x.Item));
+                    modelEntity.Collections = new SortedList<int, Collection>(collections.ToDictionary(x => x.Order));
                 }
             }
 

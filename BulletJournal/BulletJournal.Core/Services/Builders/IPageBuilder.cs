@@ -6,6 +6,6 @@ namespace BulletJournal.Core.Services.Builders
 {
     public interface IPageBuilder
     {
-        SortedList<int, Page> BuildPages(List<Collection> collections, Page lastPage);
+        SortedList<int, Page> BuildPages(List<Collection> collections, int startPageNumber = 0);
     }
 }

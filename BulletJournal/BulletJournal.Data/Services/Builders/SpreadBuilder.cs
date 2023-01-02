@@ -26,7 +26,7 @@ namespace BulletJournal.Data.Services.Builders
             var lastPageNumber = pages.Last().Key;
             int currentPageNumber = pages.First().Key;
 
-            bool isLastPage = false;
+            bool isLastPage;
 
             do
             {

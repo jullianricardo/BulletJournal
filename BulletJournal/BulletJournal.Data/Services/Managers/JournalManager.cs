@@ -7,11 +7,13 @@ namespace BulletJournal.Data.Services.Managers
 {
     public class JournalManager : IJournalManager
     {
+        private readonly IPageBuilder _pageBuilder;
         private readonly IPageManager _pageManager;
         private readonly ISpreadBuilder _spreadBuilder;
 
-        public JournalManager(IPageManager pageManager, ISpreadBuilder spreadBuilder)
+        public JournalManager(IPageBuilder pageBuilder, IPageManager pageManager, ISpreadBuilder spreadBuilder)
         {
+            _pageBuilder = pageBuilder;
             _pageManager = pageManager;
             _spreadBuilder = spreadBuilder;
         }
@@ -22,26 +24,61 @@ namespace BulletJournal.Data.Services.Managers
         {
             Journal.Index.AddCollection(collection);
 
-            var lastSpread = Journal.Spreads.LastOrDefault();
+            Page currentPage = null;
             int lastPageNumber = 0;
-            int lastSpreadNumber = 0;
 
+            var lastSpread = Journal.Spreads.LastOrDefault();
             if (lastSpread.Value != null)
             {
-                lastPageNumber = lastSpread.Value.GetLastPageNumber();
-                lastSpreadNumber = lastSpread.Key;
+                var lastPage = lastSpread.Value.GetLastPage();
+                if (lastPage != null)
+                {
+                    lastPageNumber = lastPage.Number;
+                    _pageManager.SetPage(lastPage);
+                    if (_pageManager.CollectionFitsInPage(collection))
+                    {
+                        currentPage = lastPage;
+                    }
+                }
             }
 
-            var pages = _pageManager.BuildPages(new List<Collection> { collection }, lastPageNumber);
-            var sortedPageList = new SortedList<int, Page>(pages.ToDictionary(x => x.Number));
-
-            var spreads = _spreadBuilder.BuildSpreadsFromPages(sortedPageList, lastSpread.Value, lastSpreadNumber);
-
-            foreach (var spread in spreads)
+            if (currentPage != null)
             {
-                Journal.Spreads[spread.Key] = spread.Value;
+                _pageManager.SetPage(currentPage);
+                _pageManager.AddCollection(collection);
             }
+            else
+            {
+                int startPageNumber = lastPageNumber + 1;
+                var pages = _pageBuilder.BuildPages(new List<Collection> { collection }, startPageNumber);
+                var spreads = _spreadBuilder.BuildSpreadsFromPages(pages, lastSpread.Value, lastSpread.Key);
+
+                foreach (var spread in spreads)
+                {
+                    Journal.Spreads[spread.Key] = spread.Value;
+                }
+            }
+
+
+
+            //int lastSpreadNumber = 0;
+            //Page lastPage = null;
+
+            //if (lastSpread.Value != null)
+            //{
+            //    lastPage = lastSpread.Value.GetLastPage();
+            //    lastSpreadNumber = lastSpread.Key;
+            //}
+
+            //var pages = _pageBuilder.BuildPages(new List<Collection> { collection }, lastPage);
+            //var spreads = _spreadBuilder.BuildSpreadsFromPages(pages, lastSpread.Value, lastSpreadNumber);
+
+            //foreach (var spread in spreads)
+            //{
+            //    Journal.Spreads[spread.Key] = spread.Value;
+            //}
         }
+
         public void SetJournal(Journal journal)
         {
             Journal = journal;

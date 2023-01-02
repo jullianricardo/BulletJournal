@@ -17,98 +17,40 @@ namespace BulletJournal.Data.Services.Managers
             _collectionFactory = collectionFactory;
         }
 
-        public List<Page> BuildPages(List<Collection> collections, int lastPageNumber)
+        public Page Page { get; private set; }
+
+        public void SetPage(Page page)
         {
-            var pages = new List<Page>();
-
-            var userSettings = _settingsService.GetUserSettings();
-
-            int currentPageNumber = lastPageNumber + 1;
-            var currentPage = new Page()
-            {
-                Number = currentPageNumber,
-            };
-
-            var fullListOfCollections = collections;
-            if (userSettings.SplitCollectionsBetweenMultiplePages)
-            {
-                fullListOfCollections = new List<Collection>();
-
-                foreach (var collection in collections)
-                {
-                    int collectionSize = collection.RetrieveCollectionSize();
-
-                    if (collectionSize <= userSettings.DefaultPageSize)
-                        fullListOfCollections.Add(collection);
-                    else
-                    {
-                        var splittedCollections = SplitCollection(collection, userSettings.DefaultPageSize);
-                        fullListOfCollections.AddRange(splittedCollections);
-                    }
-                }
-            }
-
-            int fullListOfCollectionsCount = fullListOfCollections.Count;
-            for (int i = 0; i < fullListOfCollections.Count; i++)
-            {
-                var collection = fullListOfCollections[i];
-                if (userSettings.AllowMultipleCollectionsPerPage)
-                {
-                    int collectionSize = collection.RetrieveCollectionSize();
-                    int currentPageSize = currentPage.CurrentSize;
-
-                    int maxPageSize = userSettings.SplitCollectionsBetweenMultiplePages ? userSettings.DefaultPageSize : int.MaxValue;
-                    int pageFreeSpace = maxPageSize - currentPageSize;
-
-                    bool collectionFitsInPage = collectionSize <= pageFreeSpace;
-                    if (!collectionFitsInPage)
-                    {
-                        pages.Add(currentPage);
-                        currentPageNumber++;
-                        currentPage = new Page
-                        {
-                            Number = currentPageNumber,
-                        };
-                    }
-                }
-
-                currentPage.Collections.Add((i + 1), collection);
-
-                if ((i + 1) == fullListOfCollectionsCount)
-                    pages.Add(currentPage);
-            }
-
-            return pages;
+            Page = page;
         }
 
-
-        private List<Collection> SplitCollection(Collection collection, int defaultPageSize)
+        public void AddCollection(Collection collection)
         {
-            int pageSize = defaultPageSize > 0 ? defaultPageSize : 1;
-
-            var collections = new List<Collection>();
-            var currentCollection = _collectionFactory.CreateCollection(collection.Type);
-
-            foreach (var currentLog in collection.Logs)
+            int currentCollectionNumber = 1;
+            if (Page.Collections.Any())
             {
-                int currentCollectionSize = currentCollection.RetrieveCollectionSize();
-                int collectionFreeSpace = pageSize - currentCollectionSize;
-
-                int currentLogSize = currentLog.Value.GetLogSize();
-                bool logFitsInCollection = currentLogSize <= collectionFreeSpace;
-                if (!logFitsInCollection)
-                {
-                    collections.Add(currentCollection);
-                    currentCollection = _collectionFactory.CreateCollection(collection.Type);
-                }
-
-                currentCollection.Logs.Add(currentLog.Key, currentLog.Value);
-
-                if (currentLog.Key == collection.Logs.Last().Key)
-                    collections.Add(currentCollection);
+                var lastCollection = Page.Collections.Last();
+                currentCollectionNumber = lastCollection.Key;
             }
 
-            return collections;
+            Page.Collections.Add(currentCollectionNumber + 1, collection);
+        }
+
+        public bool CollectionFitsInPage(Collection collection)
+        {
+            bool collectionFitsInPage = collection.RetrieveCollectionSize() <= GetPageFreeSize();
+            return collectionFitsInPage;
+
+        }
+
+        public int GetPageFreeSize()
+        {
+            var userSettings = _settingsService.GetUserSettings();
+            int defaultPageSize = userSettings.DefaultPageSize;
+
+            int currentPageSize = Page.CurrentSize;
+            int pageFreeSize = defaultPageSize - currentPageSize;
+            return pageFreeSize;
         }
     }
 }
