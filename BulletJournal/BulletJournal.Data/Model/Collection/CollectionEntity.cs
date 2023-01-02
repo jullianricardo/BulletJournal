@@ -1,4 +1,4 @@
-﻿using BulletJournal.Core.Common;
+﻿using BulletJournal.Core.Domain;
 using BulletJournal.Models.Collection;
 using BulletJournal.Models.Domain;
 using System.Collections.ObjectModel;
@@ -20,11 +20,13 @@ namespace BulletJournal.Data.Model.Collection
 
         #region Navigation Properties
 
-        public string PageId { get; set; }
+        public string JournalId { get; set; }
 
-        public virtual PageEntity Page { get; set; }
+        public virtual JournalEntity Journal { get; set; }
 
-        public virtual ObservableCollection<LogEntity> Logs { get; set; }
+        public virtual ObservableCollection<CollectionPageEntity> CollectionPages { get; set; } = new NullCollection<CollectionPageEntity>();
+
+        public virtual ObservableCollection<LogEntity> Logs { get; set; } = new NullCollection<LogEntity>();
 
         #endregion
     }

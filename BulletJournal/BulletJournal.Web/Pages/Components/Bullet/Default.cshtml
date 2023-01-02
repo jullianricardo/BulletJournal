@@ -7,15 +7,15 @@
     switch (Model.Bullet)
     {
         case BulletJournal.Models.Bullet.Task task:
-            await Html.RenderPartialAsync("_Task", new TaskViewModel { Task = task });
+            await Html.RenderPartialAsync("_Task.cshtml", new TaskViewModel { Task = task });
             break;
 
         case Note note:
-            await Html.RenderPartialAsync("_Note", new NoteViewModel { Note = note });
+            await Html.RenderPartialAsync("_Note.cshtml", new NoteViewModel { Note = note });
             break;
 
         case Event eventBullet:
-            await Html.RenderPartialAsync("_Event", new EventViewModel { Event = eventBullet });
+            await Html.RenderPartialAsync("_Event.cshtml", new EventViewModel { Event = eventBullet });
             break;
 
         default:

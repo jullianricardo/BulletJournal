@@ -4,6 +4,7 @@ using BulletJournal.Data.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulletJournal.Data.Migrations
 {
     [DbContext(typeof(BulletJournalContext))]
-    partial class BulletJournalContextModelSnapshot : ModelSnapshot
+    [Migration("20230101003118_CollectionPageForeignKey")]
+    partial class CollectionPageForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,9 +177,6 @@ namespace BulletJournal.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("JournalId")
-                        .HasColumnType("nvarchar(128)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -192,10 +192,6 @@ namespace BulletJournal.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("JournalId", "Order")
-                        .IsUnique()
-                        .HasFilter("[JournalId] IS NOT NULL");
 
                     b.ToTable("Collection", (string)null);
 
@@ -728,15 +724,6 @@ namespace BulletJournal.Data.Migrations
                     b.Navigation("Entries");
 
                     b.Navigation("Holiday");
-                });
-
-            modelBuilder.Entity("BulletJournal.Data.Model.Collection.CollectionEntity", b =>
-                {
-                    b.HasOne("BulletJournal.Data.Model.JournalEntity", "Journal")
-                        .WithMany()
-                        .HasForeignKey("JournalId");
-
-                    b.Navigation("Journal");
                 });
 
             modelBuilder.Entity("BulletJournal.Data.Model.Collection.CollectionPageEntity", b =>

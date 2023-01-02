@@ -26,7 +26,8 @@ namespace BulletJournal.Data.Repositories
                 var completeJournal = _journals
                         .Include(x => x.Index)
                         .Include(x => x.Pages)
-                        .ThenInclude(x => x.Collections)
+                        .ThenInclude(x => x.CollectionPages)
+                        .ThenInclude(x => x.Collection)
                         .ThenInclude(x => x.Logs)
                         .ThenInclude(x => x.Bullets);
 

@@ -37,6 +37,34 @@ namespace BulletJournal.Models
             return lastPageNumber;
         }
 
+        public Page GetLastPage()
+        {
+            int leftPageNumber = LeftPage?.Number ?? 0;
+            int rightPageNumber = RightPage?.Number ?? 0;
+
+            if (rightPageNumber > 0 && rightPageNumber > leftPageNumber)
+                return RightPage;
+
+            if (leftPageNumber > 0)
+                return LeftPage;
+
+            return null;
+        }
+
+        public Page GetFirstPage()
+        {
+            int leftPageNumber = LeftPage?.Number ?? 0;
+            int rightPageNumber = RightPage?.Number ?? 0;
+
+            if (leftPageNumber > 0 && leftPageNumber < rightPageNumber)
+                return LeftPage;
+
+            if (rightPageNumber > 0)
+                return RightPage;
+
+            return null;
+        }
+
         public int GetFirstPageNumber()
         {
             int leftPageNumber, rightPageNumber, firstPageNumber;

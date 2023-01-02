@@ -21,6 +21,8 @@ namespace BulletJournal.Models.Collection
         [DefaultValue(1)]
         public int Order { get; set; }
 
+        public virtual SortedList<int, Page> Pages { get; set; }
+
         public virtual SortedList<int, Log> Logs { get; set; }
 
         public virtual int RetrieveCollectionSize()

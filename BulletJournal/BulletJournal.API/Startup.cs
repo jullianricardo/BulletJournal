@@ -23,7 +23,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace BulletJournal.API
@@ -44,6 +46,18 @@ namespace BulletJournal.API
             {
                 jsonOptions.SerializerSettings.Converters.Add(new BulletJsonConverter());
                 jsonOptions.SerializerSettings.Converters.Add(new CollectionJsonConverter());
+                jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+
+                JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    TypeNameHandling = TypeNameHandling.All,
+                    Converters = new List<JsonConverter>
+                    {
+                        new BulletJsonConverter(),
+                        new CollectionJsonConverter()
+                    }
+                };
             });
 
             services.AddEndpointsApiExplorer();
@@ -95,6 +109,7 @@ namespace BulletJournal.API
             services.AddTransient<ITopicService, TopicService>();
 
             services.AddTransient<IJournalBuilder, JournalBuilder>();
+            services.AddTransient<IPageBuilder, PageBuilder>();
             services.AddTransient<ISpreadBuilder, SpreadBuilder>();
             services.AddTransient<IFutureLogBuilder, FutureLogBuilder>();
             services.AddTransient<IDailyLogBuilder, DailyLogBuilder>();

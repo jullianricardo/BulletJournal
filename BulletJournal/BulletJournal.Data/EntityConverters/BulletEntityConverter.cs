@@ -106,6 +106,7 @@ namespace BulletJournal.Data.EntityConverters
                 DateCreated = databaseEntity.DateCreated,
                 IsActive = databaseEntity.IsActive,
                 Status = databaseEntity.Status,
+                Order = databaseEntity.Order,
                 CreatedAt = databaseEntity.CreatedAt,
                 UpdatedAt = databaseEntity.UpdatedAt,
             };

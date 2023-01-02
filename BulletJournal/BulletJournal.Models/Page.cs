@@ -27,5 +27,7 @@ namespace BulletJournal.Models
                 return size;
             }
         }
+
+        public bool HasCollection => Collections.Any();
     }
 }

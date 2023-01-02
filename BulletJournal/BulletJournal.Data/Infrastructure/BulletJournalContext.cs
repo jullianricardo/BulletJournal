@@ -14,6 +14,7 @@ namespace BulletJournal.Data.Infrastructure
         public DbSet<JournalEntity> Journals { get; set; }
         public DbSet<IndexEntity> Indexes { get; set; }
         public DbSet<PageEntity> Pages { get; set; }
+        public DbSet<CollectionPageEntity> CollectionPages { get; set; }
         public DbSet<TopicEntity> Topics { get; set; }
         public DbSet<CollectionEntity> Collections { get; set; }
         public DbSet<BulletEntity> Bullets { get; set; }
@@ -51,6 +52,8 @@ namespace BulletJournal.Data.Infrastructure
             modelBuilder.Entity<CollectionEntity>(entity =>
             {
                 entity.ToTable("Collection").HasKey(x => x.Id);
+                entity.Property(x => x.Order).IsRequired().HasDefaultValue(1);
+                entity.HasIndex(x => new { x.JournalId, x.Order }).IsUnique();
                 entity.HasDiscriminator(x => x.Type)
                     .HasValue<DailyLogEntity>(Models.Collection.CollectionType.DailyLog)
                     .HasValue<MonthlyLogEntity>(Models.Collection.CollectionType.MonthlyLog)
@@ -63,15 +66,30 @@ namespace BulletJournal.Data.Infrastructure
             modelBuilder.Entity<PageEntity>(entity =>
             {
                 entity.ToTable("Page").HasKey(x => x.Id);
+                entity.Property(x => x.Number).IsRequired().HasDefaultValue(1);
+                entity.HasIndex(x => new { x.JournalId, x.Number }).IsUnique();
                 entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
             });
 
-            modelBuilder.Entity<LogEntity>().ToTable("Log")
-               .Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
+            modelBuilder.Entity<CollectionPageEntity>(entity =>
+            {
+                entity.ToTable("CollectionPage").HasKey(x => x.Id);
+                entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
+            });
+
+            modelBuilder.Entity<LogEntity>(entity =>
+            {
+                entity.ToTable("Log").HasKey(x => x.Id);
+                entity.Property(x => x.Order).IsRequired().HasDefaultValue(1);
+                entity.HasIndex(x => new { x.CollectionId, x.Order }).IsUnique();
+                entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
+            });
 
             modelBuilder.Entity<BulletEntity>(entity =>
             {
                 entity.ToTable("Bullet").HasKey(x => x.Id);
+                entity.Property(x => x.Order).IsRequired().HasDefaultValue(1);
+                entity.HasIndex(x => new { x.LogId, x.Order }).IsUnique();
                 entity.HasDiscriminator(x => x.Type)
                     .HasValue<TaskEntity>(BulletType.Task)
                     .HasValue<NoteEntity>(BulletType.Note)

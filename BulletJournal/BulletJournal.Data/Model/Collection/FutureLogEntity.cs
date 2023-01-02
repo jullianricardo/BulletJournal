@@ -37,30 +37,5 @@ namespace BulletJournal.Data.Model.Collection
         public virtual FutureLogEntity FutureLog { get; set; }
 
         #endregion
-
-
-        public virtual FutureLogMonth ToModel(FutureLogMonth futureLogMonth)
-        {
-            if (futureLogMonth == null)
-                throw new ArgumentNullException(nameof(futureLogMonth));
-
-            futureLogMonth.Id = Id;
-            futureLogMonth.Month = Month;
-
-            return futureLogMonth;
-        }
-
-        public virtual FutureLogMonthEntity FromModel(FutureLogMonthEntity futureLogMonthEntity, PrimaryKeyResolvingMap primaryKeyResolvingMap)
-        {
-            if (futureLogMonthEntity == null)
-                throw new ArgumentNullException(nameof(futureLogMonthEntity));
-
-            primaryKeyResolvingMap.AddPair(futureLogMonthEntity, this);
-
-            Id = futureLogMonthEntity.Id;
-            Month = futureLogMonthEntity.Month;
-
-            return this;
-        }
     }
 }

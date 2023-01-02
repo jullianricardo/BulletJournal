@@ -32,8 +32,9 @@ namespace BulletJournal.Data.EntityConverters
             {
                 if (databaseEntity.Bullets != null)
                 {
-                    var pages = databaseEntity.Bullets.Select(x => _bulletEntityConverter.ConvertFromDatabaseEntity(x));
-                    var sortedPageList = new SortedList<int, Bullet>(pages.ToDictionary(x => x.Order));
+                    var bullets = databaseEntity.Bullets.Select(x => _bulletEntityConverter.ConvertFromDatabaseEntity(x));
+                    var sortedPageList = new SortedList<int, Bullet>(bullets.ToDictionary(x => x.Order));
+                    modelEntity.Bullets = sortedPageList;
                 }
             }
 

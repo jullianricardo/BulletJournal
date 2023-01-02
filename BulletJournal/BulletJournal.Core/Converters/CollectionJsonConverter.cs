@@ -18,7 +18,10 @@ namespace BulletJournal.Core.Converters
 
     public class CollectionJsonConverter : JsonConverter
     {
-        static JsonSerializerSettings SpecifiedSubclassConversion = new JsonSerializerSettings() { ContractResolver = new CollectionSpecifiedConcreteClassConverter(), TypeNameHandling = TypeNameHandling.All };
+        static JsonSerializerSettings SpecifiedSubclassConversion = new JsonSerializerSettings()
+        {
+            ContractResolver = new CollectionSpecifiedConcreteClassConverter(),
+        };
 
         public override bool CanConvert(Type objectType)
         {
@@ -28,7 +31,7 @@ namespace BulletJournal.Core.Converters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var jo = JObject.Load(reader);
-            int type = jo["type"].Value<int>();
+            int type = jo.Property("type", StringComparison.OrdinalIgnoreCase).Value.Value<int>();
             var collectionType = (CollectionType)type;
 
             Collection collection = collectionType switch

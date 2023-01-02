@@ -20,7 +20,9 @@ namespace BulletJournal.Web.Services.Interfaces
         {
             await RefreshToken();
 
-            var response = await HttpClient.PostAsJsonAsync(url, input);
+            var serializedObject = JsonConvert.SerializeObject(input);
+            var httpContent = new StringContent(serializedObject, Encoding.UTF8, "application/json");
+            var response = await HttpClient.PostAsync(url, httpContent);
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
@@ -33,8 +35,9 @@ namespace BulletJournal.Web.Services.Interfaces
         {
             await RefreshToken();
 
-            var response = await HttpClient.PostAsJsonAsync(url, input);
-            var responseContent = await response.Content.ReadAsStringAsync();
+            var serializedObject = JsonConvert.SerializeObject(input);
+            var httpContent = new StringContent(serializedObject, Encoding.UTF8, "application/json");
+            var response = await HttpClient.PostAsync(url, httpContent);
             response.EnsureSuccessStatusCode();
 
             return response;

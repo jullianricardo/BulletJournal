@@ -9,20 +9,22 @@
             <h4 class="log-name">@Model.Log.Name</h4>
         }
 
-        @if (Model.Log.Bullets != null)
+        @if (!string.IsNullOrEmpty(Model.Log.Description))
         {
-            <ol class="log-bullets">
+            <h5 class="log-description">@Model.Log.Description</h5>
+        }
 
+        <ol class="log-bullets">
+            @if (Model.Log.Bullets != null)
+            {
                 @foreach (var bullet in Model.Log.Bullets)
                 {
                     <li class="log-bullet">
                         <vc:bullet bullet="bullet.Value"></vc:bullet>
                     </li>
                 }
-
-
-            </ol>
-        }
+            }
+        </ol>
 
     </div>
 }

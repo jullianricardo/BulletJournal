@@ -58,9 +58,13 @@ builder.Services.AddRazorPages().AddNewtonsoftJson(jsonOptions =>
 {
     jsonOptions.SerializerSettings.Converters.Add(new BulletJsonConverter());
     jsonOptions.SerializerSettings.Converters.Add(new CollectionJsonConverter());
+    jsonOptions.SerializerSettings.TypeNameHandling = TypeNameHandling.All;
+    jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
 
     JsonConvert.DefaultSettings = () => new JsonSerializerSettings
     {
+        NullValueHandling = NullValueHandling.Ignore,
+        TypeNameHandling = TypeNameHandling.All,
         Converters = new List<JsonConverter>
         {
             new BulletJsonConverter(),
@@ -73,6 +77,7 @@ builder.Services.AddSingleton<BulletJournal.Web.Services.Interfaces.IJournalServ
 builder.Services.AddSingleton<ISettingsService, SettingsService>();
 
 builder.Services.AddSingleton<IJournalBuilder, JournalBuilder>();
+builder.Services.AddSingleton<IPageBuilder, PageBuilder>();
 builder.Services.AddSingleton<ISpreadBuilder, SpreadBuilder>();
 builder.Services.AddSingleton<IFutureLogBuilder, FutureLogBuilder>();
 builder.Services.AddSingleton<IDailyLogBuilder, DailyLogBuilder>();

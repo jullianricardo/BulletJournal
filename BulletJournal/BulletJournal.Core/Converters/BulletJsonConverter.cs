@@ -18,7 +18,7 @@ namespace BulletJournal.Core.Converters
 
     public class BulletJsonConverter : JsonConverter
     {
-        static JsonSerializerSettings SpecifiedSubclassConversion = new JsonSerializerSettings() { ContractResolver = new BulletSpecifiedConcreteClassConverter() };
+        static JsonSerializerSettings SpecifiedSubclassConversion = new JsonSerializerSettings() { ContractResolver = new BulletSpecifiedConcreteClassConverter(), NullValueHandling = NullValueHandling.Ignore };
 
         public override bool CanConvert(Type objectType)
         {
@@ -29,24 +29,19 @@ namespace BulletJournal.Core.Converters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var jo = JObject.Load(reader);
-            int type = jo["bulletType"].Value<int>();
+            int type = jo.Property("bulletType", StringComparison.OrdinalIgnoreCase).Value.Value<int>();
             var bulletType = (BulletType)type;
 
-            switch (bulletType)
+            Bullet bullet = bulletType switch
             {
-                case BulletType.Task:
-                    return JsonConvert.DeserializeObject<Models.Bullet.Task>(jo.ToString(), SpecifiedSubclassConversion);
+                BulletType.Task => new Task(),
+                BulletType.Note => new Note(),
+                BulletType.Event => new Event(),
+                _ => throw new NotImplementedException()
+            };
 
-                case BulletType.Note:
-                    return JsonConvert.DeserializeObject<Note>(jo.ToString(), SpecifiedSubclassConversion);
-
-                case BulletType.Event:
-                    return JsonConvert.DeserializeObject<Event>(jo.ToString(), SpecifiedSubclassConversion);
-
-                default:
-                    throw new Exception();
-            }
-            throw new NotImplementedException();
+            serializer.Populate(jo.CreateReader(), bullet);
+            return bullet;
         }
 
         public override bool CanWrite

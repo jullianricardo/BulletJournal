@@ -1,5 +1,6 @@
 ﻿using BulletJournal.Data.EntityConverters.Interfaces;
 using BulletJournal.Data.Model;
+using BulletJournal.Data.Model.Collection;
 using BulletJournal.Models;
 using BulletJournal.Models.Collection;
 
@@ -27,9 +28,9 @@ namespace BulletJournal.Data.EntityConverters
 
             if (deepConversion)
             {
-                if (databaseEntity.Collections != null)
+                if (databaseEntity.CollectionPages != null)
                 {
-                    var collections = databaseEntity.Collections.Select(x => _collectionEntityConverter.ConvertFromDatabaseEntity(x));
+                    var collections = databaseEntity.CollectionPages.Select(x => _collectionEntityConverter.ConvertFromDatabaseEntity(x.Collection));
                     modelEntity.Collections = new SortedList<int, Collection>(collections.Select((x, i) => new { Item = x, Index = (i + 1) }).ToDictionary(x => x.Index, x => x.Item));
                 }
             }
@@ -52,8 +53,13 @@ namespace BulletJournal.Data.EntityConverters
             {
                 if (modelEntity.Collections != null)
                 {
-                    var collectionEntities = modelEntity.Collections.Select(x => _collectionEntityConverter.ConvertFromModelEntity(x.Value));
-                    databaseEntity.Collections = new System.Collections.ObjectModel.ObservableCollection<Model.Collection.CollectionEntity>(collectionEntities);
+                    var collectionEntities = modelEntity.Collections.Select(x => new CollectionPageEntity
+                    {
+                        Page = databaseEntity,
+                        Collection = _collectionEntityConverter.ConvertFromModelEntity(x.Value)
+                    });
+
+                    databaseEntity.CollectionPages = new System.Collections.ObjectModel.ObservableCollection<CollectionPageEntity>(collectionEntities);
                 }
             }
 

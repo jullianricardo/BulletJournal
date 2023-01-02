@@ -4,6 +4,7 @@ using BulletJournal.Data.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulletJournal.Data.Migrations
 {
     [DbContext(typeof(BulletJournalContext))]
-    partial class BulletJournalContextModelSnapshot : ModelSnapshot
+    [Migration("20221231011828_OrderRestrictions")]
+    partial class OrderRestrictions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,9 +177,6 @@ namespace BulletJournal.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("JournalId")
-                        .HasColumnType("nvarchar(128)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -184,6 +184,9 @@ namespace BulletJournal.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(1);
+
+                    b.Property<string>("PageId")
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -193,43 +196,15 @@ namespace BulletJournal.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("JournalId", "Order")
+                    b.HasIndex("PageId", "Order")
                         .IsUnique()
-                        .HasFilter("[JournalId] IS NOT NULL");
+                        .HasFilter("[PageId] IS NOT NULL");
 
                     b.ToTable("Collection", (string)null);
 
                     b.HasDiscriminator<int>("Type").IsComplete(false);
 
                     b.UseTphMappingStrategy();
-                });
-
-            modelBuilder.Entity("BulletJournal.Data.Model.Collection.CollectionPageEntity", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("CollectionId")
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PageId")
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CollectionId");
-
-                    b.HasIndex("PageId");
-
-                    b.ToTable("CollectionPage", (string)null);
                 });
 
             modelBuilder.Entity("BulletJournal.Data.Model.Collection.FutureLogMonthEntity", b =>
@@ -732,24 +707,9 @@ namespace BulletJournal.Data.Migrations
 
             modelBuilder.Entity("BulletJournal.Data.Model.Collection.CollectionEntity", b =>
                 {
-                    b.HasOne("BulletJournal.Data.Model.JournalEntity", "Journal")
-                        .WithMany()
-                        .HasForeignKey("JournalId");
-
-                    b.Navigation("Journal");
-                });
-
-            modelBuilder.Entity("BulletJournal.Data.Model.Collection.CollectionPageEntity", b =>
-                {
-                    b.HasOne("BulletJournal.Data.Model.Collection.CollectionEntity", "Collection")
-                        .WithMany("CollectionPages")
-                        .HasForeignKey("CollectionId");
-
                     b.HasOne("BulletJournal.Data.Model.PageEntity", "Page")
-                        .WithMany("CollectionPages")
+                        .WithMany("Collections")
                         .HasForeignKey("PageId");
-
-                    b.Navigation("Collection");
 
                     b.Navigation("Page");
                 });
@@ -872,8 +832,6 @@ namespace BulletJournal.Data.Migrations
 
             modelBuilder.Entity("BulletJournal.Data.Model.Collection.CollectionEntity", b =>
                 {
-                    b.Navigation("CollectionPages");
-
                     b.Navigation("Logs");
                 });
 
@@ -896,7 +854,7 @@ namespace BulletJournal.Data.Migrations
 
             modelBuilder.Entity("BulletJournal.Data.Model.PageEntity", b =>
                 {
-                    b.Navigation("CollectionPages");
+                    b.Navigation("Collections");
                 });
 
             modelBuilder.Entity("BulletJournal.Data.Model.Collection.FutureLogEntity", b =>
