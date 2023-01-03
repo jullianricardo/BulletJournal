@@ -20,6 +20,14 @@ a.journal-page-link.next-page-link {
   margin-right: -40px;
 }
 
+.journal-actions {
+  top: 0;
+  right: 0;
+}
+.journal-actions a.link {
+  font-size: 20px;
+}
+
 section.page {
   min-height: 500px;
   background: white;

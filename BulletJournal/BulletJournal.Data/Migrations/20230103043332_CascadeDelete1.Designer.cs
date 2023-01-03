@@ -4,6 +4,7 @@ using BulletJournal.Data.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulletJournal.Data.Migrations
 {
     [DbContext(typeof(BulletJournalContext))]
-    partial class BulletJournalContextModelSnapshot : ModelSnapshot
+    [Migration("20230103043332_CascadeDelete1")]
+    partial class CascadeDelete1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -735,8 +738,7 @@ namespace BulletJournal.Data.Migrations
                 {
                     b.HasOne("BulletJournal.Data.Model.JournalEntity", "Journal")
                         .WithMany()
-                        .HasForeignKey("JournalId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("JournalId");
 
                     b.Navigation("Journal");
                 });
@@ -745,13 +747,11 @@ namespace BulletJournal.Data.Migrations
                 {
                     b.HasOne("BulletJournal.Data.Model.Collection.CollectionEntity", "Collection")
                         .WithMany("CollectionPages")
-                        .HasForeignKey("CollectionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CollectionId");
 
                     b.HasOne("BulletJournal.Data.Model.PageEntity", "Page")
                         .WithMany("CollectionPages")
-                        .HasForeignKey("PageId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PageId");
 
                     b.Navigation("Collection");
 

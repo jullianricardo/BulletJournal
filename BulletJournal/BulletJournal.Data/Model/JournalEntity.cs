@@ -1,5 +1,6 @@
 ﻿using BulletJournal.Core.Common;
 using BulletJournal.Core.Extensions;
+using BulletJournal.Data.Model.Collection;
 using BulletJournal.Models.Domain;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -35,6 +36,8 @@ namespace BulletJournal.Data.Model
         public virtual IndexEntity Index { get; set; }
 
         public virtual ObservableCollection<PageEntity> Pages { get; set; } = new ObservableCollection<PageEntity>();
+
+        //public virtual ObservableCollection<CollectionEntity> Collections { get; set; } = new ObservableCollection<CollectionEntity>();
 
         #endregion      
 

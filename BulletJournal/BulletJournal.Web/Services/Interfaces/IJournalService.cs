@@ -16,5 +16,7 @@ namespace BulletJournal.Web.Services.Interfaces
         Task<Journal> GetJournalById(string id);
 
         Task CreateJournal(Journal journal);
+
+        Task DeleteJournal(string journalId);
     }
 }

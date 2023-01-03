@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
 using BulletJournal.Core.Services.Managers;
+using BulletJournal.Models;
 
 namespace BulletJournal.Web.Pages.Journal
 {
@@ -33,23 +34,22 @@ namespace BulletJournal.Web.Pages.Journal
                 var user = await _userManager.FindByEmailAsync(User.Identity.Name);
                 var ownerId = user.Id;
                 var journal = await _journalService.GetOwnerDefaultJournal(ownerId);
-
-                if (journal != null)
-                {
-                    HttpContext.Session.SetString("journalId", journal.Id);
-                    Journal = journal;
-                }
+                Journal = journal;
             }
             else
             {
                 Journal = await _journalService.GetJournalById(journalId);
             }
 
-            _journalManager.SetJournal(Journal);
-
-            if (!string.IsNullOrWhiteSpace(pageId))
+            if (Journal != null)
             {
-                _journalManager.SetCurrentPage(pageId);
+                HttpContext.Session.SetString("journalId", Journal.Id);
+                _journalManager.SetJournal(Journal);
+
+                if (!string.IsNullOrWhiteSpace(pageId))
+                {
+                    _journalManager.SetCurrentPage(pageId);
+                }
             }
         }
     }

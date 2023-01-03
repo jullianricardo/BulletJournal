@@ -1,4 +1,5 @@
 ﻿using BulletJournal.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BulletJournal.Core.Repositories
@@ -14,5 +15,7 @@ namespace BulletJournal.Core.Repositories
         Task DeleteJournal(string journalId);
 
         Task<Journal> GetOwnerDefaultJournal(string ownerId);
+
+        Task<List<Journal>> GetJournalsByOwner(string ownerId);
     }
 }

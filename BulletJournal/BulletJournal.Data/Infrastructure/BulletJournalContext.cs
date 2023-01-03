@@ -31,6 +31,15 @@ namespace BulletJournal.Data.Infrastructure
             {
                 entity.ToTable("Journal").HasKey(x => x.Id);
                 entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
+
+                entity.HasOne(x => x.Index)
+                      .WithOne(x => x.Journal)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasMany(x => x.Pages)
+                      .WithOne(x => x.Journal)
+                      .HasForeignKey(x => x.JournalId)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<IndexEntity>(entity =>
@@ -54,6 +63,7 @@ namespace BulletJournal.Data.Infrastructure
                 entity.ToTable("Collection").HasKey(x => x.Id);
                 entity.Property(x => x.Order).IsRequired().HasDefaultValue(1);
                 entity.HasIndex(x => new { x.JournalId, x.Order }).IsUnique();
+
                 entity.HasDiscriminator(x => x.Type)
                     .HasValue<DailyLogEntity>(Models.Collection.CollectionType.DailyLog)
                     .HasValue<MonthlyLogEntity>(Models.Collection.CollectionType.MonthlyLog)
@@ -61,6 +71,13 @@ namespace BulletJournal.Data.Infrastructure
                     .IsComplete(false);
 
                 entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
+
+                entity.HasMany(x => x.Logs)
+                      .WithOne(x => x.Collection)
+                      .HasForeignKey(x => x.CollectionId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(x => x.Journal).WithMany().OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<PageEntity>(entity =>
@@ -75,6 +92,9 @@ namespace BulletJournal.Data.Infrastructure
             {
                 entity.ToTable("CollectionPage").HasKey(x => x.Id);
                 entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
+
+                entity.HasOne(x => x.Page).WithMany(x => x.CollectionPages).OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(x => x.Collection).WithMany(x => x.CollectionPages).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<LogEntity>(entity =>
@@ -95,6 +115,7 @@ namespace BulletJournal.Data.Infrastructure
                     .HasValue<NoteEntity>(BulletType.Note)
                     .HasValue<EventEntity>(BulletType.Event);
 
+                entity.HasOne(m => m.Log).WithMany(x => x.Bullets).HasForeignKey(x => x.LogId).OnDelete(DeleteBehavior.Cascade);
                 entity.HasOne(m => m.Parent).WithMany().HasForeignKey(m => m.ParentId).OnDelete(DeleteBehavior.Restrict);
                 entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
             });

@@ -4,11 +4,21 @@
 @if (Model.Journal != null)
 {
     <main class="journal d-flex flex-column flex-fill">
-        <div class="journal-information jumbotron mb-3 bg-dark text-light border border-secondary rounded shadow-sm">
+        <div class="journal-information jumbotron mb-3 bg-dark text-light border border-secondary rounded shadow-sm position-relative">
             <h3 class="journal-name">@Model.Journal.Name</h3>
             <p class="journal-description">@Model.Journal.Description</p>
             <hr />
             <h4 class="journal-year">@Model.Journal.Year</h4>
+
+            <div class="journal-actions position-absolute d-flex mr-1">
+                <a asp-page="/Journal/Journal/Update" class="link nav-link p-1">
+                    <i class="bi bi-pencil-square" title="Editar Diário"></i>
+                </a>
+                <a asp-page="/Journal/Journal/Delete" class="link nav-link text-danger p-1">
+                    <i class="bi bi-trash3" title="Deletar Diário"></i>
+                </a>
+            </div>
+
         </div>
 
         <div class="spread-container d-flex align-items-stretch flex-fill">
@@ -25,9 +35,9 @@
                 }
 
                 var spreadViewModel = new SpreadViewModel
-                {
-                    Spread = Model.CurrentSpread
-                };
+                    {
+                        Spread = Model.CurrentSpread
+                    };
 
                 <partial name="_Spread.cshtml" model="spreadViewModel" />
 
@@ -50,8 +60,8 @@
 }
 else
 {
-    <p>
-        <h4 class="text-info">Opa, parece que você não possui nenhum diário criado.</h4>
+    <p class="mx-auto">
+        <h4 class="text-warning">Opa, parece que você não possui nenhum diário criado.</h4>
         <a asp-page="/Journal/Journal/Create" class="link-primary">Clique aqui para criar um novo diário</a>
     </p>
 }

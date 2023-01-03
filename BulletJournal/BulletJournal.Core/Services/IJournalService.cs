@@ -13,6 +13,8 @@ namespace BulletJournal.Core.Services
 
         Task<Journal> GetOwnerDefaultJournal(string ownerId);
 
+        Task<List<Journal>> GetJournalsByOwner(string ownerId);
+
         Task SaveJournal(Journal journal);
 
         Task UpdateJournal(Journal journal);

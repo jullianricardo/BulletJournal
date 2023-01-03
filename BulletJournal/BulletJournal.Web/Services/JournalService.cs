@@ -43,5 +43,11 @@ namespace BulletJournal.Web.Services
             var journal = await GetFromEndpoint<Journal>(url);
             return journal;
         }
+
+        public async Task DeleteJournal(string journalId)
+        {
+            var url = string.Format("{0}/{1}", JOURNAL_BASE_URL, journalId);
+            await DeleteOnEndpoint(url);
+        }
     }
 }

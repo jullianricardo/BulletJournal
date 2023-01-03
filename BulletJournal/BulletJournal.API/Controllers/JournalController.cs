@@ -60,5 +60,13 @@ namespace BulletJournal.API.Controllers
             var journal = await _journalService.GetOwnerDefaultJournal(ownerId);
             return Ok(journal);
         }
+
+        [HttpGet]
+        [Route("/journals/{ownerId}")]
+        public async Task<IActionResult> GetJournalsByOwner(string ownerId)
+        {
+            var journal = await _journalService.GetJournalsByOwner(ownerId);
+            return Ok(journal);
+        }
     }
 }

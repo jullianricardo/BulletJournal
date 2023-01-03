@@ -58,6 +58,16 @@ namespace BulletJournal.Web.Services.Interfaces
         }
 
 
+        protected virtual async Task<HttpResponseMessage> DeleteOnEndpoint(string url)
+        {
+            await RefreshToken();
+
+            var response = await HttpClient.DeleteAsync(url);
+            response.EnsureSuccessStatusCode();
+
+            return response;
+        }
+
 
         protected virtual async Task<TOutput> GetFromEndpoint<TOutput>(string url)
         {

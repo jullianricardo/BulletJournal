@@ -102,5 +102,23 @@ namespace BulletJournal.Data.Repositories
                 throw;
             }
         }
+
+        public async Task<List<Journal>> GetJournalsByOwner(string ownerId)
+        {
+            try
+            {
+                var journalEntities = await _journals.Where(x => x.OwnerId == ownerId).ToListAsync();
+
+                if (journalEntities == null || journalEntities.Count == 0)
+                    return new List<Journal>();
+
+                var journals = journalEntities.Select(x => _journalEntityConverter.ConvertFromDatabaseEntity(x)).ToList();
+                return journals;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
