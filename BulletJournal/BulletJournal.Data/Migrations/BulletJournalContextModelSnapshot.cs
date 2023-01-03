@@ -736,7 +736,7 @@ namespace BulletJournal.Data.Migrations
                     b.HasOne("BulletJournal.Data.Model.JournalEntity", "Journal")
                         .WithMany()
                         .HasForeignKey("JournalId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("Journal");
                 });
@@ -807,7 +807,8 @@ namespace BulletJournal.Data.Migrations
                 {
                     b.HasOne("BulletJournal.Data.Model.IndexEntity", "Index")
                         .WithMany("Topics")
-                        .HasForeignKey("IndexId");
+                        .HasForeignKey("IndexId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Index");
                 });

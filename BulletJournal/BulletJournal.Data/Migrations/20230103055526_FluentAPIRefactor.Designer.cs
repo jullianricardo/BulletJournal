@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulletJournal.Data.Migrations
 {
     [DbContext(typeof(BulletJournalContext))]
-    [Migration("20230103044801_CascadeDelete3")]
-    partial class CascadeDelete3
+    [Migration("20230103055526_FluentAPIRefactor")]
+    partial class FluentAPIRefactor
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -739,7 +739,7 @@ namespace BulletJournal.Data.Migrations
                     b.HasOne("BulletJournal.Data.Model.JournalEntity", "Journal")
                         .WithMany()
                         .HasForeignKey("JournalId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("Journal");
                 });
@@ -810,7 +810,8 @@ namespace BulletJournal.Data.Migrations
                 {
                     b.HasOne("BulletJournal.Data.Model.IndexEntity", "Index")
                         .WithMany("Topics")
-                        .HasForeignKey("IndexId");
+                        .HasForeignKey("IndexId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Index");
                 });

@@ -5,20 +5,20 @@
 namespace BulletJournal.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class CascadeDelete3 : Migration
+    public partial class FluentAPIRefactor : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Collection_Journal_JournalId",
-                table: "Collection");
+                name: "FK_Topic_Index_IndexId",
+                table: "Topic");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Collection_Journal_JournalId",
-                table: "Collection",
-                column: "JournalId",
-                principalTable: "Journal",
+                name: "FK_Topic_Index_IndexId",
+                table: "Topic",
+                column: "IndexId",
+                principalTable: "Index",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -27,14 +27,14 @@ namespace BulletJournal.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Collection_Journal_JournalId",
-                table: "Collection");
+                name: "FK_Topic_Index_IndexId",
+                table: "Topic");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Collection_Journal_JournalId",
-                table: "Collection",
-                column: "JournalId",
-                principalTable: "Journal",
+                name: "FK_Topic_Index_IndexId",
+                table: "Topic",
+                column: "IndexId",
+                principalTable: "Index",
                 principalColumn: "Id");
         }
     }

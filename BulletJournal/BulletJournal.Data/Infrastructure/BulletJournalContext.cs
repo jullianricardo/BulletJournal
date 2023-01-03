@@ -1,9 +1,6 @@
 ﻿using BulletJournal.Data.Model;
 using BulletJournal.Data.Model.Bullet;
-using BulletJournal.Data.Model.Calendar;
 using BulletJournal.Data.Model.Collection;
-using BulletJournal.Models.Bullet;
-using BulletJournal.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace BulletJournal.Data.Infrastructure
@@ -27,114 +24,7 @@ namespace BulletJournal.Data.Infrastructure
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<JournalEntity>(entity =>
-            {
-                entity.ToTable("Journal").HasKey(x => x.Id);
-                entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
-
-                entity.HasOne(x => x.Index)
-                      .WithOne(x => x.Journal)
-                      .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasMany(x => x.Pages)
-                      .WithOne(x => x.Journal)
-                      .HasForeignKey(x => x.JournalId)
-                      .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity<IndexEntity>(entity =>
-            {
-                entity.ToTable("Index").HasKey(x => x.Id);
-                entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
-            });
-
-            modelBuilder.Entity<TopicEntity>(entity =>
-            {
-                entity.ToTable("Topic").HasKey(x => x.Id);
-                entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
-            });
-
-            modelBuilder.Entity<DailyLogEntity>();
-            modelBuilder.Entity<MonthlyLogEntity>();
-            modelBuilder.Entity<FutureLogEntity>();
-
-            modelBuilder.Entity<CollectionEntity>(entity =>
-            {
-                entity.ToTable("Collection").HasKey(x => x.Id);
-                entity.Property(x => x.Order).IsRequired().HasDefaultValue(1);
-                entity.HasIndex(x => new { x.JournalId, x.Order }).IsUnique();
-
-                entity.HasDiscriminator(x => x.Type)
-                    .HasValue<DailyLogEntity>(Models.Collection.CollectionType.DailyLog)
-                    .HasValue<MonthlyLogEntity>(Models.Collection.CollectionType.MonthlyLog)
-                    .HasValue<FutureLogEntity>(Models.Collection.CollectionType.FutureLog)
-                    .IsComplete(false);
-
-                entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
-
-                entity.HasMany(x => x.Logs)
-                      .WithOne(x => x.Collection)
-                      .HasForeignKey(x => x.CollectionId)
-                      .OnDelete(DeleteBehavior.Cascade);
-
-                entity.HasOne(x => x.Journal).WithMany().OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity<PageEntity>(entity =>
-            {
-                entity.ToTable("Page").HasKey(x => x.Id);
-                entity.Property(x => x.Number).IsRequired().HasDefaultValue(1);
-                entity.HasIndex(x => new { x.JournalId, x.Number }).IsUnique();
-                entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
-            });
-
-            modelBuilder.Entity<CollectionPageEntity>(entity =>
-            {
-                entity.ToTable("CollectionPage").HasKey(x => x.Id);
-                entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
-
-                entity.HasOne(x => x.Page).WithMany(x => x.CollectionPages).OnDelete(DeleteBehavior.Cascade);
-                entity.HasOne(x => x.Collection).WithMany(x => x.CollectionPages).OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity<LogEntity>(entity =>
-            {
-                entity.ToTable("Log").HasKey(x => x.Id);
-                entity.Property(x => x.Order).IsRequired().HasDefaultValue(1);
-                entity.HasIndex(x => new { x.CollectionId, x.Order }).IsUnique();
-                entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
-            });
-
-            modelBuilder.Entity<BulletEntity>(entity =>
-            {
-                entity.ToTable("Bullet").HasKey(x => x.Id);
-                entity.Property(x => x.Order).IsRequired().HasDefaultValue(1);
-                entity.HasIndex(x => new { x.LogId, x.Order }).IsUnique();
-                entity.HasDiscriminator(x => x.Type)
-                    .HasValue<TaskEntity>(BulletType.Task)
-                    .HasValue<NoteEntity>(BulletType.Note)
-                    .HasValue<EventEntity>(BulletType.Event);
-
-                entity.HasOne(m => m.Log).WithMany(x => x.Bullets).HasForeignKey(x => x.LogId).OnDelete(DeleteBehavior.Cascade);
-                entity.HasOne(m => m.Parent).WithMany().HasForeignKey(m => m.ParentId).OnDelete(DeleteBehavior.Restrict);
-                entity.Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
-            });
-
-            modelBuilder.Entity<TaskEntity>();
-            modelBuilder.Entity<NoteEntity>();
-            modelBuilder.Entity<EventEntity>();
-
-            modelBuilder.Entity<CalendarEntity>().ToTable("Calendar")
-                .Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
-
-            modelBuilder.Entity<HolidayEntity>().ToTable("Holiday")
-                .Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
-
-            modelBuilder.Entity<FutureLogMonthEntity>().ToTable("FutureLogMonth")
-                .Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
-
-            modelBuilder.Entity<DayEntity>().ToTable("Day")
-                .Property(x => x.Id).HasMaxLength(128).ValueGeneratedOnAdd();
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(BulletJournalContext).Assembly);
         }
     }
 }
