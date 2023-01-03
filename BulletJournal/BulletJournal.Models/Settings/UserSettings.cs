@@ -14,7 +14,7 @@ namespace BulletJournal.Models.Settings
         {
             return new UserSettings()
             {
-                DefaultPageSize = 10,
+                DefaultPageSize = 20,
                 SplitCollectionsBetweenMultiplePages = true,
                 AllowMultipleCollectionsPerPage = true
             };

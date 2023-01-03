@@ -24,17 +24,19 @@ namespace BulletJournal.Models
 
         public int GetLastPageNumber()
         {
-            int leftPageNumber, rightPageNumber, lastPageNumber;
-            leftPageNumber = rightPageNumber = 0;
+            if (Status == SpreadStatus.Empty)
+                return 0;
 
+            if (Status == SpreadStatus.Full)
+                return int.Max(LeftPage.Number, RightPage.Number);
+
+            int pageNumber;
             if (RightPage != null)
-                rightPageNumber = RightPage.Number;
+                pageNumber = RightPage.Number;
+            else
+                pageNumber = LeftPage.Number;
 
-            if (LeftPage != null)
-                leftPageNumber = LeftPage.Number;
-
-            lastPageNumber = int.Max(leftPageNumber, rightPageNumber);
-            return lastPageNumber;
+            return pageNumber;
         }
 
         public Page GetLastPage()
@@ -67,17 +69,19 @@ namespace BulletJournal.Models
 
         public int GetFirstPageNumber()
         {
-            int leftPageNumber, rightPageNumber, firstPageNumber;
-            leftPageNumber = rightPageNumber = 0;
+            if (Status == SpreadStatus.Empty)
+                return 0;
 
-            if (RightPage != null)
-                rightPageNumber = RightPage.Number;
+            if (Status == SpreadStatus.Full)
+                return int.Min(LeftPage.Number, RightPage.Number);
 
+            int pageNumber;
             if (LeftPage != null)
-                leftPageNumber = LeftPage.Number;
+                pageNumber = LeftPage.Number;
+            else
+                pageNumber = RightPage.Number;
 
-            firstPageNumber = int.Min(leftPageNumber, rightPageNumber);
-            return firstPageNumber;
+            return pageNumber;
         }
     }
 

@@ -1,7 +1,9 @@
-﻿using BulletJournal.Core.Services.Builders;
+﻿using Azure;
+using BulletJournal.Core.Services.Builders;
 using BulletJournal.Core.Services.Managers;
 using BulletJournal.Models;
 using BulletJournal.Models.Collection;
+using System.Web;
 
 namespace BulletJournal.Data.Services.Managers
 {
@@ -11,11 +13,15 @@ namespace BulletJournal.Data.Services.Managers
         private readonly IPageManager _pageManager;
         private readonly ISpreadBuilder _spreadBuilder;
 
+        private SortedList<int, Page> _pages;
+
         public JournalManager(IPageBuilder pageBuilder, IPageManager pageManager, ISpreadBuilder spreadBuilder)
         {
             _pageBuilder = pageBuilder;
             _pageManager = pageManager;
             _spreadBuilder = spreadBuilder;
+
+            _pages = new SortedList<int, Page>();
         }
 
         public Journal Journal { get; private set; }
@@ -58,30 +64,17 @@ namespace BulletJournal.Data.Services.Managers
                     Journal.Spreads[spread.Key] = spread.Value;
                 }
             }
-
-
-
-            //int lastSpreadNumber = 0;
-            //Page lastPage = null;
-
-            //if (lastSpread.Value != null)
-            //{
-            //    lastPage = lastSpread.Value.GetLastPage();
-            //    lastSpreadNumber = lastSpread.Key;
-            //}
-
-            //var pages = _pageBuilder.BuildPages(new List<Collection> { collection }, lastPage);
-            //var spreads = _spreadBuilder.BuildSpreadsFromPages(pages, lastSpread.Value, lastSpreadNumber);
-
-            //foreach (var spread in spreads)
-            //{
-            //    Journal.Spreads[spread.Key] = spread.Value;
-            //}
         }
 
         public void SetJournal(Journal journal)
         {
             Journal = journal;
+
+            if (Journal.Spreads.Any())
+            {
+                _pages = _spreadBuilder.GetPagesFromSpreads(Journal.Spreads);
+            }
+
         }
 
         public Spread GetCurrentSpread()
@@ -97,6 +90,43 @@ namespace BulletJournal.Data.Services.Managers
 
             var lastSpread = Journal.Spreads.LastOrDefault();
             return lastSpread.Value;
+        }
+
+
+        public void SetCurrentPage(string pageId)
+        {
+            bool pageExists = _pages.Any(x => x.Value.Id == pageId);
+            if (!pageExists)
+                throw new InvalidOperationException($"Page with Id {pageId} does not exist for this journal");
+
+            Journal.CurrentPage = pageId;
+        }
+
+        public void SetCurrentPage(int pageNumber)
+        {
+
+            bool pageExists = _pages.ContainsKey(pageNumber);
+            if (!pageExists)
+                throw new InvalidOperationException($"Page n. {pageNumber} does not exist for this journal");
+
+            string pageId = _pages[pageNumber].Id;
+            Journal.CurrentPage = pageId;
+        }
+
+
+        public Page FindPage(string pageId)
+        {
+            var page = _pages.FirstOrDefault(x => x.Value.Id == pageId);
+            return page.Value;
+        }
+
+        public Page FindPage(int pageNumber)
+        {
+            if (!_pages.ContainsKey(pageNumber))
+                return null;
+
+            var page = _pages[pageNumber];
+            return page;
         }
     }
 }

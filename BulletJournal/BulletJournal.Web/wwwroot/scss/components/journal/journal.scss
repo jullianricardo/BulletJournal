@@ -5,3 +5,19 @@ div.journal-information {
 article.spread {
     padding: 0;
 }
+
+a.journal-page-link {
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+
+    &.previous-page-link {
+        margin-right: 10px;
+        margin-left: -40px;
+    }
+
+    &.next-page-link {
+        margin-left: 10px;
+        margin-right: -40px;
+    }
+}

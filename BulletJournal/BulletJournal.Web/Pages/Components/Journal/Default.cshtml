@@ -11,16 +11,34 @@
             <h4 class="journal-year">@Model.Journal.Year</h4>
         </div>
 
-        <div class="spread-container d-flex flex-column flex-fill">
+        <div class="spread-container d-flex align-items-stretch flex-fill">
 
             @if (Model.CurrentSpread != null)
             {
+                if (Model.PreviousPage != null)
+                {
+                    <text>
+                        <a asp-page="/Journal/Page/Index" asp-route-pageNumber="@Model.PreviousPage.Number" class="link journal-page-link previous-page-link text-info">
+                            <i class="bi bi-arrow-left-circle-fill"></i>
+                        </a>
+                    </text>
+                }
+
                 var spreadViewModel = new SpreadViewModel
                 {
                     Spread = Model.CurrentSpread
                 };
 
                 <partial name="Journal/_Spread" model="spreadViewModel" />
+
+                if (Model.NextPage != null)
+                {
+                    <text>
+                        <a asp-page="/Journal/Page/Index" asp-route-pageNumber="@Model.NextPage.Number" class="link journal-page-link next-page-link text-info">
+                            <i class="bi bi-arrow-right-circle-fill"></i>
+                        </a>
+                    </text>
+                }
             }
             else
             {

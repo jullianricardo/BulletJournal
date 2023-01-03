@@ -6,6 +6,20 @@ article.spread {
   padding: 0;
 }
 
+a.journal-page-link {
+  display: flex;
+  align-items: center;
+  font-size: 30px;
+}
+a.journal-page-link.previous-page-link {
+  margin-right: 10px;
+  margin-left: -40px;
+}
+a.journal-page-link.next-page-link {
+  margin-left: 10px;
+  margin-right: -40px;
+}
+
 section.page {
   min-height: 500px;
   background: white;

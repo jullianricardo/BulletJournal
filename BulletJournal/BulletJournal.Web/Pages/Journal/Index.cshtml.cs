@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
+using BulletJournal.Core.Services.Managers;
 
 namespace BulletJournal.Web.Pages.Journal
 {
@@ -12,21 +13,44 @@ namespace BulletJournal.Web.Pages.Journal
     {
         private readonly UserManager<User> _userManager;
         private readonly IJournalService _journalService;
+        private readonly IJournalManager _journalManager;
 
-        public IndexModel(UserManager<User> userManager, IJournalService journalService)
+        public IndexModel(UserManager<User> userManager, IJournalService journalService, IJournalManager journalManager)
         {
             _userManager = userManager;
             _journalService = journalService;
+            _journalManager = journalManager;
         }
 
         [BindProperty]
         public BulletJournal.Models.Journal Journal { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string pageId)
         {
-            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
-            var ownerId = user.Id;
-            Journal = await _journalService.GetOwnerDefaultJournal(ownerId);
+            string journalId = HttpContext.Session.GetString("journalId");
+            if (string.IsNullOrWhiteSpace(journalId))
+            {
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                var ownerId = user.Id;
+                var journal = await _journalService.GetOwnerDefaultJournal(ownerId);
+
+                if (journal != null)
+                {
+                    HttpContext.Session.SetString("journalId", journal.Id);
+                    Journal = journal;
+                }
+            }
+            else
+            {
+                Journal = await _journalService.GetJournalById(journalId);
+            }
+
+            _journalManager.SetJournal(Journal);
+
+            if (!string.IsNullOrWhiteSpace(pageId))
+            {
+                _journalManager.SetCurrentPage(pageId);
+            }
         }
     }
 }

@@ -11,5 +11,8 @@
     "url": "https://github.com/jullianricardo/BulletJournal"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap-icons": "^1.10.3"
+  }
 }

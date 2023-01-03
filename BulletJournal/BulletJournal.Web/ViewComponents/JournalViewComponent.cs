@@ -22,10 +22,23 @@ namespace BulletJournal.Web.ViewComponents
             _journalManager.SetJournal(journal);
             var currentSpread = _journalManager.GetCurrentSpread();
 
+            Page previousPage = null, nextPage = null;
+
+            if (currentSpread != null)
+            {
+                int firstPageNumber = currentSpread.GetFirstPageNumber();
+                int lastPageNumber = currentSpread.GetLastPageNumber();
+
+                previousPage = _journalManager.FindPage(firstPageNumber - 1);
+                nextPage = _journalManager.FindPage(lastPageNumber + 1);
+            }
+
             var viewModel = new JournalViewModel
             {
                 Journal = journal,
-                CurrentSpread = currentSpread
+                CurrentSpread = currentSpread,
+                PreviousPage = previousPage,
+                NextPage = nextPage
             };
 
             return View(viewModel);

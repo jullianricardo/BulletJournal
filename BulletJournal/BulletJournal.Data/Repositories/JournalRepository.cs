@@ -37,7 +37,7 @@ namespace BulletJournal.Data.Repositories
 
         public async Task<Journal> GetJournalById(string id)
         {
-            var journalEntity = await _journals.FindAsync(id);
+            var journalEntity = await CompleteJournal.FirstOrDefaultAsync(x => x.Id == id);
             if (journalEntity == null)
                 return null;
 
