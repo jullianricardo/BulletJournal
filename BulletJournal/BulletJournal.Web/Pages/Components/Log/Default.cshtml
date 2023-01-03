@@ -3,7 +3,7 @@
 
 @if (Model.Log != null)
 {
-    <div class="log">
+    <div class="log flex-grow-1">
         @if (!string.IsNullOrEmpty(Model.Log.Name))
         {
             <h4 class="log-name">@Model.Log.Name</h4>
@@ -14,7 +14,7 @@
             <h5 class="log-description">@Model.Log.Description</h5>
         }
 
-        <ol class="log-bullets">
+        <ol class="log-bullets list-unstyled m-0">
             @if (Model.Log.Bullets != null)
             {
                 @foreach (var bullet in Model.Log.Bullets)

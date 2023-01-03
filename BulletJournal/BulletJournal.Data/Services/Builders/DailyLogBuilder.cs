@@ -25,7 +25,19 @@ namespace BulletJournal.Data.Services.Builders
 
             for (int j = 0; j < 10; j++)
             {
-                log.Bullets.Add((j + 1), new Note { Description = $"Test Bullet n. {j + 1}" });
+                BulletType bulletType = (BulletType)Random.Shared.Next(0, 3);
+                string description = $"Test Bullet n. {j + 1}";
+                Bullet bullet;
+
+                if (bulletType == BulletType.Note)
+                    bullet = new Note { Order = j + 1, Description = description };
+                else if (bulletType == BulletType.Task)
+                    bullet = new Models.Bullet.Task { Order = j + 1, Description = description };
+                else
+                    bullet = new Event { Order = j + 1, Description = description };
+
+
+                log.Bullets.Add((j + 1), bullet);
             }
 
             return dailyLog;
@@ -60,7 +72,18 @@ namespace BulletJournal.Data.Services.Builders
 
                 for (int j = 1; j <= 10; j++)
                 {
-                    log.Bullets.Add(j, new Note { Order = j, Description = $"Test Bullet n. {j}" });
+                    BulletType bulletType = (BulletType)Random.Shared.Next(0, 3);
+                    string description = $"Test Bullet n. {j + 1}";
+                    Bullet bullet;
+
+                    if (bulletType == BulletType.Note)
+                        bullet = new Note { Order = j, Description = description };
+                    else if (bulletType == BulletType.Task)
+                        bullet = new Models.Bullet.Task { Order = j, Description = description };
+                    else
+                        bullet = new Event { Order = j, Description = description };
+
+                    log.Bullets.Add(j, bullet);
                 }
 
                 dailyLog.Logs = new SortedList<int, Models.Log>

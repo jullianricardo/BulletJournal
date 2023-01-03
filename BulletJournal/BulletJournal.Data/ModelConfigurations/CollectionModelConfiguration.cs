@@ -21,7 +21,7 @@ namespace BulletJournal.Data.ModelConfigurations
                    .HasValue<FutureLogEntity>(Models.Collection.CollectionType.FutureLog)
                    .IsComplete(false);
 
-            builder.HasOne(x => x.Journal).WithMany().OnDelete(DeleteBehavior.ClientCascade);
+            builder.HasOne(x => x.Journal).WithMany(x => x.Collections).OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

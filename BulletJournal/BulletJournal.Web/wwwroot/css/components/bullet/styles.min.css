@@ -1,1 +1,1 @@
-﻿div.bullet{font-size:12px;}
+﻿li.log-bullet{border-top:1px solid #dee2e6;min-height:30px;height:30px;}li.log-bullet:first-child{border-top:0;}div.bullet{font-size:13px;height:100%;line-height:30px;}div.bullet .bullet-type{font-weight:bold;min-width:15px;margin-left:5px;margin-right:5px;text-align:center;}div.bullet.event .bullet-type{font-size:8px;}div.bullet .bullet-signifier{font-weight:bold;min-width:15px;margin-right:5px;}

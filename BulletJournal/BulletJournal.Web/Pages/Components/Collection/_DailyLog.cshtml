@@ -5,8 +5,8 @@
     <div class="card-header p-2">
         <h5 class="daily-log-day m-0">@Model.DailyLog.CurrentDay.ToShortDateString()</h5>
     </div>
-    <div class="card-body p-1">
-        <div class="collection-logs">
+    <div class="card-body p-1 d-flex align-items-stretch">
+        <div class="collection-logs d-flex flex-grow-1">
 
             @if (Model.DailyLog.Logs != null && Model.DailyLog.Logs.Count > 0)
             {

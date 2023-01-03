@@ -1,3 +1,33 @@
+li.log-bullet {
+    border-top: 1px solid #dee2e6;
+    min-height: 30px;
+    height: 30px;
+
+    &:first-child {
+        border-top: none;
+    }
+}
+
 div.bullet {
-    font-size: 12px;
+    font-size: 13px;
+    height: 100%;
+    line-height: 30px;
+
+    .bullet-type {
+        font-weight: bold;
+        min-width: 15px;
+        margin-left: 5px;
+        margin-right: 5px;
+        text-align: center;
+    }
+
+    &.event .bullet-type {
+        font-size: 8px;
+    }
+
+    .bullet-signifier {
+        font-weight: bold;
+        min-width: 15px;
+        margin-right: 5px;
+    }
 }

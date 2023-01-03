@@ -2,3 +2,7 @@
 .collection-logs {
     min-height: 100px;
 }
+
+.collection + .collection {
+    margin-top: 10px;
+}

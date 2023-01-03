@@ -1,7 +1,11 @@
-﻿@using BulletJournal.Web.ViewModels.Bullet;
+﻿@using BulletJournal.Models.Bullet;
+@using BulletJournal.Web.ViewModels.Bullet;
 @model NoteViewModel
 
-<div class="bullet @(Model.Note.BulletType.ToString().ToLower())">
+<div class="bullet @(Model.Note.BulletType.ToString().ToLower()) d-flex">
+    <span class="bullet-type">
+        <i class="bi bi-dash"></i>
+    </span>
     <span class="bullet-signifier @(Model.Note.Signifier.ToString().ToLower())"></span>
-    <p class="bullet-description">@Model.Note.Description</p>
+    <p class="bullet-description m-0">@Model.Note.Description</p>
 </div>

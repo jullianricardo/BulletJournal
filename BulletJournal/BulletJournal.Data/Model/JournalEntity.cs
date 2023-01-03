@@ -37,7 +37,7 @@ namespace BulletJournal.Data.Model
 
         public virtual ObservableCollection<PageEntity> Pages { get; set; } = new ObservableCollection<PageEntity>();
 
-        //public virtual ObservableCollection<CollectionEntity> Collections { get; set; } = new ObservableCollection<CollectionEntity>();
+        public virtual ObservableCollection<CollectionEntity> Collections { get; set; } = new ObservableCollection<CollectionEntity>();
 
         #endregion      
 

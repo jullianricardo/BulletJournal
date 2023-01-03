@@ -1,2 +1,11 @@
-﻿@using BulletJournal.Web.ViewModels.Bullet;
+﻿@using BulletJournal.Models.Bullet;
+@using BulletJournal.Web.ViewModels.Bullet;
 @model EventViewModel
+
+<div class="bullet @(Model.Event.BulletType.ToString().ToLower()) d-flex">
+    <span class="bullet-type">
+        <i class="bi bi-circle"></i>
+    </span>
+    <span class="bullet-signifier @(Model.Event.Signifier.ToString().ToLower())"></span>
+    <p class="bullet-description m-0">@Model.Event.Description</p>
+</div>

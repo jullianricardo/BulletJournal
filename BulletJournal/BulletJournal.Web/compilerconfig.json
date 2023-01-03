@@ -30,5 +30,9 @@
   {
     "outputFile": "wwwroot/css/components/collection/styles.css",
     "inputFile": "wwwroot/scss/components/collection/bundle.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/components/log/styles.css",
+    "inputFile": "wwwroot/scss/components/log/bundle.scss"
   }
 ]
