@@ -3,16 +3,29 @@
 
 @if (Model.Log != null)
 {
-    <div class="log flex-grow-1">
-        @if (!string.IsNullOrEmpty(Model.Log.Name))
-        {
-            <h4 class="log-name">@Model.Log.Name</h4>
-        }
 
-        @if (!string.IsNullOrEmpty(Model.Log.Description))
-        {
-            <h5 class="log-description">@Model.Log.Description</h5>
-        }
+    string modalId = $"addBulletModal_{Model.Log.Id}";
+    string modalSelector = $"#{modalId}";
+
+    <div class="log flex-grow-1 position-relative" id="@Model.Log.Id">
+        <div class="log-header">
+
+            @if (!string.IsNullOrEmpty(Model.Log.Name))
+            {
+                <h4 class="log-name">@Model.Log.Name</h4>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Log.Description))
+            {
+                <h5 class="log-description">@Model.Log.Description</h5>
+            }
+
+            <div class="log-actions position-absolute d-flex mr-1">
+                <button type="button" class="btn text-primary p-0 button-add-bullet" title="Adicionar Entrada" data-toggle="modal" data-target="@modalSelector">
+                    <i class="bi bi-plus-circle-fill"></i>
+                </button>
+            </div>
+        </div>
 
         <ol class="log-bullets list-unstyled m-0">
             @if (Model.Log.Bullets != null)
@@ -25,6 +38,47 @@
                 }
             }
         </ol>
+
+        <div class="modal-container modal-add-bullet">
+            <div class="modal fade" id="@modalId" tabindex="-1" role="dialog" aria-labelledby="@(modalId)_label" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="@(modalId)_label">Adicionar Entrada</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-add-bullet" method="post">
+
+                                <input type="hidden" name="AddBulletViewModel.LogId" value="@Model.Log.Id" />
+                                <div class="form-group row">
+                                    <div class="col-2">
+                                        <label class="add-bullet-label">Tipo:</label>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" name="AddBulletViewModel.BulletType" class="form-control" />
+                                    </div>
+                                    <span class="text-danger"></span>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-2">
+                                        <label class="add-bullet-label">Texto:</label>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" name="AddBulletViewModel.Description" class="form-control" />
+                                    </div>
+                                    <span class="text-danger"></span>
+                                </div>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Salvar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 }

@@ -88,6 +88,7 @@ builder.Services.AddTransient<IJournalManager, JournalManager>();
 builder.Services.AddTransient<IPageManager, PageManager>();
 
 builder.Services.AddSingleton<ICollectionFactory, CollectionFactory>();
+builder.Services.AddSingleton<IBulletFactory, BulletFactory>();
 
 builder.Services.AddSingleton<IJournalEntityConverter, JournalEntityConverter>();
 builder.Services.AddSingleton<IPageEntityConverter, PageEntityConverter>();

@@ -1,3 +1,11 @@
 ﻿.log + .log {
   margin-top: 10px;
 }
+
+div.log-actions {
+  bottom: 0px;
+  right: 0px;
+}
+div.log-actions button.button-add-bullet {
+  font-size: 30px;
+}
