@@ -31,7 +31,7 @@
 
 	<ItemGroup>
 		<Folder Include="Data\" />
-		<Folder Include="Pages\Shared\Journal\" />
+		<Folder Include="ViewModels\Shared\" />
 	</ItemGroup>
 
 	<ItemGroup>
