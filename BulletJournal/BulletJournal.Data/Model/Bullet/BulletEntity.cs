@@ -33,5 +33,16 @@ namespace BulletJournal.Data.Model.Bullet
         public virtual LogEntity Log { get; set; }
 
         #endregion
+
+        public virtual void Patch(BulletEntity entity)
+        {
+            entity.Type = Type;
+            entity.Description = Description;
+            entity.DateCreated = DateCreated;
+            entity.Signifier = Signifier;
+            entity.Order = Order;
+            entity.ParentId = ParentId;
+            entity.LogId = LogId;
+        }
     }
 }

@@ -1,3 +1,4 @@
+using BulletBullet.Core.Services;
 using BulletJournal.Core.Converters;
 using BulletJournal.Core.Repositories;
 using BulletJournal.Core.Services;
@@ -79,7 +80,7 @@ namespace BulletJournal.API
             })
             .AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetValue<string>("SecretKey"))),
@@ -90,13 +91,15 @@ namespace BulletJournal.API
                 };
             });
 
-            #region Repository
+            #region Repositories
 
             services.AddTransient<IBulletJournalRepository, BulletJournalRepository>();
 
             services.AddTransient<IJournalRepository, JournalRepository>();
             services.AddTransient<IIndexRepository, IndexRepository>();
             services.AddTransient<ITopicRepository, TopicRepository>();
+            services.AddTransient<ILogRepository, LogRepository>();
+            services.AddTransient<IBulletRepository, BulletRepository>();
 
             #endregion
 
@@ -107,6 +110,7 @@ namespace BulletJournal.API
             services.AddTransient<IJournalService, JournalService>();
             services.AddTransient<IIndexService, IndexService>();
             services.AddTransient<ITopicService, TopicService>();
+            services.AddTransient<IBulletService, BulletService>();
 
             services.AddTransient<IJournalBuilder, JournalBuilder>();
             services.AddTransient<IPageBuilder, PageBuilder>();

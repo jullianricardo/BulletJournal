@@ -58,6 +58,48 @@ namespace BulletJournal.Web.Services.Interfaces
         }
 
 
+        protected virtual async Task<TOutput> PutInEndpoint<TInput, TOutput>(string url, TInput input)
+        {
+            await RefreshToken();
+
+            var serializedObject = JsonConvert.SerializeObject(input);
+            var httpContent = new StringContent(serializedObject, Encoding.UTF8, "application/json");
+            var response = await HttpClient.PutAsync(url, httpContent);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            var output = JsonConvert.DeserializeObject<TOutput>(responseContent);
+            return output;
+        }
+
+        protected virtual async Task<HttpResponseMessage> PutInEndpoint<TInput>(string url, TInput input)
+        {
+            await RefreshToken();
+
+            var serializedObject = JsonConvert.SerializeObject(input);
+            var httpContent = new StringContent(serializedObject, Encoding.UTF8, "application/json");
+            var response = await HttpClient.PutAsync(url, httpContent);
+            response.EnsureSuccessStatusCode();
+
+            return response;
+
+        }
+
+        protected virtual async Task<TOutput> PutInEndpoint<TOutput>(string url)
+        {
+            await RefreshToken();
+
+            var response = await HttpClient.PutAsync(url, null);
+            response.EnsureSuccessStatusCode();
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            var output = JsonConvert.DeserializeObject<TOutput>(responseContent);
+            return output;
+        }
+
+
         protected virtual async Task<HttpResponseMessage> DeleteOnEndpoint(string url)
         {
             await RefreshToken();

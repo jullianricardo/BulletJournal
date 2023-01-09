@@ -27,3 +27,28 @@ div.bullet .bullet-signifier {
   min-width: 15px;
   margin-right: 5px;
 }
+div.bullet .display-mode {
+  height: 100%;
+}
+div.bullet .edit-mode {
+  height: 100%;
+}
+div.bullet form.form-edit-bullet {
+  display: flex;
+}
+div.bullet form.form-edit-bullet label.edit-bullet-label {
+  height: 100%;
+  font-size: 11px;
+  margin: 0px;
+  margin-right: 3px;
+  padding: 0px;
+  line-height: 30px;
+}
+div.bullet form.form-edit-bullet input.edit-bullet-input {
+  height: 25px;
+  font-size: 11px;
+  margin: 0px;
+  margin-right: 3px;
+  padding: 0px;
+  line-height: 30px;
+}

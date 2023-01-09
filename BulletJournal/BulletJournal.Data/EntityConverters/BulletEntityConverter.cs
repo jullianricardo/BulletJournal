@@ -109,6 +109,7 @@ namespace BulletJournal.Data.EntityConverters
                 Order = databaseEntity.Order,
                 CreatedAt = databaseEntity.CreatedAt,
                 UpdatedAt = databaseEntity.UpdatedAt,
+                LogId = databaseEntity.LogId,
             };
 
             if (deepConversion)
@@ -136,6 +137,7 @@ namespace BulletJournal.Data.EntityConverters
                 Order = modelEntity.Order,
                 CreatedAt = modelEntity.CreatedAt,
                 UpdatedAt = modelEntity.UpdatedAt,
+                LogId = modelEntity.LogId,
             };
 
             if (deepConversion)
@@ -165,6 +167,7 @@ namespace BulletJournal.Data.EntityConverters
                 Order = databaseEntity.Order,
                 DateCreated = databaseEntity.DateCreated,
                 Signifier = databaseEntity.Signifier,
+                LogId = databaseEntity.LogId,
 
                 CreatedAt = databaseEntity.CreatedAt,
                 UpdatedAt = databaseEntity.UpdatedAt,
@@ -191,6 +194,7 @@ namespace BulletJournal.Data.EntityConverters
                 Order = modelEntity.Order,
                 DateCreated = modelEntity.DateCreated,
                 Signifier = modelEntity.Signifier,
+                LogId = modelEntity.LogId,
 
                 CreatedAt = modelEntity.CreatedAt,
                 UpdatedAt = modelEntity.UpdatedAt,
@@ -225,6 +229,8 @@ namespace BulletJournal.Data.EntityConverters
                 DateCreated = databaseEntity.DateCreated,
                 Duration = databaseEntity.Duration,
                 Signifier = databaseEntity.Signifier,
+                LogId = databaseEntity.LogId,
+
                 CreatedAt = databaseEntity.CreatedAt,
                 UpdatedAt = databaseEntity.UpdatedAt,
             };
@@ -252,6 +258,8 @@ namespace BulletJournal.Data.EntityConverters
                 DateCreated = modelEntity.DateCreated,
                 Duration = modelEntity.Duration,
                 Signifier = modelEntity.Signifier,
+                LogId = modelEntity.LogId,
+
                 CreatedAt = modelEntity.CreatedAt,
                 UpdatedAt = modelEntity.UpdatedAt,
             };

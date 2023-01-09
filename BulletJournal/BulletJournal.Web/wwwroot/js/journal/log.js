@@ -3,11 +3,6 @@ $(() => {
     $("body").on("submit", "form.form-add-bullet", (event) => {
         event.preventDefault();
         let form = $(event.currentTarget);
-        //$.post('/Journal', form.serialize(), function (response) {
-        //    alert(response);
-        //}, function (response) {
-        //    alert(response);
-        //});
 
         let formData = new FormData(form[0]);
         var formProperties = Object.fromEntries(formData);
@@ -17,7 +12,7 @@ $(() => {
         let body = new URLSearchParams(formData);
 
 
-        fetch('/Journal', {
+        fetch('/Journal?handler=AddBullet', {
             method: 'post',
             body: body
         })
@@ -34,5 +29,4 @@ $(() => {
                 window.alert(response);
             });
     });
-
 });

@@ -9,6 +9,8 @@ namespace BulletJournal.Models.Bullet
 
         public Bullet Parent { get; set; }
 
+        public string LogId { get; set; }
+
         public string Description { get; set; }
 
         public DateTime DateCreated { get; set; }

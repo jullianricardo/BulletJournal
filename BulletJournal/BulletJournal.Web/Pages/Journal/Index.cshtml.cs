@@ -19,13 +19,15 @@ namespace BulletJournal.Web.Pages.Journal
         private readonly IJournalService _journalService;
         private readonly IJournalManager _journalManager;
         private readonly IBulletFactory _bulletFactory;
+        private readonly IBulletService _bulletService;
 
-        public IndexModel(UserManager<User> userManager, IJournalService journalService, IJournalManager journalManager, IBulletFactory bulletFactory)
+        public IndexModel(UserManager<User> userManager, IJournalService journalService, IJournalManager journalManager, IBulletFactory bulletFactory, IBulletService bulletService)
         {
             _userManager = userManager;
             _journalService = journalService;
             _journalManager = journalManager;
             _bulletFactory = bulletFactory;
+            _bulletService = bulletService;
         }
 
         [BindProperty]
@@ -33,6 +35,9 @@ namespace BulletJournal.Web.Pages.Journal
 
         [BindProperty]
         public AddBulletViewModel AddBulletViewModel { get; set; }
+
+        [BindProperty]
+        public EditBulletViewModel EditBulletViewModel { get; set; }
 
         public async Task OnGetAsync(string pageId)
         {
@@ -61,10 +66,24 @@ namespace BulletJournal.Web.Pages.Journal
             }
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAddBullet()
         {
             var bullet = _bulletFactory.CreateBullet(AddBulletViewModel.BulletType);
             bullet.Description = AddBulletViewModel.Description;
+            bullet.LogId = AddBulletViewModel.LogId;
+            bullet.DateCreated = DateTime.Today;
+
+            await _bulletService.AddBullet(bullet);
+            return ViewComponent(typeof(BulletViewComponent), new { bullet = bullet });
+        }
+
+        public async Task<IActionResult> OnPostEditBullet()
+        {
+            var bullet = _bulletFactory.CreateBullet(EditBulletViewModel.BulletType);
+            bullet.Id = EditBulletViewModel.BulletId;
+            bullet.Description = EditBulletViewModel.Description;
+
+            await _bulletService.EditBullet(bullet);
 
             return ViewComponent(typeof(BulletViewComponent), new { bullet = bullet });
         }
@@ -74,6 +93,18 @@ namespace BulletJournal.Web.Pages.Journal
     {
         [Required]
         public string LogId { get; set; }
+
+        [Required]
+        public BulletJournal.Models.Bullet.BulletType BulletType { get; set; }
+
+        [Required]
+        public string Description { get; set; }
+    }
+
+    public class EditBulletViewModel
+    {
+        [Required]
+        public string BulletId { get; set; }
 
         [Required]
         public BulletJournal.Models.Bullet.BulletType BulletType { get; set; }

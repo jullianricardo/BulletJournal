@@ -14,6 +14,7 @@ namespace BulletJournal.Data.Infrastructure
         public DbSet<CollectionPageEntity> CollectionPages { get; set; }
         public DbSet<TopicEntity> Topics { get; set; }
         public DbSet<CollectionEntity> Collections { get; set; }
+        public DbSet<LogEntity> Logs { get; set; }
         public DbSet<BulletEntity> Bullets { get; set; }
 
         public BulletJournalContext(DbContextOptions<BulletJournalContext> options) : base(options)

@@ -2,10 +2,40 @@
 @using BulletJournal.Web.ViewModels.Bullet;
 @model NoteViewModel
 
-<div class="bullet @(Model.Note.BulletType.ToString().ToLower()) d-flex">
-    <span class="bullet-type">
-        <i class="bi bi-dash"></i>
-    </span>
-    <span class="bullet-signifier @(Model.Note.Signifier.ToString().ToLower())"></span>
-    <p class="bullet-description m-0">@Model.Note.Description</p>
+<div id="@Model.Note.Id" class="bullet @(Model.Note.BulletType.ToString().ToLower()) d-flex flex-column">
+    <div class="display-mode d-flex">
+        <span class="bullet-type">
+            <i class="bi bi-dash"></i>
+        </span>
+        <span class="bullet-signifier @(Model.Note.Signifier.ToString().ToLower())"></span>
+        <p class="bullet-description m-0 flex-fill">@Model.Note.Description</p>
+        <div class="bullet-actions">
+            <button type="button" class="btn text-primary p-0 button-edit-bullet" title="Editar Entrada">
+                <i class="bi bi-pencil text-info"></i>
+            </button>
+            <button type="button" class="btn text-primary p-0 button-delete-bullet" title="Remover Entrada">
+                <i class="bi bi-trash text-danger"></i>
+            </button>
+        </div>
+    </div>
+    <div class="edit-mode d-none">
+        <form method="post" class="form-edit-bullet flex-fill">
+            <input type="hidden" name="EditBulletViewModel.BulletId" value="@Model.Note.Id" />
+            <label class="edit-bullet-label">Tipo:</label>
+
+            <input type="text" class="edit-bullet-input flex-grow-0" name="EditBulletViewModel.BulletType" value="@Model.Note.BulletType" />
+
+            <label class="edit-bullet-label">Texto:</label>
+
+            <input type="text" class="edit-bullet-input flex-fill" name="EditBulletViewModel.Description" value="@Model.Note.Description" />
+
+              <button type="submit" class="btn text-primary p-0 button-edit-confirm-bullet" title="Confirmar">
+                <i class="bi bi-check-circle-fill text-success"></i>
+            </button>
+
+            <button type="button" class="btn text-primary p-0 button-edit-cancel-bullet" title="Cancelar">
+                <i class="bi bi-x-circle-fill text-danger"></i>
+            </button>
+        </form>
+    </div>
 </div>

@@ -70,7 +70,9 @@ namespace BulletJournal.Data.Services.Builders
                     Order = 1
                 };
 
-                for (int j = 1; j <= 10; j++)
+                int size = Random.Shared.Next(1, 8);
+
+                for (int j = 1; j <= size; j++)
                 {
                     BulletType bulletType = (BulletType)Random.Shared.Next(0, 3);
                     string description = $"Test Bullet n. {j + 1}";

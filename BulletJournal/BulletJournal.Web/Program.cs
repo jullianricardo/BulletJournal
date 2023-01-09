@@ -75,6 +75,7 @@ builder.Services.AddRazorPages().AddNewtonsoftJson(jsonOptions =>
 
 builder.Services.AddSingleton<BulletJournal.Web.Services.Interfaces.IJournalService, BulletJournal.Web.Services.JournalService>();
 builder.Services.AddSingleton<BulletJournal.Web.Services.Interfaces.IPageService, BulletJournal.Web.Services.PageService>();
+builder.Services.AddSingleton<BulletJournal.Web.Services.Interfaces.IBulletService, BulletJournal.Web.Services.BulletService>();
 builder.Services.AddSingleton<ISettingsService, SettingsService>();
 
 builder.Services.AddSingleton<IJournalBuilder, JournalBuilder>();
